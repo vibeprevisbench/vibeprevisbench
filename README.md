@@ -12,7 +12,8 @@
 
 <p align="center">
   <a href="https://vibeprevisbench.github.io/"><img src="https://img.shields.io/badge/Project-Homepage-4F7CFF?style=flat-square&amp;logo=googlechrome&amp;logoColor=white" alt="Project homepage"></a>
-  <a href="#-paper-and-citation"><img src="https://img.shields.io/badge/arXiv-Coming_Soon-b31b1b?style=flat-square&amp;logo=arxiv&amp;logoColor=white" alt="arXiv: Coming soon"></a>
+  <a href="VibePrevisBench.pdf"><img src="https://img.shields.io/badge/Paper-PDF-b31b1b?style=flat-square&amp;logo=readthedocs&amp;logoColor=white" alt="Read the paper (PDF)"></a>
+  <a href="#-paper-and-citation"><img src="https://img.shields.io/badge/arXiv-Submitted-b31b1b?style=flat-square&amp;logo=arxiv&amp;logoColor=white" alt="arXiv: Submitted"></a>
   <a href="https://huggingface.co/datasets/AidanYuzhe/vibeprevisbench"><img src="https://img.shields.io/badge/Data-Hugging_Face-FFD21E?style=flat-square&amp;logo=huggingface&amp;logoColor=black" alt="Dataset on Hugging Face"></a>
   <a href="#-evaluate-your-agent"><img src="https://img.shields.io/badge/Code-Evaluate_your_agent-24292F?style=flat-square&amp;logo=github&amp;logoColor=white" alt="Evaluate your agent"></a>
 </p>
@@ -294,8 +295,11 @@ agent's workspace.
 
 ## 📄 Paper and citation
 
-*VibePrevisBench: Evaluating Agentic Coding for 4D Scene Generation in Blender*. The arXiv link will be added here
-once the paper is public. Citation metadata is in [CITATION.cff](CITATION.cff); GitHub shows it under
+*VibePrevisBench: Evaluating Agentic Coding for 4D Scene Generation in Blender*.
+
+**[Read the latest paper (PDF)](VibePrevisBench.pdf).** Submitted to arXiv; the arXiv link will be added once the submission is publicly available.
+
+Citation metadata is in [CITATION.cff](CITATION.cff); GitHub shows it under
 "Cite this repository". The [project homepage](https://vibeprevisbench.github.io/) is published from the
 [website repository](https://github.com/vibeprevisbench/vibeprevisbench.github.io).
 
