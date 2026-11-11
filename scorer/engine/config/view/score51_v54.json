@@ -1,0 +1,82 @@
+{
+ "_doc": [
+  "score51_v54.json of the public release: the pvscore 5.4 driver configuration of the two evaluation packages (media tasks; script tasks) merged into one. Only the dataset entry (one dataset, vibeprevisbench, for every task, its briefs at paths.DATASET_TASKS), the version label and the members_509 set fingerprint (the union of the two packages' per-task members, files unchanged) differ from the packages; rules, weights, thresholds, selection and layers are theirs.",
+  "score51_v54.json: score51_v53.json of this package with version pvscore-5.4; rules changed only by M19 and, in the text package, the 80 TP GT transitions and their member set (config/view/PREREG_54.json)",
+  "score51_v53.json in scorer/bench250_media_v53 (tools/b250_media/build_pkg.py, 2026-10-24): NOT the frozen pvscore-5.3 configuration (scorer/v5_3, FROZEN_5_3.json e709c86711636080): the same file with version 'pvscore-5.3-bench250_media', this line, dataset 'bench250_media' (bench250 media B250_135-B250_265) and members_509.set_sha256 of the member set with these items' files (7b72b6ba3396434d). No rule, weight, threshold, selection or layer change.",
+  "score51_v53.json (2026-10-21): pvscore 5.3 = score51_v521.json (package scorer/v5_2_1, FROZEN sha256 8224707e92690705) with no driver change: only version and this line differ. 5.3 adds the measurement fix M18 (the airborne test's box-span support, vendor/v5_0_12/pvscore5/motion.py, switch fixes_5_3 in thresholds_v5_0_12.json; config/view/PREREG_53.json). No value here comes from a model score.",
+  "score51_v521.json (2026-10-21): pvscore 5.2.1 = score51_v52.json (package scorer/v5_2, FROZEN sha256 739a2be92d11746f) with no rule change: only version and this line differ. 5.2.1 finds a text item's v5 claims file by the file's own gt_item (the full item id) instead of the file name's last two digits (config/view/PREREG_521.json, code/v51_r2/paths.py v5_claims).",
+  "score51_v52.json (2026-10-20): pvscore 5.2 = score51_v51r41_v5012.json (package scorer/v5_1_r4_1, FROZEN sha256 8d5d38241152f7d0) with only the measurement fixes M1-M17 of PREREG_52.json and its addenda 1-3 (switches fixes_5_2 in vendor/v5_0_12/pvscore5/thresholds_v5_0_12.json, pvscore5/fixes.py). Only version and this line differ from the base; no value here comes from a model score.",
+  "score51_v51r41_v5012.json (tools/v51_r4/make_r41.py, 2026-10-19): pvscore 5.1 r4.1 = score51_v51r4_v5012.json (package scorer/v5_1_r4, FROZEN sha256 7fc90c19b70845e5) with only the R4-6 change of PREREG_51r4_addendum4.json (sha256 851e6bb1b52fe4a7): Model._body_pick labels each frame's own rows of an R4-5 variable-topology dump (vendor/v5_0_12/pvscore5/model.py sha256 4b1882a13ee9183c). Only version and this line differ from the base; no value here comes from a model score.",
+  "score51_v51r4_v5012.json (tools/v51_r4, 2026-10-19): pvscore 5.1 r4 = score51_v51r3_v5012.json with only the v5 text change of PREREG_51r4.json (sha256 d5e8335be8bee8bb; R4-1 terrain candidates for terrain GT objects only, R4-2 one terrain test on the normalised class) and of PREREG_51r4_addendum1.json (sha256 4cc0b298b77159ad; R4-4 the v5 scene sets the vendored 5.0.12 fix switches itself) in vendor/text_v5/tools/text_v5/claims_score.py (sha256 2c37e8d133b2beea); plus the harness-level guarantee of PREREG_51r4_addendum2.json (H-1: the score_cells pool initializer sets the same switches in every worker, code/v51_r2/score51.py; no big-run number changes). Base sha256 1093c393c112f208. Only version and this line differ from the base; no value here comes from a model score.",
+  "score51_v51r3_v5012.json (make_conf_r3.py from score51_v51r3_v5.json sha256 998aa9c2224c2ff5): members_509 = v5_0_12 (set sha256 944fe42f4ea811cc, built from the GT with pvscore-5.0.12); reference column = pvscore-5.0.12 (field names total_5011 / *_5011 kept from r2); datasets + miniset50_v3 (claims_v5). Nothing else differs from the base; no value here comes from a model score.",
+  "score51_v51r3_v5.json (2026-10-19T01:44:40Z, fork C): pvscore 5.1 r3 driver configuration = score51_v51r2_v5.json (kept unchanged) with weights combine_weights_v51r3.json and members_509 (B1: the 5.0.x members of each item fixed by its GT). Selection, datasets, text profiles, totals, gates and layers are those of r2. Written before any r3 run (tools/v51_r2/PREREG_51r3.json). members_509.dir v5_0_11 = the pre-build on pvscore 5.0.11; the release configuration names the members built with the pvscore it vendors.",
+  "pvscore 5.1 r2 scoring driver configuration (tools/v51_r2/score51.py; shipped as scorer/v5_1/config/view/score51_v51r2.json). Written 10-18 BEFORE any score51.py run, from the delivery protocol (docs/PROTOCOL_DELIVERY.md, P1-P9 approved by the user 10-18) and the freeze plan (user 10-18: one fixed 5.1 that depends on nothing else, delivery fields reported). No value here comes from a model score.",
+  "score51_v51r2_v5.json (2026-10-18T16:50:06Z, fork C): successor of score51_v51r2.json (kept unchanged) that wires in the text profile claims_v5 (pre-registered in text_profile_claims_v5.json before any claims_v5 run). Only text_profiles.claims_v5, text_profile_override and the new pending actions differ; selection, datasets, totals, gates and layers of r2 are unchanged. No value here comes from a model score."
+ ],
+ "version": "pvscore-5.4",
+ "weights": "combine_weights_v51r3.json",
+ "protocol": {
+  "overrides": "overrides.json in paths.PROTOCOL_DIR (classify.load_overrides)",
+  "policy": {},
+  "policy_doc": "keys given here replace aggregate.POLICY (P1-P9 defaults: worker_lost recover, max_rerun_batches 2, content_filter_retries 1, watchdog infra, watchdog_h_new_batches 8); empty = the approved defaults. score51.py --policy KEY=VALUE overrides per run and is recorded in the output."
+ },
+ "selection": {
+  "delivered": "protocol cell final.status = delivered: the attempt final.out is scored (the launcher's own status is not consulted, P2)",
+  "score_recovered": "protocol pending action score_recovered (worker lost after the scene check, files present): scored like a delivered attempt when its selfcheck directory holds dump.json; otherwise pending needs_acquire",
+  "model_fail": "protocol final.status = model_fail: 5.1 total 0 and 5.0.12 total 0",
+  "no_dump": "a delivered / recovered attempt without dump.json is pending needs_acquire (pvscore5 acquire run on the attempt's scene.blend, an E2B sandbox; never 0)",
+  "other_pending": "every other protocol pending action (rerun, wait, rescore, infra_exhausted) stays pending with the protocol's action; not scored",
+  "task_check": "sha256 of paths.TASKS/<item>/task.json must equal the cell's task_sha256 (the item the model was given); otherwise pending task_mismatch, not scored",
+  "claims": "text profile claims_v5: paths.v5_claims(item) must exist with gt_item = the item (else pending no_claims) and its prereg_sha256 must equal the sha256 of paths.V5_PREREG (else pending claims_prereg_mismatch)"
+ },
+ "datasets": {
+  "vibeprevisbench": {
+   "text_profile": "claims_v5",
+   "tasks": "paths.DATASET_TASKS[vibeprevisbench] = the dataset's rubrics/<task_id>/task.json"
+  }
+ },
+ "unknown_dataset": "a cell whose dataset is not listed is pending unknown_dataset (no GT pack for it)",
+ "text_profiles": {
+  "layout_r2": {
+   "kinds": [
+    "script"
+   ],
+   "what": "the r2 text / image layer (tools/v51_text_r2: 3D L1 / L2 / S / R1 facts + view blocks), as for spatial_arkit / spatial_keyframe items"
+  },
+  "claims_v5": {
+   "kinds": [
+    "script"
+   ],
+   "status": "available",
+   "file": "text_profile_claims_v5.json",
+   "what": "the text lead's v5 claims (claims_score.py: blocks layout / entity / camera on the model dump) with the SCORING_v5 s2 slot table; the cell's layer is v5 and the layout_r2 text layer is not run for it"
+  }
+ },
+ "text_profile_kinds": [
+  "script"
+ ],
+ "reference_column": "pvscore 5.0.12 total recomputed by score51.py from the same dump with pvscore5.score.score_item (vendored copy in the package); the batch's own report.json total is recorded beside it and a difference is flagged",
+ "totals": {
+  "quality_on_delivered": "mean 5.1 total over the scored delivered attempts",
+  "overall": "mean 5.1 total over resolved items (scored delivered + model_fail as 0); pending items are left out and the totals are marked provisional while any is pending",
+  "common": "the same means over the items every non-baseline model of the dataset has resolved",
+  "reference": "the same three means of the 5.0.12 total"
+ },
+ "gates": "combine_weights_v51r3.json gates (as r2) + r3_rules.gates_r3 (same members / N/A dims for every pair of models); ceilings and temporal_in_total are documentary",
+ "layers": {
+  "view": "continuation / video items: model_view.run + view_score.score_model on data/v51_r2/<item>/checklist.json + scene_frames.json (entries with scorable_new in view_score.SKIP left out)",
+  "text": "script / spatial_arkit / spatial_keyframe items with data/v51_text_r2/<item>/gt_facts.json: model_side.run + score.run_jobs (chance_3d.perms permutations)",
+  "none": "an item without new-layer GT (no checklist; no gt_facts.json, or a gt_facts.json whose fact counts are all 0, e.g. M50_031 / 032 without GT boxes) is scored on its kept 5.0.x blocks only, recorded as layer null with the reason",
+  "temporal": "temporal_score.py is not part of the 5.1 total (tb = {}, as the r1 default: the r1 'temporal' column was a variant); its blocks stay a diagnostic; r3 (B5): still not part of the total",
+  "v5": "script items under claims_v5: claims_score.from_dump + score_scene + a1_counts_drop on the dump (paths.V5_CODE), written to --out/v5/<item>/<model>.json; combined with combine.profile_weights(r2 weights, text_profile_claims_v5.json)"
+ },
+ "exhausted": "cells with protocol action infra_exhausted are left out of every model's counts and of the common items, as the protocol does",
+ "text_profile_override": "score51.py --text-profile NAME: every script cell of the run uses that profile instead of its dataset's; recorded as text_profile_override in scores.json / summary.json. Used for smoke and gate runs of claims_v5 on miniset50_v1 dumps (v1 prompts state coordinates: such numbers are not v5 results)",
+ "datasets_doc": "registered with their own task files (paths.DATASET_TASKS; the package copies them to gt_pack/datasets/<name>/ with the dataset's manifest.json): miniset50_v3 (text profile claims_v5). Every dataset is scored on the same GT (gt_pack); a dataset's cells are the batch cases whose directory is <name>/<item> (delivery protocol: dataset = the case dir's parent name)",
+ "members_509": {
+  "dir": "v5_0_12",
+  "set_sha256": "37a187c95f0d918dc6fc25a0c1e0dd93a0f95eee108ebe3b2750138ebb3c6ede",
+  "doc": "paths.MEMBERS_ROOT/<dir>: <item>.json + index.json from tools/v51_r2/members_509.py build (GT only); the driver refuses a set whose sha256 or pvscore version differs"
+ },
+ "reference_pvscore": "pvscore-5.0.12"
+}

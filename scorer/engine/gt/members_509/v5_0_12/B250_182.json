@@ -1,0 +1,108 @@
+{
+ "item": "B250_182",
+ "modality": "video",
+ "gt_sha256": "25bb9ebee3beb741caab1e12a516df9bf87eae93bb709386bf805040c016e937",
+ "rule": "r3 B1: the 5.0.x members of a dimension are the 5.0.x blocks the GT has (this file); an expected block a report lacks is scored 0 with the expected n, a block the GT does not have is not a member even when a report has it (model-only content, e.g. extra cuts or invented objects), the activation clause counts the expected n of the 5.0.x members, and a slot condition 'unless_509_na' / 'when_509_na' reads the expected dims",
+ "pvscore_version": "pvscore-5.0.12",
+ "builder_sha256": "3767d175ae87c8a41d589a5a0e66022f6bb2b8bd18e6379bbce90766b9f18d65",
+ "blocks": {
+  "A1.entities": {
+   "n": 3,
+   "kind": "gt",
+   "rule": "one row per GT entity"
+  },
+  "A1.structure": {
+   "n": 1,
+   "kind": "gt",
+   "rule": "one row per space"
+  },
+  "B2.occurrence": {
+   "n": 2,
+   "kind": "gt",
+   "rule": "one row per GT event and space transition"
+  },
+  "B2.order": {
+   "n": 1,
+   "kind": "gt",
+   "rule": "pairs of supported events with distinct times"
+  },
+  "B2.relations_t": {
+   "n": 4,
+   "kind": "gt",
+   "rule": "timed relations of the read types (0 when an entity is missing)"
+  },
+  "B2.timing": {
+   "n": 2,
+   "kind": "gt",
+   "rule": "one row per event of a supported type (0 when unmatched)"
+  },
+  "C1.framing": {
+   "n": 1,
+   "kind": "content",
+   "rule": "shots with a subject and a GT framing"
+  },
+  "C1.move": {
+   "n": 2,
+   "kind": "content",
+   "rule": "shots with a GT move"
+  },
+  "C1.spec": {
+   "n": 3,
+   "kind": "content",
+   "rule": "text shot specs: angle, rel_azimuth with a subject"
+  },
+  "C2.count": {
+   "n": 1,
+   "kind": "gt",
+   "rule": "always"
+  },
+  "C2.cuts": {
+   "n": 1,
+   "kind": "gt",
+   "rule": "one row per GT cut (model extra cuts are not expected rows)"
+  },
+  "C2.durations": {
+   "n": 2,
+   "kind": "gt",
+   "rule": "one row per cut-separated GT shot group (>= 2 shots)"
+  },
+  "C2.shot_order": {
+   "n": 1,
+   "kind": "gt",
+   "rule": ">= 2 GT shots"
+  },
+  "C2.transitions": {
+   "n": 1,
+   "kind": "gt",
+   "rule": "one row per GT shot boundary"
+  },
+  "D1.class_size": {
+   "n": 1,
+   "kind": "content",
+   "rule": "instances or bodies of a registered class"
+  },
+  "D1.duplicates": {
+   "n": 1,
+   "kind": "content",
+   "rule": "named bodies (every GT entity)"
+  },
+  "D1.float_sink": {
+   "n": 1,
+   "kind": "content",
+   "rule": "non-mounted objects in non-sloped spaces, or agents / animals"
+  },
+  "D1.teleport": {
+   "n": 1,
+   "kind": "content",
+   "rule": "named bodies (every GT entity)"
+  }
+ },
+ "dims": [
+  "A1",
+  "B2",
+  "C1",
+  "C2",
+  "D1"
+ ],
+ "uncertain_rows": []
+}

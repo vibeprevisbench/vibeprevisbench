@@ -1,0 +1,5 @@
+VibePrevisBench
+Code: Apache License 2.0 (see LICENSE).
+Dataset annotations: CC BY-NC-SA 4.0, distributed separately on Hugging Face.
+Third-party input media are not distributed. See the dataset NOTICE.md for sources and terms.
+Paper figures are reproduced as benchmark documentation, not as input media.

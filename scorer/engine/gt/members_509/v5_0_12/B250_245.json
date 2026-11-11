@@ -1,0 +1,88 @@
+{
+ "item": "B250_245",
+ "modality": "video",
+ "gt_sha256": "7cc02dd6c527ee5502ffb961d18d6cfd5ce6cd58260cf9d64afa275e9e0c2e2e",
+ "rule": "r3 B1: the 5.0.x members of a dimension are the 5.0.x blocks the GT has (this file); an expected block a report lacks is scored 0 with the expected n, a block the GT does not have is not a member even when a report has it (model-only content, e.g. extra cuts or invented objects), the activation clause counts the expected n of the 5.0.x members, and a slot condition 'unless_509_na' / 'when_509_na' reads the expected dims",
+ "pvscore_version": "pvscore-5.0.12",
+ "builder_sha256": "3767d175ae87c8a41d589a5a0e66022f6bb2b8bd18e6379bbce90766b9f18d65",
+ "blocks": {
+  "A1.entities": {
+   "n": 14,
+   "kind": "gt",
+   "rule": "one row per GT entity"
+  },
+  "A1.structure": {
+   "n": 1,
+   "kind": "gt",
+   "rule": "one row per space"
+  },
+  "B2.occurrence": {
+   "n": 6,
+   "kind": "gt",
+   "rule": "one row per GT event and space transition"
+  },
+  "B2.order": {
+   "n": 13,
+   "kind": "gt",
+   "rule": "pairs of supported events with distinct times"
+  },
+  "B2.relations_t": {
+   "n": 8,
+   "kind": "gt",
+   "rule": "timed relations of the read types (0 when an entity is missing)"
+  },
+  "B2.timing": {
+   "n": 6,
+   "kind": "gt",
+   "rule": "one row per event of a supported type (0 when unmatched)"
+  },
+  "C1.move": {
+   "n": 1,
+   "kind": "content",
+   "rule": "shots with a GT move"
+  },
+  "C2.count": {
+   "n": 1,
+   "kind": "gt",
+   "rule": "always"
+  },
+  "C2.screen_dir": {
+   "n": 4,
+   "kind": "gt",
+   "rule": "one row per GT screen direction label / segment"
+  },
+  "D1.class_size": {
+   "n": 1,
+   "kind": "content",
+   "rule": "instances or bodies of a registered class"
+  },
+  "D1.duplicates": {
+   "n": 1,
+   "kind": "content",
+   "rule": "named bodies (every GT entity)"
+  },
+  "D1.float_sink": {
+   "n": 1,
+   "kind": "content",
+   "rule": "non-mounted objects in non-sloped spaces, or agents / animals"
+  },
+  "D1.penetration": {
+   "n": 1,
+   "kind": "content",
+   "rule": "instances: unnamed GT objects or static named entities"
+  },
+  "D1.teleport": {
+   "n": 1,
+   "kind": "content",
+   "rule": "named bodies (every GT entity)"
+  }
+ },
+ "dims": [
+  "A1",
+  "B2",
+  "C1",
+  "C2",
+  "D1"
+ ],
+ "uncertain_rows": []
+}

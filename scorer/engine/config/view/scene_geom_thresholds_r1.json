@@ -1,0 +1,78 @@
+{
+ "_doc": "r1 of scene_geom_thresholds.json (r0 = that file, kept as the record). Rule changes on 10-18 after the visual check of 45 frames (data/v51_pilot/check/geometry_check.json); no numeric value of r0 changed. Do not tune on the pilot outputs; a further change gets a new file name and a note in data/v51_pilot/README.md.",
+ "sample": {
+  "grid_s": 1.0,
+  "grid_offset_s": 0.5,
+  "v2_merge_s": 0.5,
+  "max_frame_dt_s": 0.1
+ },
+ "element": {
+  "min_score": 0.5,
+  "min_area_frac": 0.005,
+  "_min_area_doc": "not applied to tracks linked to a GT id (changed 10-18 after the review page: distant P01 / P03 in M50_033 K08 were 0.3-0.4 % of the frame and dropped); the value is unchanged",
+  "min_track_s": 0.5,
+  "merge_iou": 0.5,
+  "merge_overlap": 0.8,
+  "cross_class_iou": 0.8,
+  "_cross_class_doc": "added 10-18 after the first sample (M50_047 K02: building and circular_structure on one mask); same-class rules unchanged",
+  "max_elements": 15,
+  "min_depth_px": 20,
+  "min_depth_valid_frac": 0.3
+ },
+ "surfaces": {
+  "ground_like": [
+   "surface:ground",
+   "surface:floor",
+   "surface:road",
+   "surface:grass",
+   "surface:path",
+   "surface:sidewalk",
+   "surface:roof"
+  ],
+  "no_pairs": "every class starting with surface: (ground-like ones only as the support of on_ground)"
+ },
+ "relations": {
+  "lr_min_dx": 0.1,
+  "lr_max_overlap": 0.5,
+  "ud_min_dy": 0.1,
+  "ud_max_overlap": 0.5,
+  "front_ratio": 1.3,
+  "front_ratio_high": 2.0,
+  "occ_min_adj_px": 8,
+  "occ_ratio": 1.15,
+  "occ_min_valid": 0.5,
+  "on_band_up": 0.02,
+  "on_band_down": 0.04,
+  "on_min_cols": 0.3,
+  "on_depth_ratio": 1.3,
+  "on_min_depth_px": 5,
+  "_on_doc": "on / on_ground need depth, and on needs a supported element with a GT id (both changed 10-18 after the first two samples: image contact without depth gave building on railing, and landmark-on-landmark gave hill on V01)"
+ },
+ "aggregate": {
+  "_doc": "checklist.py: a layout fact = one (shot, A label, B label, relation) over the shot's samples where both labels are visible",
+  "min_support": 0.6,
+  "max_opposite": 0.3,
+  "min_samples": 1,
+  "high_conf_support": 0.8,
+  "high_conf_samples": 2
+ },
+ "rules_r1": {
+  "_doc": "added 10-18 after the visual check (34 wrong of 966 relations, 6 bad GT-id boxes)",
+  "id_needs_v2_row": true,
+  "_id_doc": "a track keeps its GT id in a sample only if a reviewed V2 row of the same shot within sample.v2_merge_s lists that id (as a subject); otherwise the element is anonymous (label = class) and the min_area_frac filter applies to it again. Check: person boxes with no person (M50_033 K02 P04, K12 P04, O02; M50_038 K01 V01)",
+  "no_depth_on_support": true,
+  "_support_doc": "no in_front_of / occludes between a and b when the geometry finds a on b, or when a V2 row within v2_merge_s lists b in a's contact (support / contact is not a depth order). Check: people on a roof said in front of / behind the building (M50_033 K08), driver in front of the car (M50_038 K02)",
+  "structure_classes": [
+   "building",
+   "house",
+   "wall",
+   "roof",
+   "fence"
+  ],
+  "contained_frac": 0.8,
+  "_structure_doc": "no 'S in_front_of X' / 'S occludes X' when S is a structure class and at least contained_frac of X's box lies inside S's box (the median depth of a large structure is not its depth where X is; part-whole: a building in front of its own wall / door / pipe / climber). Check: M50_033 K02, K05, K06"
+ },
+ "_changes": [
+  "10-18 r1: rules_r1 added (three rule changes, no numeric change); scene_geom.py and checklist.py read this file"
+ ]
+}

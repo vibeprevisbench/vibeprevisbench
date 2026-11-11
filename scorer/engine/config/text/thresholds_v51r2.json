@@ -1,0 +1,35 @@
+{
+ "_doc": "pvscore 5.1 text / image layer, revision r2 (tools/v51_text_r2, 10-18). Written BEFORE any r2 text-layer score or r2 gt_facts.json was computed, as part of the r2 pre-registration (freeze plan approved by the user on 10-18). Rules not named here: thresholds.json (r0 copy) + thresholds_v51r1.json (r1: class labels, correspondence objective and solver), unchanged. The 3D facts, the correspondence and the 3D blocks are unchanged; r2 changes the view blocks' chance values, adds GT negatives to presence and flags low-information blocks. Values from the meaning of each rule (shared with the video view layer, tools/v51_r2/view_thresholds_v51r2.json), not from any model score.",
+ "version": "r2",
+ "presence": {
+  "rule": "balanced_accuracy",
+  "negatives": {
+   "margin_frac": 0.1,
+   "sigma_k": 2.0,
+   "rule": "a GT frame's negative = an eligible GT element (the same element rules as the positives: thresholds elements, the shot's view spaces, unc <= view.max_elem_unc_m x scale; persons only at times their track states the position, scene.boxes_at) that is NOT visible in the frame and whose box, enlarged by sigma_k x unc on every half-size, gets no ray in a render of the frame widened by margin_frac per side (fx, fy scaled by 1 / (1 + 2 x margin_frac), centre and size unchanged; occlusion ignored: unocc = 0). An element whose enlarged box contains the camera is not a negative. Elements that are partly in view, occluded, or visible below view.vis_min_frac are neither positive nor negative (occlusion stays unscored: the model dump holds only visible surfaces).",
+   "why": "r1 text presence had positives only with R = 0: a model that places every element in every frame scored P = 1. A fact 'this element is out of view here' is what the prompt's camera words / the image state; the 10 % margin and the 2-sigma box keep elements near the frame edge or with a vague position out of the negatives (a text prompt states positions to ~unc).",
+   "impl": "written 10-18 with the code, before any r2 gt_facts.json or score: the GT render grid is 96 rays wide, so a small far box can fall between rays; an element is therefore also not a negative when any corner or the centre of its enlarged box projects in front of the camera into the widened frame. Stricter (fewer negatives), same meaning as the rule. Facts key: gt_facts.json facts.presence_neg = [[frame id, element key]]."
+  },
+  "model_side": "present when the GT element's model counterpart exists (correspondence) and the model frame exists; positive scores 1 when the counterpart is in the model frame, negative scores 1 when it is not (as r1 for positives)",
+  "chance": "best per-element constant: R = 0.5 x sum over GT element keys l of max(pos_l / N_pos, neg_l / N_neg) over the present facts (R_gt over all facts); as view_thresholds_v51r2.json presence_chance with the element key as label",
+  "min_class_n": 5,
+  "one_class": "a block with present facts of one class only scores P = TPR (or TNR) with R = 1, i.e. 0, and is flagged low-information by min_class_n (as the video layer)"
+ },
+ "position_chance": "best constant cell, mirror-pooled (view_score.position_chance, the video layer's r1 rule), over the present facts; R_gt over all facts. r1 text used the uniform cell chance view_score.cell_chance",
+ "size_chance": "best constant height_frac on the 101-point log grid on [0.05, 1] (view_thresholds_v51r2.json size_chance)",
+ "facing_chance": "best constant angle a in -180..175 step 5 deg: R = max_a mean ramp_down(angdiff(a, gt), 35, 80) over the present facing facts (view_thresholds_v51r2.json facing_chance; text facing facts carry a GT angle, not a word)",
+ "low_info": {
+  "r_max": 0.75,
+  "min_n": 5,
+  "rule": "informative = false (low_info = true) for a view block (presence, position, size, facing) whose R_gt >= r_max, for presence when a class has < presence.min_class_n facts, and for every block (view, pairwise view, 3D L1 / L2 / S / R1) with n < min_n. The score is still computed; combine.py leaves the block out.",
+  "why": "as view_thresholds_v51r2.json low_info / low_info_min_n (one rule for both layers)"
+ },
+ "unchanged": [
+  "3D facts, their weights and margins",
+  "correspondence (thresholds_v51r1.json matching)",
+  "3D chance by 200 permutations",
+  "pairwise view chance by 200 permutations",
+  "class labels (class_map_v51r1.json)"
+ ],
+ "hook_text_profile": "D7 (pending user decision on the text prompt length): a text item's prompt profile may later change which GT facts the prompt states. No rule here; tools/v51_text_r2/score.py has a marked hook TEXT_PROFILE_HOOK that does nothing."
+}

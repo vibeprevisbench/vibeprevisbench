@@ -1,0 +1,847 @@
+{
+ "_doc": [
+  "pvscore 5.1 r3 (2026-10-19T01:44:40Z, fork C): successor of combine_weights_v51r2.json (kept unchanged), part B of docs/PROPOSAL_5012.md (approved 10-19). Written BEFORE any r3 score was computed (pre-registration: tools/v51_r2/PREREG_51r3.json). Only r3_rules (B1) and the documentary gates.ceilings / gates.temporal_in_total entries (B4, B5) are new; dimension weights, slots, slot weights, member fractions, fallbacks, dropped_509, temporal_map, r2_rules (member_min_n, activation, d1_gate, informative_field) and the numeric gates are those of r2. No value in this file comes from a model score; r3 changes only which 5.0.x blocks a dimension averages (fixed by the GT) and no weight.",
+  "r2 _doc (unchanged rules):",
+  "pvscore 5.1 r2 (10-18): successor of combine_weights_v51r1.json (kept unchanged). Read by tools/v51_r2/combine.py by default. Written BEFORE any r2 view / text / combined score was computed, as part of the r2 pre-registration of the freeze plan approved by the user on 10-18. Looked at: the r1 combined totals already reported, the 5.0.10 fake report block lists (which 5.0.x blocks exist per item: GT-driven), the r2 view thresholds. Not looked at: data/v51_pilot/rank/ or any blind ranking. Do not tune on r2 totals; a change after a look goes to a new file.",
+  "Unchanged from r1: dimension weights, slots, slot weights, member fractions, fallbacks, dropped_509, temporal_map (temporal stays out of the default total), gates, d1_gate, informative_field. Changes are listed in r2_rules._changes.",
+  "r1 rules (r1_rules below): (1) member_min_n: a new-layer member (view / temporal / facts3d) with fewer scored entries than member_min_n, or flagged not informative by its layer, counts as absent (its slot then uses the fallback or drops). (2) activation: a dimension in which no kept 5.0.10 block is present (all its 5.0.10 blocks are N/A or dropped) is active only with >= new_only_min_slots slots and >= new_only_min_n scored entries in all; otherwise N/A. A single block no longer turns on a whole dimension. (3) d1_gate: D1 (physical plausibility) is multiplied by a content gate g = min(1, E / full_at), E = mean 5.1 score of the active content dimensions A2, B1, B2 of the same model; D1 is N/A when none of them is active. (4) only_modality on a member: the member is read only for items of the listed 5.0.10 report modalities (video / text / image).",
+  "Text and image items (M50_004 / 008 / 012 text, 025 / 030 image): source 'view' reads the text layer's view blocks (data/v51_text_r1/results.json scores[item]['model:<key>'].blocks_view: presence, position, size, facing, screen_order, depth_order) and source 'facts3d' its 3D blocks (blocks3d: L1, L2, S, R1). The design §2.4 frame-pair stand-in for L1 / L2 is video only: on text / image items A2 L1 / L2 are the 3D facts, and the text view screen_order / depth_order blocks are not used in the total (diagnostic only). A1 view_landmarks and the posture / locomotion / direction view blocks exist on video items only.",
+  "Member sources as r0, except: 'view' presence in C1 view_presence is the whole presence block (r1 view layer: balanced accuracy over positives and GT negatives, chance-corrected; a check-type subset cannot carry the negatives). A1 view_landmarks keeps the r0 subset rule (entries of check landmark_present, mean x coverage, R = 0: landmarks have no GT negatives). The few landmark facts are therefore read in both A1 view_landmarks and C1 view_presence (noted in judgement_calls)."
+ ],
+ "version": "r3",
+ "dim_weights": {
+  "A1": 8,
+  "A2": 15,
+  "A3": 10,
+  "P1": 15,
+  "B1": 14,
+  "B2": 14,
+  "C1": 10,
+  "C2": 9,
+  "D1": 5
+ },
+ "dims": {
+  "A1": [
+   {
+    "slot": "entities",
+    "w": 0.35,
+    "members": [
+     {
+      "src": "509",
+      "block": "entities"
+     }
+    ]
+   },
+   {
+    "slot": "counts",
+    "w": 0.35,
+    "members": [
+     {
+      "src": "509",
+      "block": "counts"
+     }
+    ]
+   },
+   {
+    "slot": "structure",
+    "w": 0.1,
+    "members": [
+     {
+      "src": "509",
+      "block": "structure"
+     }
+    ]
+   },
+   {
+    "slot": "zones",
+    "w": 0.1,
+    "members": [
+     {
+      "src": "509",
+      "block": "zones"
+     }
+    ]
+   },
+   {
+    "slot": "extras",
+    "w": 0.2,
+    "members": [
+     {
+      "src": "509",
+      "block": "extras"
+     }
+    ]
+   },
+   {
+    "slot": "view_landmarks",
+    "w": 0.2,
+    "members": [
+     {
+      "src": "view",
+      "block": "landmarks",
+      "only_modality": [
+       "video"
+      ]
+     }
+    ],
+    "why": "class presence: each landmark class the video shows must appear in some model frame (V6 for classes). Complements 5.0.9 counts, which only see the sparse 3D GT inventory of a video item. Weight equal to extras.",
+    "why_r2": "r2: the view layer's own 'landmarks' block (landmark_present facts only, R = 0); the C1 presence block no longer holds them, so each landmark fact is read once"
+   }
+  ],
+  "A2": [
+   {
+    "slot": "L1_distance",
+    "w": 0.3,
+    "members": [
+     {
+      "src": "view",
+      "block": "depth_order",
+      "only_modality": [
+       "video"
+      ]
+     },
+     {
+      "src": "facts3d",
+      "block": "L1"
+     }
+    ],
+    "why": "design §6 L1 0.30; for video items L1/L2 merge with the frame pair facts (§2.4). V3 depth order is the near/far comparison, the frame-level counterpart of L1.",
+    "why_r1": "text / image items: 3D L1 facts (text layer blocks3d.L1); video items: the V3 frame-pair stand-in as r0"
+   },
+   {
+    "slot": "L2_arrangement",
+    "w": 0.25,
+    "members": [
+     {
+      "src": "view",
+      "block": "screen_order",
+      "only_modality": [
+       "video"
+      ]
+     },
+     {
+      "src": "facts3d",
+      "block": "L2"
+     }
+    ],
+    "why": "design §6 L2 0.25; V2 left/right (and above) order in the frame is the frame-level counterpart of the L2 left/right arrangement.",
+    "why_r1": "text / image items: 3D L2 facts (blocks3d.L2); video items: the V2 frame-pair stand-in as r0"
+   },
+   {
+    "slot": "relations",
+    "w": 0.3,
+    "members": [
+     {
+      "src": "509",
+      "block": "relations"
+     }
+    ],
+    "why": "design §6 L3-L5 0.20 + L6 0.10; L3-L6 are 'as 5.0' and 5.0.9 relations is that block (pairwise, works without alignment)."
+   },
+   {
+    "slot": "size",
+    "w": 0.15,
+    "members": [
+     {
+      "src": "facts3d",
+      "block": "S"
+     }
+    ],
+    "why": "design §6 S1-S4 0.15; hook, no 3D size facts in this pilot.",
+    "why_r1": "text / image items: 3D S facts (blocks3d.S, S1-S3)"
+   },
+   {
+    "slot": "scene_consistency",
+    "w": 0.1,
+    "members": [
+     {
+      "src": "temporal",
+      "block": "scene_consistency"
+     }
+    ],
+    "why": "hook: same layout across shots (temporal layer)."
+   }
+  ],
+  "A3": [
+   {
+    "slot": "outline",
+    "w": 0.4,
+    "members": [
+     {
+      "src": "509",
+      "block": "outline"
+     }
+    ]
+   },
+   {
+    "slot": "openings",
+    "w": 0.25,
+    "members": [
+     {
+      "src": "509",
+      "block": "openings"
+     }
+    ]
+   },
+   {
+    "slot": "connectivity",
+    "w": 0.2,
+    "members": [
+     {
+      "src": "509",
+      "block": "connectivity"
+     }
+    ]
+   },
+   {
+    "slot": "space_size",
+    "w": 0.1,
+    "members": [
+     {
+      "src": "509",
+      "block": "space_size"
+     }
+    ]
+   },
+   {
+    "slot": "floor_dz",
+    "w": 0.05,
+    "members": [
+     {
+      "src": "509",
+      "block": "floor_dz"
+     }
+    ]
+   }
+  ],
+  "P1": [
+   {
+    "slot": "depth",
+    "w": 0.17,
+    "members": [
+     {
+      "src": "509",
+      "block": "depth"
+     }
+    ]
+   },
+   {
+    "slot": "normal",
+    "w": 0.17,
+    "members": [
+     {
+      "src": "509",
+      "block": "normal"
+     }
+    ]
+   },
+   {
+    "slot": "region",
+    "w": 0.17,
+    "members": [
+     {
+      "src": "509",
+      "block": "region"
+     }
+    ]
+   },
+   {
+    "slot": "instance",
+    "w": 0.17,
+    "members": [
+     {
+      "src": "509",
+      "block": "instance"
+     }
+    ]
+   },
+   {
+    "slot": "edge",
+    "w": 0.17,
+    "members": [
+     {
+      "src": "509",
+      "block": "edge"
+     }
+    ]
+   },
+   {
+    "slot": "view_facing",
+    "w": 0.15,
+    "unless_509_na": "P1",
+    "members": [
+     {
+      "src": "view",
+      "block": "facing"
+     }
+    ],
+    "why": "V5 (subject facing relative to the camera, per V2 row) is read on the model frame at the GT sample times, the same reading P1 does; P1 is the per-frame 'does the frame look like the reference' dimension and has no subject-orientation term. Not C1: C1 subject already scores the camera side relative to the subject's facing (cam_azimuth, 5.0.9) and C1 spec scores rel_azimuth classes, so V5 there would count the same relation a third time. Not B1: B1 heading is a world-frame track property."
+   }
+  ],
+  "B1": [
+   {
+    "slot": "R1_positions",
+    "w": 0.25,
+    "members": [
+     {
+      "src": "facts3d",
+      "block": "R1"
+     }
+    ],
+    "why": "hook",
+    "why_r1": "text items: 3D R1 facts (blocks3d.R1, an L1 fact at a GT track time)"
+   },
+   {
+    "slot": "R2_pass_order",
+    "w": 0.15,
+    "members": [
+     {
+      "src": "facts3d",
+      "block": "R2"
+     }
+    ],
+    "why": "hook"
+   },
+   {
+    "slot": "route_direction",
+    "w": 0.3,
+    "members": [
+     {
+      "src": "view",
+      "block": "direction",
+      "only_modality": [
+       "video"
+      ]
+     },
+     {
+      "src": "facts3d",
+      "block": "R3_R5"
+     }
+    ],
+    "why": "design R3 shape 0.20 + R5 heading-to-target 0.10. view direction (screen direction of travel, approach/recede size trend, toward/away camera, up/down per locomotion segment) is the only alignment-free direction-of-travel signal in the pilot; it stands in for both until 3D route facts exist (then r1 splits it back to R5)."
+   },
+   {
+    "slot": "R4_pair_dist",
+    "w": 0.1,
+    "members": [
+     {
+      "src": "509",
+      "block": "pair_dist"
+     },
+     {
+      "src": "facts3d",
+      "block": "R4"
+     }
+    ],
+    "why": "deviation from the agreed list, written reason: 5.0.9 pair_dist compares |d_model - d_gt| between two entities and reads no GT-frame position (motion.py, no alignment gate), so it is already the relative R4 check of design §6 (0.10), only in metres instead of body heights."
+   },
+   {
+    "slot": "progress",
+    "w": 0.1,
+    "members": [
+     {
+      "src": "509",
+      "block": "progress"
+     }
+    ]
+   },
+   {
+    "slot": "stops_turns",
+    "w": 0.05,
+    "members": [
+     {
+      "src": "509",
+      "block": "stops_turns"
+     }
+    ]
+   },
+   {
+    "slot": "space_order",
+    "w": 0.05,
+    "members": [
+     {
+      "src": "509",
+      "block": "space_order"
+     }
+    ]
+   }
+  ],
+  "B2": [
+   {
+    "slot": "occurrence",
+    "w": 0.35,
+    "members": [
+     {
+      "src": "509",
+      "block": "occurrence"
+     }
+    ]
+   },
+   {
+    "slot": "timing",
+    "w": 0.15,
+    "members": [
+     {
+      "src": "509",
+      "block": "timing"
+     }
+    ]
+   },
+   {
+    "slot": "order",
+    "w": 0.1,
+    "members": [
+     {
+      "src": "509",
+      "block": "order"
+     }
+    ]
+   },
+   {
+    "slot": "relations_t",
+    "w": 0.05,
+    "members": [
+     {
+      "src": "509",
+      "block": "relations_t"
+     }
+    ]
+   },
+   {
+    "slot": "posture",
+    "w": 0.15,
+    "members": [
+     {
+      "src": "view",
+      "block": "posture",
+      "only_modality": [
+       "video"
+      ]
+     },
+     {
+      "src": "509",
+      "block": "posture",
+      "fallback": true
+     }
+    ],
+    "why": "view posture runs (V2 rows, chance-corrected by the best constant answer) cover the same content as 5.0.9 posture (per-sample labels of the GT tracks, no chance correction) and far more of it (coverage.json: posture 184 key entries, 13 in 5.0.9). 5.0.9 posture only when the view layer has no posture fact."
+   },
+   {
+    "slot": "locomotion",
+    "w": 0.2,
+    "members": [
+     {
+      "src": "view",
+      "block": "locomotion",
+      "only_modality": [
+       "video"
+      ]
+     }
+    ],
+    "why": "new content (coverage.json: locomotion 127 key entries, 12 in 5.0.9). Events keep 0.60 of B2 (occurrence/timing/order scaled from 0.45/0.20/0.15 to 0.35/0.15/0.10)."
+   },
+   {
+    "slot": "interaction",
+    "w": 0.1,
+    "members": [
+     {
+      "src": "temporal",
+      "block": "interaction"
+     }
+    ],
+    "why": "hook: contact / interaction runs from the temporal layer."
+   }
+  ],
+  "C1": [
+   {
+    "slot": "view_position",
+    "w": 0.15,
+    "members": [
+     {
+      "src": "view",
+      "block": "position"
+     }
+    ],
+    "why": "V1, part of the composition 0.35 (design §6)."
+   },
+   {
+    "slot": "view_size",
+    "w": 0.1,
+    "members": [
+     {
+      "src": "view",
+      "block": "size"
+     },
+     {
+      "src": "509",
+      "block": "framing",
+      "fallback": true
+     }
+    ],
+    "why": "V4 per-row screen height supersedes the 5.0.9 framing bucket (one mid-shot read of the same quantity); framing only when no V4 fact exists."
+   },
+   {
+    "slot": "view_presence",
+    "w": 0.1,
+    "members": [
+     {
+      "src": "view",
+      "block": "presence"
+     },
+     {
+      "src": "509",
+      "block": "in_frame",
+      "fallback": true
+     }
+    ],
+    "why": "V6 subject presence per row plus enter/exit supersedes 5.0.9 in_frame (keep_in_frame fraction); in_frame only when no V6 subject fact exists. Landmark presence goes to A1.",
+    "why_r1": "r1: the whole presence block (video: r1 balanced accuracy with GT negatives; text / image: the text layer's presence block). r0 restricted it to subject checks with R = 0."
+   },
+   {
+    "slot": "view_facing_text",
+    "w": 0.1,
+    "when_509_na": "P1",
+    "members": [
+     {
+      "src": "view",
+      "block": "facing"
+     }
+    ],
+    "why": "V5 lands here only when P1 is N/A (text items)."
+   },
+   {
+    "slot": "relative_to_subject",
+    "w": 0.25,
+    "members": [
+     {
+      "src": "509",
+      "block": "subject",
+      "frac": 0.6
+     },
+     {
+      "src": "509",
+      "block": "height",
+      "frac": 0.4
+     }
+    ],
+    "why": "design §2.5: camera distance to the subject + camera side (both inside 5.0.9 subject: cam_dist_log and cam_azimuth in the model's own frame) and camera height (5.0.9 height, metres above the floor; the design's eye-height version does not exist yet). frac 0.6/0.4 = their 5.0.9 weights 0.15/0.10."
+   },
+   {
+    "slot": "fov",
+    "w": 0.1,
+    "members": [
+     {
+      "src": "509",
+      "block": "fov"
+     }
+    ]
+   },
+   {
+    "slot": "move",
+    "w": 0.15,
+    "members": [
+     {
+      "src": "509",
+      "block": "move",
+      "frac": 0.5
+     },
+     {
+      "src": "temporal",
+      "block": "camera",
+      "frac": 0.5
+     }
+    ],
+    "why": "temporal camera rows (when they exist) share the move slot half and half."
+   },
+   {
+    "slot": "spec",
+    "w": 0.15,
+    "members": [
+     {
+      "src": "509",
+      "block": "spec"
+     }
+    ]
+   }
+  ],
+  "C2": [
+   {
+    "slot": "count",
+    "w": 0.15,
+    "members": [
+     {
+      "src": "509",
+      "block": "count"
+     }
+    ]
+   },
+   {
+    "slot": "cuts",
+    "w": 0.25,
+    "members": [
+     {
+      "src": "509",
+      "block": "cuts"
+     }
+    ]
+   },
+   {
+    "slot": "transitions",
+    "w": 0.15,
+    "members": [
+     {
+      "src": "509",
+      "block": "transitions"
+     }
+    ]
+   },
+   {
+    "slot": "shot_order",
+    "w": 0.15,
+    "members": [
+     {
+      "src": "509",
+      "block": "shot_order"
+     }
+    ]
+   },
+   {
+    "slot": "space_order",
+    "w": 0.1,
+    "members": [
+     {
+      "src": "509",
+      "block": "space_order"
+     }
+    ]
+   },
+   {
+    "slot": "screen_dir",
+    "w": 0.05,
+    "members": [
+     {
+      "src": "509",
+      "block": "screen_dir"
+     }
+    ]
+   },
+   {
+    "slot": "durations",
+    "w": 0.15,
+    "members": [
+     {
+      "src": "509",
+      "block": "durations"
+     }
+    ]
+   },
+   {
+    "slot": "view_order",
+    "w": 1.0,
+    "members": [
+     {
+      "src": "509",
+      "block": "view_order"
+     }
+    ]
+   }
+  ],
+  "D1": [
+   {
+    "slot": "penetration",
+    "w": 0.25,
+    "members": [
+     {
+      "src": "509",
+      "block": "penetration"
+     }
+    ]
+   },
+   {
+    "slot": "float_sink",
+    "w": 0.2,
+    "members": [
+     {
+      "src": "509",
+      "block": "float_sink"
+     }
+    ]
+   },
+   {
+    "slot": "teleport",
+    "w": 0.2,
+    "members": [
+     {
+      "src": "509",
+      "block": "teleport"
+     }
+    ]
+   },
+   {
+    "slot": "class_size",
+    "w": 0.15,
+    "members": [
+     {
+      "src": "509",
+      "block": "class_size"
+     }
+    ]
+   },
+   {
+    "slot": "scale",
+    "w": 0.1,
+    "members": [
+     {
+      "src": "509",
+      "block": "scale"
+     }
+    ]
+   },
+   {
+    "slot": "duplicates",
+    "w": 0.1,
+    "members": [
+     {
+      "src": "509",
+      "block": "duplicates"
+     }
+    ]
+   }
+  ]
+ },
+ "dropped_509": {
+  "A2.objects": "per-object item gated by position in the aligned GT frame (lin(d/L, 0.02, 0.10), ~0.2 m full credit) against video 3D GT with 1.2-4.4 m median error, and 0 without alignment; design §2.2/§6 replaces it with L1/L2/S facts. Its yaw/size/support terms are only reached through the position gate.",
+  "A2.occupancy": "footprint F1 on a 10 cm grid in the aligned GT frame; same reason.",
+  "B1.shape": "GT-frame Fréchet when aligned, half credit rigid-only otherwise (credit cap depends on alignment); replaced by R3 (route_direction stands in).",
+  "B1.endpoints": "0 without alignment (motion.py 'no alignment'); replaced by R1.",
+  "B1.waypoints": "only when aligned; replaced by R1/R2.",
+  "B1.heading": "item exists only when aligned, so its presence depends on the model; replaced by R5.",
+  "C1.position": "d/L in the aligned GT frame, 0 without alignment; design §2.5 deletes it.",
+  "C1.direction": "GT-frame view angle, pitch-only half credit without alignment; design §2.5 deletes it.",
+  "C1.framing": "superseded by view size (fallback only).",
+  "C1.in_frame": "superseded by view presence (fallback only).",
+  "B2.posture": "superseded by view posture (fallback only)."
+ },
+ "temporal_map": {
+  "_doc": "hook for data/v51_pilot/temporal_scores.json (agent C), assumed in the view_scores.json layout {items: {item: {model: {blocks: {name: {score, n, ...}}}}}}. A temporal block name is matched by the first rule whose prefix it starts with; its target is the temporal member of that block id. Unmatched names are listed in the output and not scored. When several temporal blocks match one target, their scores are averaged weighted by n.",
+  "rules": [
+   {
+    "prefix": "camera",
+    "target": "camera"
+   },
+   {
+    "prefix": "cam_",
+    "target": "camera"
+   },
+   {
+    "prefix": "move",
+    "target": "camera"
+   },
+   {
+    "prefix": "contact",
+    "target": "interaction"
+   },
+   {
+    "prefix": "interaction",
+    "target": "interaction"
+   },
+   {
+    "prefix": "carry",
+    "target": "interaction"
+   },
+   {
+    "prefix": "scene",
+    "target": "scene_consistency"
+   },
+   {
+    "prefix": "consistency",
+    "target": "scene_consistency"
+   },
+   {
+    "prefix": "layout",
+    "target": "scene_consistency"
+   }
+  ]
+ },
+ "judgement_calls": [
+  "A2 for video items: only the view pair facts (V2 screen_order, V3 depth_order) and 5.0.9 relations; 5.0.9 objects/occupancy dropped (see dropped_509). The pilot has no 3D L/S facts, so A2 of a video item is frame-pair facts only.",
+  "View facing (V5) goes to P1 (0.15, the five 5.0.9 P1 blocks scaled to 0.17), not C1; to C1 only when P1 is N/A (text items).",
+  "B1 keeps 5.0.9 pair_dist as the R4 stand-in (not in the agreed list; it is alignment-free). view direction takes the R3 + R5 weight (0.30).",
+  "View presence is split by check type: landmark_present -> A1 view_landmarks; subject rows, in_frame, enter/exit, occluded -> C1 view_presence.",
+  "5.0.9 framing, in_frame and B2 posture are fallback members only (superseded by V4, V6 and view posture on the same content).",
+  "Known 5.0.9 quirk kept as is: a few kept 5.0.9 blocks exist for one model and not another on the same item (e.g. D1 penetration on M50_047, absent for fake). combine.py lists every such case.",
+  "D1 kept as is, including scale (the design drops it for S4; the agreed mapping keeps D1 unchanged).",
+  "r1: text / image items join the total through the text layer: A2 L1 / L2 / S = 3D facts, B1 R1 = 3D R1, C1 position / size / presence = text view blocks, facing to P1 (image items, P1 active) or C1 view_facing_text (text items, P1 N/A). 5.0.10 A2 objects / occupancy and B1 shape / endpoints / heading stay dropped for them too (dropped_509; the design replaces them by the 3D facts for every modality).",
+  "r1: text view screen_order / depth_order are not in the total (A2 L1 / L2 already take the 3D facts on text / image items); kept as diagnostics.",
+  "r1: D1 content gate uses the 5.1 scores of A2, B1, B2 after the activation rule; a control (e.g. astra~mirror) is gated by its own A2 / B1 / B2.",
+  "r1: min-n and activation rules apply to new-layer members only; 5.0.10 blocks keep their own presence rules.",
+  "r2: landmark facts are read once, in A1 view_landmarks (view block 'landmarks'); C1 view_presence = subject presence.",
+  "r2: the activation test covers dimensions with <= 1 kept 5.0.x block; D1 (>= 4 independent 5.0.x blocks) is not affected.",
+  "r2: temporal layer still not in the default total (variant only), as r1."
+ ],
+ "gates": {
+  "fake_max_total": 25.0,
+  "fake_not_above_509": true,
+  "astra_above_fake": true,
+  "above_baseline_models": [
+   "gpt-6-astra-official"
+  ],
+  "above_baseline_why": "r2: the r1 gate astra_above_fake with the launcher model name (r2 keys models by launcher name, the fixture model is dry-run-fake). Written with the r2 generalisation, before any r2 score.",
+  "ceilings": {
+   "_doc": "B4 (documentary, no scoring change): the reference a layer's GT-answer target is measured against",
+   "view": "continuation / video items: the ceiling of the view layer is video_geom, the video's own frames scored as a model (data/selfcheck_v51/VIEW_DIAG.md, data/selfcheck_v51/diag_view/); GT-as-model is not a view-layer target (the GT r1 scene and its converter cannot express most view facts: VIEW_DIAG classes I / C / G)",
+   "509": "pvscore 5.0.x blocks: GT-as-model (runs_gtmodel) is the target",
+   "facts3d": "text / image 3D facts: GT-as-model is the target",
+   "v5": "claims_v5 blocks: the text lead's claims_score.py self-test (GT-as-model, mirrored, shifted, cross-item)"
+  },
+  "temporal_in_total": false,
+  "temporal_in_total_why": "B5: the temporal layer stays outside the 5.1 total (diagnostic only) in r3, as in r1 / r2 (score51.py passes no temporal blocks; temporal_map is kept for the diagnostic combine)"
+ },
+ "r2_rules": {
+  "member_min_n": 5,
+  "member_min_n_why": "r2: 5 = view_thresholds_v51r2.json low_info.min_n (a block of < 5 facts moves by >= 0.2 per fact); the layers flag such blocks not informative and combine drops them either way",
+  "informative_field": {
+   "false_key": "informative",
+   "true_key": "low_info",
+   "why": "view_score.py r1 sets blocks[b].informative = false for low-information blocks (data/v51_r1/notes_view.md); a true low_info is also honoured"
+  },
+  "activation": {
+   "new_only_min_slots": 2,
+   "new_only_min_n": 10,
+   "max_509_blocks": 1,
+   "why": "r1 applied the 2-slot / 10-fact activation test only to dimensions with no kept 5.0.x block. r2 applies it to every dimension with at most max_509_blocks (1) kept 5.0.x block: such a dimension (e.g. 024 B1: one 5.0.x block 'progress' with n = 1, or A3 / C2 / B1 resting on a single 5.0.x block on several items) carries 5-15 % of the total on a handful of facts. It is active only with >= 2 kept slots and >= 10 facts (sum of member n over its kept slots), else N/A. Dimensions with >= 2 kept 5.0.x blocks are unaffected: D1 (4-8 facts in 4-6 blocks on every item) is a set of independent physical checks, and a literal '< 10 facts -> N/A' would turn it off on all 50 items. Kept = present in the report and not dropped by dropped_509 (fallback members count only when used)."
+  },
+  "d1_gate": {
+   "content_dims": [
+    "A2",
+    "B1",
+    "B2"
+   ],
+   "full_at": 0.25,
+   "none_active": "na",
+   "why": "D1 measures penetration / floating / teleport / sizes of what the model built; an empty or static scene passes all of it (r0: fake above every real model on D1 in all 8 pairs). Like the 4DCodeBench blank-frame gate, plausibility counts only in proportion to reproduced content: layout (A2) and motion / events (B1, B2), the dimensions whose objects and people D1 checks. full_at 0.25: a quarter of the chance-corrected content gives full D1; set from the meaning of the scale (0 = chance, 1 = all), not from any r1 score."
+  },
+  "_changes": [
+   "member_min_n 3 -> 5 (low-information below 5 facts)",
+   "activation extended to dimensions with <= 1 kept 5.0.x block (dimension N/A below 10 facts)",
+   "A1 view_landmarks reads the view block 'landmarks' (landmark counted once: no longer a subset of the C1 presence block)"
+  ]
+ },
+ "r3_rules": {
+  "rule": "B1: the 5.0.x members of a dimension are fixed by the GT. For a delivered report, a member of src 509 (DIM.block) is expected iff the item's members file (members_509.py build: the 5.0.x blocks a perfect answer gets rows in, derived from gt.json + refs/ with the pvscore copy the driver runs; never from a model report, a dump or the trivial answer) lists it. Expected and present in the report: its report score, n = the expected n. Expected and absent: score 0, n = the expected n (an absent content block, e.g. A3 space_size / floor_dz, D1 penetration / float_sink / class_size / scale, means the dump lacks what the GT has). Not expected: not a member, even when the report has it (model-only content, e.g. an invented body's penetration).",
+  "drop_members": "a member with drop (claims_v5 A1 counts minus a1_counts_drop): present -> recomputed from the report rows without the dropped ids as in r2; absent but expected -> 0 with n = expected n - number of dropped ids (one count row per (space, class) group), absent when that is <= 0",
+  "na_conditions": "a slot's unless_509_na / when_509_na reads the expected dims of the members file (P1 N/A iff the GT has no P1 reference), not the report",
+  "activation": "the r2 activation clause (dims with <= max_509_blocks kept 5.0.x blocks need >= 2 slots and >= 10 facts) counts the expected n of the 5.0.x members, so it is the same for every model of an item",
+  "undelivered": "a report with delivered = false (no dump; score51.py never scores one, combine.py may meet one) keeps the r2 behaviour",
+  "row_level": "rows inside a 5.0.x block are as pvscore 5.0.x emits them (a missing entity inside a block already scores 0 there). Known 5.0.x rows that exist only for a deficient dump (they are in the report n, not in the expected n): timed relations of an unsupported type and untimed directional relations score a 0 row when an entity is missing, before the type / facing test (motion._timed_relation, layout._relation_holds); C2 extra-cut rows. Reported to the pvscore owner (fork G), not changed in 5.1",
+  "members_files": "tools/v51_r2/members_509.py; bench data/v51_r2/members_509/<version dir>/ (package gt_pack/members_509/<version dir>/); the driver configuration names the version dir and the set sha256, the driver checks the set sha256, the pvscore version and every item's gt_sha256",
+  "log": "every combined row under r3 carries r3_members: absent_expected {DIM.block: n}, unexpected_present {DIM.block: report n}, n_report_differs {DIM.block: [report n, expected n]}",
+  "gates_r3": [
+   "the same members (src:block per dim) and N/A dims for every pair of models of an item (READY 12: 18 differences in r2 -> 0)",
+   "r2 configuration on the r3 code reproduces the r2 runs exactly"
+  ],
+  "_changes": [
+   "5.0.x members fixed by the GT (B1); weights, slots and every r2 rule unchanged"
+  ]
+ }
+}

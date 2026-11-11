@@ -1,0 +1,82 @@
+{
+ "item": "M50_032",
+ "modality": "image",
+ "gt_sha256": "0c3af50ee8c3134623a01c7a4c1e4fcd9c86b05ba4ec1a92a2f90ac5e12aee65",
+ "rule": "r3 B1: the 5.0.x members of a dimension are the 5.0.x blocks the GT has (this file); an expected block a report lacks is scored 0 with the expected n, a block the GT does not have is not a member even when a report has it (model-only content, e.g. extra cuts or invented objects), the activation clause counts the expected n of the 5.0.x members, and a slot condition 'unless_509_na' / 'when_509_na' reads the expected dims",
+ "pvscore_version": "pvscore-5.0.12",
+ "builder_sha256": "3767d175ae87c8a41d589a5a0e66022f6bb2b8bd18e6379bbce90766b9f18d65",
+ "blocks": {
+  "A1.entities": {
+   "n": 8,
+   "kind": "gt",
+   "rule": "one row per GT entity"
+  },
+  "A1.structure": {
+   "n": 1,
+   "kind": "gt",
+   "rule": "one row per space"
+  },
+  "A2.relations": {
+   "n": 6,
+   "kind": "gt",
+   "rule": "untimed relations of the always-read types (0 when an object is missing)"
+  },
+  "D1.class_size": {
+   "n": 1,
+   "kind": "content",
+   "rule": "instances or bodies of a registered class"
+  },
+  "D1.duplicates": {
+   "n": 1,
+   "kind": "content",
+   "rule": "named bodies (every GT entity)"
+  },
+  "D1.float_sink": {
+   "n": 1,
+   "kind": "content",
+   "rule": "non-mounted objects in non-sloped spaces, or agents / animals"
+  },
+  "D1.penetration": {
+   "n": 1,
+   "kind": "content",
+   "rule": "instances: unnamed GT objects or static named entities"
+  },
+  "D1.teleport": {
+   "n": 1,
+   "kind": "content",
+   "rule": "named bodies (every GT entity)"
+  },
+  "P1.depth": {
+   "n": 3,
+   "kind": "gt",
+   "rule": "one row per P1 reference (0 without a model frame)"
+  },
+  "P1.edge": {
+   "n": 3,
+   "kind": "content",
+   "rule": "references with GT depth edges"
+  },
+  "P1.instance": {
+   "n": 3,
+   "kind": "content",
+   "rule": "references with a GT instance of >= 6 cells"
+  },
+  "P1.normal": {
+   "n": 3,
+   "kind": "gt",
+   "rule": "one row per P1 reference (0 without a model frame)"
+  },
+  "P1.region": {
+   "n": 3,
+   "kind": "gt",
+   "rule": "one row per P1 reference (0 without a model frame)"
+  }
+ },
+ "dims": [
+  "A1",
+  "A2",
+  "D1",
+  "P1"
+ ],
+ "uncertain_rows": []
+}

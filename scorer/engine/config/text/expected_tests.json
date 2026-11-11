@@ -1,0 +1,20 @@
+{
+ "_doc": "Expected outcomes, pre-registered 10-18 before any score was computed. Tests run on the GT-as-model adapter (the GT scene rendered by the same box ray-caster that makes the GT view facts) unless noted. 'block' = every block the item has; layer3d / view / layer as in thresholds.json blocks.",
+ "T1_invariance": {
+  "variants": ["identity", "rot37_trans", "scale0.6", "scale1.6", "rename_reorder", "rot37_scale1.6_rename"],
+  "expect": "every block score >= 0.99 on every item; |block(variant) - block(identity)| <= 1e-6 except rename_reorder variants, where the matcher must recover the identity (<= 0.01)"
+ },
+ "T2_perturbations": {
+  "move_one_across": {"what": "the unnamed element with the most 3D facts moved to its point reflected through its space centre", "expect": "layer3d < identity; drop <= 0.35 (one element); presence unchanged when the element stays in view is not required"},
+  "mirror_layout": {"what": "x -> -x for the whole scene and the cameras (the rendered views are mirror images)", "expect": "L2 <= 0.10; L1 and S >= 0.99; screen_order <= 0.6 (above/below facts survive, left/right flip); position < identity"},
+  "drop_one": {"what": "the same element as move_one_across removed", "expect": "every block <= identity; blocks drop roughly by that element's weight share (coverage)"},
+  "drop_20pct": {"what": "20% of the unnamed elements removed (seed 0)", "expect": "layer3d and view in [0.5, 0.95]"},
+  "camera_other_side": {"what": "every GT camera reflected through its look target (position p -> 2 look - p) and looking back at the original look target", "expect": "3D blocks unchanged (>= 0.99); view < 0.6 (presence and pairs change)"},
+  "jitter": {"what": "xy jitter of every element, N(0, (k L)^2) per axis, k = 0.05 / 0.10 / 0.20, seed 0", "expect": "layer3d monotone non-increasing in k"},
+  "shuffle_all": {"what": "positions permuted among the elements of each space (seed 0)", "expect": "L1, L2 <= 0.25 (one draw, not the 200-draw mean)"},
+  "collapse": {"what": "every element xy = its space centre", "expect": "L1 = L2 = R1 = 0"},
+  "empty": {"what": "no elements, no frames", "expect": "every block 0"}
+ },
+ "T5_lite": {"what": "Spearman of the layer (and layer3d vs 5.0.9 A2, view vs 5.0.9 C1) against 5.0.9 totals over the 15 (item, model) pairs", "expect": "report only, not a gate"},
+ "models": {"expect": "fake below astra and sol56 on every item in layer3d and view (the fake places named boxes only)"}
+}

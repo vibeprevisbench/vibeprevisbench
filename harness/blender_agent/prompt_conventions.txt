@@ -1,0 +1,10 @@
+Scoring note: the result is scored automatically from the saved scene.blend and the rendered frames: what is where and which way it faces, how subjects move, which events happen when, and how the camera frames, moves and cuts. Appearance, textures and fine body pose are not scored.
+Build everything from primitives in an empty scene; no assets are provided. Use meters and real-world sizes.
+People: simple proxies (capsule, cylinder or stacked boxes) with a clearly visible front marker (for example a chest or nose block) so facing is readable; legs and hands are optional; walking may slide, optionally with a slight bob.
+Tag geometry with the preinstalled pvtools module: from pvtools import tag, tag_faces, tag_space, pv_check
+- tag(obj_or_collection, cls, id=None): cls from input/categories.json, or "other:<word>" for anything not listed. Every entity listed in input/entities.json (P01, V01, O01, ...) must carry its id. Untagged geometry counts as unidentified.
+- Inheritance: the nearest tag wins as a whole: face tag > the object's own tag > nearest tagged parent object > nearest tagged collection.
+- tag_faces(obj, cls, id=None, faces=[...] or material=...) when one mesh holds several things (for example walls with a door).
+- tag_space(obj_or_collection, "S01") when the task lists spaces.
+- pv_check() prints a self-check (untagged visible objects, unknown classes, listed entities missing, entity sizes, frames in camera). It reveals no score and no reference data.
+Cuts: switch scene.camera with timeline markers bound to cameras, or jump one camera between consecutive frames. The output must cover the requested duration exactly.

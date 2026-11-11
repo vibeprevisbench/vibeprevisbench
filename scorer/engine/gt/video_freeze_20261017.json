@@ -1,0 +1,9 @@
+{
+ "_doc": "Freeze frames (a still comic panel held on screen, halftone and speech bubbles) found 10-17 by frame differencing over all 18 video clips (mean |diff| < 1.0 on 160x90 grey for >= 0.4 s) and checked by eye (logs/freeze_candidates.jpg, logs/eye13041_k09_strip.jpg). Every other still run is a real static shot. Read by annot/video_gt.py: no track sample, camera sample or P1 ref inside an interval; events lying wholly inside one are not scored; static boxes are not taken from a shot listed in whole_shots.",
+ "EYE_13041": {
+  "intervals": [{"t": [11.848, 13.85], "shot": "K05", "why": "the whole shot is a comic panel of P01 peeking over the dumpster, speech bubble from 12.7 s"},
+                {"t": [25.28, 28.198], "shot": "K09", "why": "P01 frozen mid-jump over the pipe as a comic panel to the end of the shot"},
+                {"t": [33.16, 33.91], "shot": "K11", "why": "comic panel of P01 with a speech bubble"}],
+  "whole_shots": ["K05"]
+ }
+}

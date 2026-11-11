@@ -1,0 +1,299 @@
+{
+ "_doc": "drafts_v5 pre-registration. Written and registered before any v5 prompt was shown to a reader or a model and before any v5 reader output exists. It fixes (1) the prompt rules, (2) the claim types and how each one is judged on a reader scene or a model scene (bands are qualitative and relative to the sizes of the things involved; nothing is judged in metres), (3) the per-shot camera checks, (4) how a claim is validated on the GT, (5) the anchoring rule, (6) the matching of scene elements to GT elements, (7) the reader pass rule and (8) the model-side block rule used by SCORING_v5.md. The code that reads this file: tools/text_v5/claims_core.py (key 'judge' and 'gt_margin'), text_items/drafts_v5/_build/build.py, blind_compare_v5.py and tools/text_v5/claims_score.py. Nothing here may change after v5 reader or model output exists, except by a new file with a new version.",
+ "version": "prereg_v5.0.1",
+ "registered": "2026-10-18 21:48:32 +0700",
+ "supersedes": "drafts_v4 for the text items (drafts_v4, its PREREG_v4*.json, blind_v4_r1/r2, TOLERANCES and TRIAGE_r2 stay as the frozen record; none of their not_scored options apply to v5)",
+ "gt": "data/miniset50_v1_gt_r1 (byte-identical to data/miniset50_v1_gt for M50_001..016); unchanged by v5",
+ "user_decision_10_18": "the prompt says only what is scored. Keep the story, people, main objects and their relations: which space or side, next to or touching, order along an axis, on or in, and facing. Keep the beats with seconds and the shots in camera words. Drop the fine distances such as steps, person heights or hands' widths. Scoring checks positions only through the stated relations and order, never by metres.",
+ "prompt_rules": {
+  "word_window": [
+   400,
+   600
+  ],
+  "word_count": "number of whitespace-separated tokens of the whole rendered prompt_en, from the title to the end of the Output line",
+  "digits_allowed": [
+   "entity and space ids: P01, A01, V01, O01, S01",
+   "times in seconds: 'N s', 'N-M s' (beat and shot headers, and inside beat and shot text)",
+   "lens focal lengths in the one-line lens legend that heads the Shots section: 'N mm'",
+   "the Output line: 'Output: N s, N fps, N frames, N shots. ...'"
+  ],
+  "no_shot_numbers": "shot lines start with their time window ('0-5 s, opening: ...'), not with a number",
+  "ascii_only": true,
+  "banned_regex_ci_everywhere": [
+   "\\bmet(re|er)s?\\b",
+   "(?<!')\\bm\\b",
+   "\\bcm\\b",
+   "\\bkm\\b",
+   "\\bkm/h\\b",
+   "\\bkph\\b",
+   "\\bmph\\b",
+   "\\bm/s\\b",
+   "\\bper second\\b",
+   "\\bdegrees?\\b",
+   "\\bpercent\\b",
+   "%",
+   "\\b(foot|feet|inch|inches|yards?)\\b",
+   "\\bcoordinates?\\b",
+   "\\b[xyz] ?=",
+   "\\bradius\\b",
+   "\\b(zero|one|two|three|four|five|six|seven|eight|nine) point (zero|one|two|three|four|five|six|seven|eight|nine)\\b"
+  ],
+  "banned_regex_ci_fine_distance": [
+   "\\b(half a|a|an|one|one and a half|two|two and a half|three|four|five|six|seven|eight|nine|ten|a couple of|a few|several|about|roughly|nearly|almost|just|a little)\\s+(over|under|more than|less than)?\\s*(steps?|paces?|person heights?|people heights?|car lengths?|bus lengths?|body lengths?|storeys?|stories)\\b",
+   "\\bhand'?s width\\b",
+   "\\barm'?s length\\b",
+   "\\bshoulder[- ]width\\b",
+   "\\b(a|one|two|three) (quarter|third|fifth)s? of the way\\b",
+   "\\bthree quarters of the way\\b",
+   "\\b(ankle|knee|waist|chest|shoulder|head|hip|thigh)[- ]high\\b",
+   "\\b(ankle|knee|waist|hip|seat|thigh) height\\b",
+   "\\bhalf again\\b",
+   "\\btwice as (long|wide|high|tall|big)\\b",
+   "\\b(walking|jogging|running|brisk) pace\\b",
+   "\\bat (town|road) speed\\b"
+  ],
+  "fine_distance_scope": "everything except the Shots section; inside the Shots section only the camera height words are free (low, chest height, eye level, just above head height, high), the other fine-distance patterns are banned there too",
+  "exempt": "the item title and the drafts_v4 space names are exempt from the banned checks (they are kept verbatim)",
+  "sections": "title, premise, Frame line, Spaces (one line per space, then one Connections line if any), Entities (tag with these ids), Timeline (one line per drafts_v4 beat, same windows), Shots (lens legend line, then one line per drafts_v4 shot, same windows and cut words), Output line"
+ },
+ "sizes": {
+  "_doc": "size units that set every band. u(X) is the size of a thing X in the scene being judged (reader, model or GT), so a scene built at any scale is judged the same.",
+  "u_object": "max(footprint long side, height) of the thing's box",
+  "u_person": "the person's body height (GT 1.75; reader 1.75, readers give no body size; model: that body's 95th-percentile top - base over the clip)",
+  "u_space_line": "infinite: a band between a thing and a space side line uses the thing's own u",
+  "u_pair": "min(u(A), u(B))",
+  "person_footprint": "a disc of radius 0.1428 x u_person about the person's ground position (GT and readers: 0.25 at 1.75)",
+  "person_point_for_frames": "ground position raised to 0.55 x u_person above the floor of the space it stands in",
+  "ph": "the scene's person height: GT 1.75, reader 1.75, model the median of its person bodies' u_person (1.75 x model unit if it has no person body)"
+ },
+ "claim_types": {
+  "_doc": "Every claim names GT elements: GT object keys (s1_bench), entity ids (P01, V01, O01) optionally at a time (P01@13.1; a bare id means its first GT sample, a V/O id without a time its start state), space ids (S01) and space side lines (S01:north|south|east|west). Object side lines key:north_line|south_line|east_line|west_line are allowed as the reference of side claims. Directions are in the item frame (north = +y, east = +x) and are read in the judged scene's own frame: no alignment, no metres. gap(A,B) = edge-to-edge distance of the footprints (0 if they overlap); to a line it is the distance from A's footprint to the line (0 if it straddles). c(X) = footprint centre. A claim whose anchor is missing from the judged scene is false (reported as 'missing').",
+  "in_space": {
+   "form": {
+    "a": "anchor",
+    "s": "S0n",
+    "neg": "optional bool"
+   },
+   "judge": "c(A) lies inside space s. Reader / GT: inside the outline polygon. Model: the space tag of A (instance space, body space at that time); untagged A: inside the bounding box of the model instances tagged with s. neg: the opposite."
+  },
+  "side": {
+   "form": {
+    "a": "anchor",
+    "of": "anchor, space id, space side line or object side line",
+    "dir": "north|south|east|west"
+   },
+   "judge": "(c(A) - c(ref)) . u_dir > 0, where c(ref) is the reference's centre (a space: the centre of its bounding box; a line: any point of it)."
+  },
+  "part": {
+   "form": {
+    "a": "anchor",
+    "in": "space id or object anchor",
+    "w": "west|east|north|south|middle_ew|middle_ns|nw|ne|sw|se"
+   },
+   "judge": "f = position of c(A) across the bounding box of 'in' along the axis (0 = west / south edge, 1 = east / north edge). west / south: f < 1/3; east / north: f > 2/3; middle_ew: 1/3 <= f_x <= 2/3; middle_ns: 1/3 <= f_y <= 2/3; a corner word = both outer thirds."
+  },
+  "order": {
+   "form": {
+    "a": [
+     "anchor",
+     "anchor",
+     "..."
+    ],
+    "axis": "west-east|east-west|south-north|north-south"
+   },
+   "judge": "expanded by build.py into one claim per consecutive pair; a pair holds when the second centre lies strictly further along the axis than the first."
+  },
+  "touch": {
+   "form": {
+    "a": "anchor",
+    "b": "anchor or space side line"
+   },
+   "judge": "gap(A,B) <= 0.10 x u_pair"
+  },
+  "next_to": {
+   "form": {
+    "a": "anchor",
+    "b": "anchor or space side line"
+   },
+   "judge": "gap(A,B) <= 1.0 x u_pair (touching is also next to)"
+  },
+  "on": {
+   "form": {
+    "a": "anchor",
+    "b": "anchor"
+   },
+   "judge": "c(A) inside B's footprint grown by 0.10 x u(A), and, when both heights are known in the judged scene, |bottom(A) - top(B)| <= 0.15 x max(h(A), h(B)). People and samples without a height are judged on the footprint part only."
+  },
+  "in": {
+   "form": {
+    "a": "anchor",
+    "b": "anchor"
+   },
+   "judge": "c(A) inside B's footprint grown by 0.10 x u(A), and, when both heights are known, bottom(B) - 0.10 x h(A) <= centre height of A <= top(B) + 0.25 x h(A). People and samples without a height: footprint part only."
+  },
+  "facing": {
+   "form": {
+    "a": "anchor",
+    "dir": "compass word (8 points)",
+    "toward": "or an anchor"
+   },
+   "judge": "the front bearing of A is within 45 degrees of the compass direction, or of the bearing from c(A) to c(toward). Model: the front read from geometry (people, animals, seats; pvscore5 rules); where the model gives no front, only the long axis is compared (period 180), reported as axis_only."
+  },
+  "axis": {
+   "form": {
+    "a": "anchor",
+    "w": "east-west|north-south"
+   },
+   "judge": "the long axis of A's footprint is within 45 degrees of the named axis (period 180)."
+  },
+  "rel": {
+   "form": {
+    "a": "anchor",
+    "b": "anchor with a front",
+    "w": "front|behind|left|right"
+   },
+   "judge": "the bearing from c(B) to c(A), measured from B's front (counter-clockwise), is within 45 degrees of 0 (front), 180 (behind), 90 (left) or 270 (right). B without a front in the judged scene: false."
+  },
+  "count": {
+   "form": {
+    "a": "GT key glob (s1_column_*)",
+    "n": "integer"
+   },
+   "judge": "the number of scene elements matched to the glob's GT keys (readers: rows matched by phrase; models: instances matched by class in the same space) equals n."
+  },
+  "moving": {
+   "form": {
+    "a": "entity@t",
+    "neg": "optional bool"
+   },
+   "judge": "the entity's centre moves at least 0.10 x u(A) per second, measured between t - 0.5 s and t + 0.5 s (interpolated); absent at either time: not moving. Used inside events (start / stop) and as a state."
+  },
+  "event": {
+   "form": {
+    "pred": "one state claim above without times on its entity anchors",
+    "ev": "GT event id, or 'tr:<agent>@<t>' for a GT space transition"
+   },
+   "judge": "build.py copies t0, t1 and tol from the GT event (tol_s) or transition (tol_s, default 1.0). The event holds when pred is false at t0 - tol and true at t1 + tol (probe times clamped to [0, duration]); an entity absent at a probe time makes in_space / touch / next_to / on / in / moving false there."
+  }
+ },
+ "camera_checks": {
+  "_doc": "Derived by build.py from the GT shots, not written by the writers; the shot words must state them (build.py checks the lens and height words). Times are GT times; a model camera is read at the warped time, clamped into the warped shot (pvscore5 5.0.8 rule). A reader camera is interpolated linearly (position and look point) between its rows of that shot.",
+  "cam_lens": "one per shot, at its first GT sample. Classes by horizontal field of view (36 mm film back): wide-angle 73.74, moderately wide 65.47, normal 54.43, slightly long 39.60 degrees. The judged camera's class is the nearest by |log hfov ratio| (reader: its lens word). Holds when the classes are equal.",
+  "cam_height": "one per GT sample with a height. r = (camera z - floor of the GT space under the camera, else of the shot's space) / ph. Classes: low r < 0.66; chest height 0.66 <= r < 0.83; eye level 0.83 <= r < 1.0; just above head height 1.0 <= r < 1.4; high r >= 1.4. Holds when the judged r (judged scene's floor under the camera, its ph) lies in the GT class widened by 0.10 on each side.",
+  "cam_dir": "one per GT sample with a look point and a position, skipped when the GT view is steeper than 60 degrees from level. Holds when the judged horizontal view bearing is within 45 degrees of the GT one.",
+  "cam_side": "one per shot, at the first GT sample with a camera position: subject = the first GT shot subject whose GT position is known then; skipped when no subject is known or the GT horizontal camera-subject distance is below 0.5 x u(subject). Holds when the judged bearing from the subject to the camera is within 45 degrees of the GT bearing.",
+  "cam_move": "one per shot, between its first and last GT samples. Features of the judged camera: horizontal translation T_h and vertical translation T_v in ph, its components along the view (forward) and across it (right), the signed change of the horizontal view bearing dyaw (counter-clockwise positive), the change of pitch, the hfov ratio. GT type -> rule: static: |T| < 0.25 and |dyaw| < 8 and |dpitch| < 8 and hfov ratio within 1/1.1..1.1; pan left / right: dyaw >= 8 / dyaw <= -8 (no direction: |dyaw| >= 8); tilt up / down: dpitch >= 5 / <= -5; dolly_in, truck forward: forward >= 0.25 and forward >= 0.6 |T|; dolly_out, truck backward: -forward >= 0.25 and >= 0.6 |T|; truck left / right: -right / right >= 0.25 and >= 0.6 |T_h| (no direction: |right| >= 0.25); pedestal or crane up / down: T_v >= 0.25 / <= -0.25; crane without direction: |T_v| >= 0.25 or T_h >= 0.25; crane left / right / forward / backward: the truck / dolly rule of that direction, or |T_v| >= 0.25 (pvscore5 5.0.8 mapping); follow (any direction): (T_h >= 0.25 or |dyaw| >= 8) and the shot's first known subject is in frame at the first and the last sample; zoom in / out: hfov ratio <= 1/1.1 / >= 1.1; orbit: |dyaw| >= 15 and T_h >= 0.25.",
+  "cam_frame": "one per (shot, GT subject, GT sample) where the GT subject position is known at that time and the GT camera sees it inside the frame shrunk by 5 % on every side (aspect 16:9, the items' 640 x 360). Holds when the judged camera sees the subject's point in front of it and inside the frame grown by 5 % on every side."
+ },
+ "judge": {
+  "person_h_reader": 1.75,
+  "person_h_gt": 1.75,
+  "person_radius_frac": 0.1428,
+  "touch_frac": 0.1,
+  "next_to_frac": 1.0,
+  "onin_xy_grow_frac": 0.1,
+  "on_z_frac": 0.15,
+  "in_z_below_frac": 0.1,
+  "in_z_above_frac": 0.25,
+  "cone_deg": 45.0,
+  "axis_deg": 45.0,
+  "part_cuts": [
+   0.3333333,
+   0.6666667
+  ],
+  "moving_frac_per_s": 0.1,
+  "moving_half_window_s": 0.5,
+  "event_default_tol_s": 1.0,
+  "cam": {
+   "lens_hfov": {
+    "wide-angle": 73.74,
+    "moderately wide": 65.47,
+    "normal": 54.43,
+    "slightly long": 39.6
+   },
+   "height_cuts": [
+    0.66,
+    0.83,
+    1.0,
+    1.4
+   ],
+   "height_names": [
+    "low",
+    "chest height",
+    "eye level",
+    "just above head height",
+    "high"
+   ],
+   "height_widen": 0.1,
+   "dir_cone_deg": 45.0,
+   "dir_max_pitch_deg": 60.0,
+   "side_cone_deg": 45.0,
+   "side_min_dist_u": 0.5,
+   "move_trans_ph": 0.25,
+   "move_share": 0.6,
+   "move_yaw_deg": 8.0,
+   "move_pitch_deg": 5.0,
+   "static_rot_deg": 8.0,
+   "zoom_ratio": 1.1,
+   "orbit_yaw_deg": 15.0,
+   "frame_margin": 0.05,
+   "aspect": 1.7777778,
+   "subject_h_frac": 0.55
+  }
+ },
+ "gt_margin": {
+  "_doc": "build.py: every claim must hold on the GT geometry (data/miniset50_v1_gt_r1, entity positions interpolated between GT track samples, absent outside them) with these margins, so a claim is never true on the GT by a hair. Errors, not warnings.",
+  "side_frac": 0.1,
+  "side_space_frac": 0.05,
+  "order_frac": 0.1,
+  "part_frac": 0.02,
+  "next_to_frac": 0.8,
+  "cone_deg": 30.0,
+  "axis_deg": 20.0,
+  "axis_square_ratio": 1.15,
+  "event_time_s": 0.25,
+  "event_rule": "the cited GT event / transition names the claim's entities (pred a, and b if it is an entity) among its agents or objects, its type fits the predicate (enter/exit/arrive -> in_space; meet / approach / contact / hand_over / pick_up / put_down / carry -> next_to / touch / in / on; start / stop -> moving; turn -> facing), and pred holds on the GT geometry at both probes as stated",
+  "unit_note": "side: offset >= side_frac x u_pair (a space reference: >= side_space_frac x the space's extent along the axis); order: separation >= order_frac x u_pair; part: f at least part_frac inside its third; next_to: gap <= next_to_frac x the band; facing / rel: within cone_deg; axis: within axis_deg and footprint long >= axis_square_ratio x short"
+ },
+ "anchoring": {
+  "rule": "every GT object without an entity id is either named in the prompt (words 'names' map: GT key or glob -> the phrase the prompt uses) or listed in 'omitted' (not in the prompt, not scored at all); every named object and every entity has at least one anchoring claim (side, part, order, touch, next_to, on, in, rel) on it as 'a' or as a member of an order list (an entity: at its first GT sample time, or the bare id), or is listed in 'unpinned' with a reason (named, present / count scored, position not scored). in_space, facing, axis and count do not anchor.",
+  "omitted_scope": "an omitted GT object is left out of every v5 block, including A1 counts (SCORING_v5.md)"
+ },
+ "matching": {
+  "_doc": "Claims name GT elements; a judged scene has its own elements. Entities bind by id. Unnamed GT objects bind to scene elements by a maximum-cardinality assignment among compatible candidates, then a deterministic local search (swaps between GT keys, moves to unassigned candidates) that keeps a change only if it strictly raises the number of claims that hold (5.1 section 3: the most favourable correspondence; every claim still needs the geometry). The same code serves readers and models.",
+  "reader_candidates": "reader object rows by phrase: the phrase the words 'names' map gives the GT key, compared after lower-casing, dropping articles and punctuation and a crude plural; equal phrase or one containing the other as whole words. A GT key with no phrase candidate falls back to rows of the same class word. A row whose phrase is an entity id is that entity's object row.",
+  "model_candidates": "model instances (pvscore5 layout instances; untagged and terrain left out) whose class has credit > 0 for the GT class (5.1 r1 class credit when importable, else equal normalised class), in the GT object's space or with no space tag",
+  "count": "count claims use the bound elements of the glob plus unbound compatible candidates in the same space"
+ },
+ "reader_pass": {
+  "claims_min": 0.95,
+  "camera_checks_min": 0.9,
+  "missing_is_false": true,
+  "_doc": "per item and reader: fraction of the item's claims (events included) that hold on the reader scene >= 0.95, and fraction of its camera checks that hold >= 0.90. No alignment, no metric residuals, no chance correction for readers."
+ },
+ "model_blocks": {
+  "_doc": "model-side use (SCORING_v5.md): per-claim results true / false / missing; block P = mean over claims whose anchors are present, coverage = their share; chance baseline R = mean of P over 200 seeded permutations (seed 5) of the centres of the bound static elements among themselves within each model space (entities, spaces and cameras untouched); block score = clip((P - R) / (1 - R), 0, 1) x coverage. Blocks: layout claims (no entity anchor), entity claims (an entity anchor or an event), camera checks (no chance correction).",
+  "perm_n": 200,
+  "perm_seed": 5
+ },
+ "rounds": "round 1: one fresh blind reader per item (dispatched by the coordinator; prompt and reader instructions only, never GT); writers fix failures; at most one more round with fresh readers for items that fail.",
+ "notes": {
+  "_doc": "Versioned notes added after registration (prereg_v5.0, 2026-10-18 21:48:32 +0700) and before any v5 reader or model output existed (no reader packet dispatched, no v5 prompt shown to a model). Each note changes one rule; everything else stays as registered. prereg_v5.0 + these notes = prereg_v5.0.1.",
+  "n1": {
+   "added": "2026-10-18, lead review of the 16 words files (coordinator point on T15)",
+   "rule": "Sloped ground. The floor under a point (camera height class, person and subject points for frame checks, a thing without a box bottom) in a space the GT marks sloped is that space's ground plane, not its flat floor_z: z = a + b x + c y, fitted by claims_core.ground_plane() to the judged scene's own ground points that lie inside the space's outline or within 0.5 ph of it: GT object bottoms (any support), reader object-row bottoms (centre z - h / 2) plus the space's stated `ground` points (READER.md: a sloping space gives the ground height at three or more spots), model layout-instance bottoms and model person bases (one per second). The same point rule holds for GT, reader and model scenes. Robust fit: among point triples with a triangle area >= (0.5 ph)^2 (at most 40 points form triples), the plane holding the most points within 0.15 ph (ties: smaller absolute residual sum), refitted by least squares to those points; fewer than 3 points or no usable triple -> the flat floor (as before). Flat spaces are unchanged. Why: the brief and READER.md read the camera height as the height above the ground the camera stands on; on a slope the mean floor_z gave GT classes such as 'low' for a camera high above the slope (T15 K02 / K04)."
+  },
+  "n2": {
+   "added": "2026-10-18, lead review (coordinator point on T06 K05 and T11 K04)",
+   "rule": "An entity whose GT position is open at that time (GT object stated.position 'open' with no track, or a track sample stated 'open') anchors no camera check: build.py skips it for cam_frame, for cam_side (the next shot subject with a known, non-open position is used) and as the subject of a follow move. Claims are unaffected (a claim states a relation the prompt gives; it is validated on the GT with the gt_margin)."
+  },
+  "n3": {
+   "added": "2026-10-18, lead review",
+   "rule": "build.py warns (does not fail) when a GT event or space transition that pvscore5 B2 scores is not covered by a beat: no beat window within the event's tolerance names all its agents, or the beat text gives no second within the tolerance of the event time. SCORING_v5.md: B2 keeps scoring every GT event from the GT; the beats with their seconds are where the prompt states them."
+  },
+  "n4": {
+   "added": "2026-10-18, lead review (comparator self-test, before any reader output)",
+   "rule": "Floor under a point on a space edge. claims_core.Scene.floor_at(xy, space): the named space when xy is inside it and not on its outline; otherwise the highest level among the spaces whose closed outline holds xy (a camera on the edge of a raised platform stands on the platform); otherwise the named space. The earlier rule took the first space in id order whose half-open outline held xy, which depends on the scene's orientation (a mirrored scene read a different floor, T06 K02 at 13 s). No GT camera word changed."
+  }
+ }
+}

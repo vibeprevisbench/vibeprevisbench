@@ -1,0 +1,648 @@
+{
+ "_doc": [
+  "pvscore 5.1 r2, text profile claims_v5: how combine.py / score51.py score a script item (M50_001..M50_016) with the v5 claims (text lead: tools/text_v5/claims_score.py + claims_core.py, rules text_items/drafts_v5/_build/PREREG_v5.json prereg_v5.0.1, mapping text_items/drafts_v5/SCORING_v5.md s2).",
+  "PRE-REGISTERED: written 2026-10-18T16:47:43Z by fork C, BEFORE any claims_v5 total was computed by 5.1 (the only v5 numbers seen are the text lead's GT self-tests in SCORING_v5.md / claims_score_selftest.json). Looked at: SCORING_v5.md, PREREG_v5.json, the claims files' structure (item, gt_item, prereg sha, claim counts), claims_score.py's API, the 5.0.11 report layout (A1 count rows). Not looked at: any model score under v5, data/v51_pilot/rank/. A change after a look goes to a new file.",
+  "Applies only where the cell's text profile is claims_v5 (a dataset mapped to it in the driver config, or the run flag --text-profile claims_v5, recorded in the output) and only to kind script. miniset50_v1 stays on layout_r2: its prompts state coordinates. Every other item kind and every dimension rule not named here is r2 (combine_weights_v51r2.json)."
+ ],
+ "profile": "claims_v5",
+ "version": "pvscore-5.1-r2 text profile claims_v5 (prereg_v5.0.1)",
+ "base_weights": "combine_weights_v51r2.json",
+ "kinds": [
+  "script"
+ ],
+ "items": [
+  "M50_001",
+  "M50_002",
+  "M50_003",
+  "M50_004",
+  "M50_005",
+  "M50_006",
+  "M50_007",
+  "M50_008",
+  "M50_009",
+  "M50_010",
+  "M50_011",
+  "M50_012",
+  "M50_013",
+  "M50_014",
+  "M50_015",
+  "M50_016",
+  "TP101",
+  "TP102",
+  "TP103",
+  "TP104",
+  "TP105",
+  "TP106",
+  "TP107",
+  "TP108",
+  "TP109",
+  "TP110",
+  "TP111",
+  "TP112",
+  "TP113",
+  "TP114",
+  "TP115",
+  "TP116",
+  "TP117",
+  "TP118",
+  "TP119",
+  "TP120",
+  "TP121",
+  "TP122",
+  "TP123",
+  "TP124",
+  "TP125",
+  "TP126",
+  "TP127",
+  "TP128",
+  "TP129",
+  "TP130",
+  "TP131",
+  "TP132",
+  "TP133",
+  "TP134",
+  "TP135",
+  "TP136",
+  "TP137",
+  "TP138",
+  "TP139",
+  "TP140",
+  "TP141",
+  "TP142",
+  "TP143",
+  "TP144",
+  "TP145",
+  "TP146",
+  "TP147",
+  "TP148",
+  "TP149",
+  "TP150",
+  "TP151",
+  "TP152",
+  "TP153",
+  "TP154",
+  "TP155",
+  "TP156",
+  "TP157",
+  "TP158",
+  "TP159",
+  "TP160",
+  "TP161",
+  "TP162",
+  "TP163",
+  "TP164",
+  "TP165",
+  "TP166",
+  "TP167",
+  "TP168",
+  "TP169",
+  "TP170",
+  "TP171",
+  "TP172",
+  "TP173",
+  "TP174",
+  "TP175",
+  "TP176",
+  "TP177",
+  "TP178",
+  "TP179",
+  "TP180",
+  "TP181",
+  "TP182",
+  "TP183",
+  "TP184"
+ ],
+ "scoring_v5_section2": {
+  "profile": "claims_v5",
+  "kinds": [
+   "script"
+  ],
+  "prereg": "prereg_v5.0.1",
+  "A1": {
+   "entities": "509",
+   "counts": "509 minus a1_counts_drop",
+   "structure": "509",
+   "drop": [
+    "zones",
+    "extras",
+    "view_landmarks"
+   ]
+  },
+  "A2": {
+   "v5_layout": 1.0,
+   "drop": [
+    "L1_distance",
+    "L2_arrangement",
+    "relations",
+    "size"
+   ],
+   "temporal": "out"
+  },
+  "A3": {
+   "connectivity": "509",
+   "drop": [
+    "outline",
+    "openings",
+    "space_size",
+    "floor_dz"
+   ]
+  },
+  "P1": "na",
+  "B1": {
+   "v5_entity": 0.9,
+   "stops_turns": "509 (0.05)",
+   "space_order": "509 (0.05)",
+   "drop": [
+    "R1_positions",
+    "R2_pass_order",
+    "route_direction",
+    "R4_pair_dist",
+    "progress"
+   ]
+  },
+  "B2": {
+   "occurrence": "509",
+   "timing": "509",
+   "order": "509",
+   "posture": "509",
+   "drop": [
+    "relations_t",
+    "locomotion"
+   ],
+   "temporal": "out"
+  },
+  "C1": {
+   "v5_camera": 1.0,
+   "drop": [
+    "view_position",
+    "view_size",
+    "view_presence",
+    "view_facing_text",
+    "relative_to_subject",
+    "fov",
+    "move",
+    "spec"
+   ]
+  },
+  "C2": "as r2",
+  "D1": "as r2 (d1_gate A2 / B1 / B2, full_at 0.25)",
+  "v5_block_min_n": 5,
+  "v5_block_two_slot_clause": "waived"
+ },
+ "dims": {
+  "A1": [
+   {
+    "slot": "entities",
+    "w": 0.35,
+    "members": [
+     {
+      "src": "509",
+      "block": "entities"
+     }
+    ]
+   },
+   {
+    "slot": "counts",
+    "w": 0.35,
+    "members": [
+     {
+      "src": "509",
+      "block": "counts",
+      "drop": "a1_counts_drop"
+     }
+    ],
+    "why": "SCORING_v5 s3: the 5.0.x count items whose (space, class) group holds an omitted GT object are left out"
+   },
+   {
+    "slot": "structure",
+    "w": 0.1,
+    "members": [
+     {
+      "src": "509",
+      "block": "structure"
+     }
+    ]
+   }
+  ],
+  "A2": [
+   {
+    "slot": "v5_layout",
+    "w": 1.0,
+    "members": [
+     {
+      "src": "v5",
+      "block": "layout"
+     }
+    ]
+   }
+  ],
+  "A3": [
+   {
+    "slot": "connectivity",
+    "w": 0.2,
+    "members": [
+     {
+      "src": "509",
+      "block": "connectivity"
+     }
+    ],
+    "why": "alone: one kept 5.0.x block in one slot -> N/A by the r2 activation rule (SCORING_v5 s2)"
+   }
+  ],
+  "P1": [],
+  "B1": [
+   {
+    "slot": "v5_entity",
+    "w": 0.9,
+    "members": [
+     {
+      "src": "v5",
+      "block": "entity"
+     }
+    ]
+   },
+   {
+    "slot": "stops_turns",
+    "w": 0.05,
+    "members": [
+     {
+      "src": "509",
+      "block": "stops_turns"
+     }
+    ]
+   },
+   {
+    "slot": "space_order",
+    "w": 0.05,
+    "members": [
+     {
+      "src": "509",
+      "block": "space_order"
+     }
+    ]
+   }
+  ],
+  "B2": [
+   {
+    "slot": "occurrence",
+    "w": 0.35,
+    "members": [
+     {
+      "src": "509",
+      "block": "occurrence"
+     }
+    ]
+   },
+   {
+    "slot": "timing",
+    "w": 0.15,
+    "members": [
+     {
+      "src": "509",
+      "block": "timing"
+     }
+    ]
+   },
+   {
+    "slot": "order",
+    "w": 0.1,
+    "members": [
+     {
+      "src": "509",
+      "block": "order"
+     }
+    ]
+   },
+   {
+    "slot": "posture",
+    "w": 0.15,
+    "members": [
+     {
+      "src": "509",
+      "block": "posture"
+     }
+    ]
+   }
+  ],
+  "C1": [
+   {
+    "slot": "v5_camera",
+    "w": 1.0,
+    "members": [
+     {
+      "src": "v5",
+      "block": "camera"
+     }
+    ]
+   }
+  ],
+  "C2": [
+   {
+    "slot": "count",
+    "w": 0.15,
+    "members": [
+     {
+      "src": "509",
+      "block": "count"
+     }
+    ]
+   },
+   {
+    "slot": "cuts",
+    "w": 0.25,
+    "members": [
+     {
+      "src": "509",
+      "block": "cuts"
+     }
+    ]
+   },
+   {
+    "slot": "transitions",
+    "w": 0.15,
+    "members": [
+     {
+      "src": "509",
+      "block": "transitions"
+     }
+    ]
+   },
+   {
+    "slot": "shot_order",
+    "w": 0.15,
+    "members": [
+     {
+      "src": "509",
+      "block": "shot_order"
+     }
+    ]
+   },
+   {
+    "slot": "space_order",
+    "w": 0.1,
+    "members": [
+     {
+      "src": "509",
+      "block": "space_order"
+     }
+    ]
+   },
+   {
+    "slot": "screen_dir",
+    "w": 0.05,
+    "members": [
+     {
+      "src": "509",
+      "block": "screen_dir"
+     }
+    ]
+   },
+   {
+    "slot": "durations",
+    "w": 0.15,
+    "members": [
+     {
+      "src": "509",
+      "block": "durations"
+     }
+    ]
+   },
+   {
+    "slot": "view_order",
+    "w": 1.0,
+    "members": [
+     {
+      "src": "509",
+      "block": "view_order"
+     }
+    ]
+   }
+  ],
+  "D1": [
+   {
+    "slot": "penetration",
+    "w": 0.25,
+    "members": [
+     {
+      "src": "509",
+      "block": "penetration"
+     }
+    ]
+   },
+   {
+    "slot": "float_sink",
+    "w": 0.2,
+    "members": [
+     {
+      "src": "509",
+      "block": "float_sink"
+     }
+    ]
+   },
+   {
+    "slot": "teleport",
+    "w": 0.2,
+    "members": [
+     {
+      "src": "509",
+      "block": "teleport"
+     }
+    ]
+   },
+   {
+    "slot": "class_size",
+    "w": 0.15,
+    "members": [
+     {
+      "src": "509",
+      "block": "class_size"
+     }
+    ]
+   },
+   {
+    "slot": "scale",
+    "w": 0.1,
+    "members": [
+     {
+      "src": "509",
+      "block": "scale"
+     }
+    ]
+   },
+   {
+    "slot": "duplicates",
+    "w": 0.1,
+    "members": [
+     {
+      "src": "509",
+      "block": "duplicates"
+     }
+    ]
+   }
+  ]
+ },
+ "dropped_509": {
+  "A2.objects": "per-object item gated by position in the aligned GT frame (lin(d/L, 0.02, 0.10), ~0.2 m full credit) against video 3D GT with 1.2-4.4 m median error, and 0 without alignment; design \u00a72.2/\u00a76 replaces it with L1/L2/S facts. Its yaw/size/support terms are only reached through the position gate.",
+  "A2.occupancy": "footprint F1 on a 10 cm grid in the aligned GT frame; same reason.",
+  "B1.shape": "GT-frame Fr\u00e9chet when aligned, half credit rigid-only otherwise (credit cap depends on alignment); replaced by R3 (route_direction stands in).",
+  "B1.endpoints": "0 without alignment (motion.py 'no alignment'); replaced by R1.",
+  "B1.waypoints": "only when aligned; replaced by R1/R2.",
+  "B1.heading": "item exists only when aligned, so its presence depends on the model; replaced by R5.",
+  "C1.position": "d/L in the aligned GT frame, 0 without alignment; design \u00a72.5 deletes it.",
+  "C1.direction": "GT-frame view angle, pitch-only half credit without alignment; design \u00a72.5 deletes it.",
+  "C1.framing": "superseded by view size (fallback only).",
+  "C1.in_frame": "superseded by view presence (fallback only).",
+  "B2.posture": "superseded by view posture (fallback only).",
+  "A1.zones": "SCORING_v5 s2 (claims_v5 profile): polygon in the aligned frame (none on these items)",
+  "A1.extras": "SCORING_v5 s2 (claims_v5 profile): all 16 GT items set extras = none",
+  "A2.relations": "SCORING_v5 s2 (claims_v5 profile): its near / distance types are metres; the v5 layout block takes the slot",
+  "A3.outline": "SCORING_v5 s2 (claims_v5 profile): aligned frame / metres",
+  "A3.openings": "SCORING_v5 s2 (claims_v5 profile): aligned frame / metres",
+  "A3.space_size": "SCORING_v5 s2 (claims_v5 profile): metres",
+  "A3.floor_dz": "SCORING_v5 s2 (claims_v5 profile): metres",
+  "B1.pair_dist": "SCORING_v5 s2 (claims_v5 profile): metres",
+  "B1.progress": "SCORING_v5 s2 (claims_v5 profile): path-length ratio compares metres",
+  "B2.relations_t": "SCORING_v5 s2 (claims_v5 profile): near / distance in metres; the timed relations the prompt states are v5 entity claims",
+  "C1.subject": "SCORING_v5 s2 (claims_v5 profile): distance ratio; cam_side is a v5 camera check",
+  "C1.height": "SCORING_v5 s2 (claims_v5 profile): metres",
+  "C1.fov": "SCORING_v5 s2 (claims_v5 profile): log hfov ratio; v5 cam_lens replaces it",
+  "C1.move": "SCORING_v5 s2 (claims_v5 profile): GT amounts; v5 cam_move replaces it",
+  "C1.spec": "SCORING_v5 s2 (claims_v5 profile): pitch / azimuth classes not worded in the prompts"
+ },
+ "v5_rules": {
+  "member": "src v5 = the claims_score.py block of that name (layout | entity | camera): score = blocks[b].score, n = blocks[b].n (the item's registered claims / checks, fixed by the item), always informative",
+  "member_min_n": 5,
+  "member_min_n_why": "SCORING_v5 s2: a v5 block is present when the item registers >= 5 claims / checks (all v5 blocks of the 16 items are present: layout 9-43, entity 14-37, camera 27-63)",
+  "activation_waived": true,
+  "activation_why": "SCORING_v5 s2: n is fixed by the item, so the r2 2-slot / 10-fact clause does not apply to a dimension with a used v5 member; it still applies to dimensions of 5.0.x blocks only (A3)",
+  "zero_not_na": "a model that builds nothing gets the block score claims_score.py gives (coverage 0 -> 0), never N/A",
+  "new_layer": "v5 members count as new-layer points (new_layer_points) like the view / facts3d members",
+  "a1_counts_drop": "member option drop = a1_counts_drop: the 5.0.11 A1 counts block recomputed from the report's item rows (dim A1, block counts, weight > 0; weighted mean as pvscore5 items.dim_scores) without the rows named in claims_score.py a1_counts_drop; no row left -> member absent; a drop id that is not a report row is listed in the cell, nothing else",
+  "d1_gate": "as r2 (content dims A2 / B1 / B2, full_at 0.25)"
+ },
+ "driver_rules": {
+  "claims_file": "the v5 claims file whose gt_item is the cell's item (bench: text_items/drafts_v5/claims/MS50_Txx.json; package: gt_pack/<item>/claims_v5.json, byte copy); none -> pending no_claims",
+  "prereg_check": "claims prereg_sha256 must equal the sha256 of the PREREG_v5.json in use; otherwise pending claims_prereg_mismatch",
+  "gt": "claims_score.from_dump(claims, dump, gt_path = the driver's GT, paths.GT_ROOT/<item>/gt.json) and a1_counts_drop(claims, that GT); PV_V5_PREREG / PV_GT_ROOT / PV_PVSCORE_DIR are set by the driver to the copies it uses",
+  "error": "an exception in claims_score -> pending scorer_error (never 0)",
+  "layer": "the cell's layer is v5; the layout_r2 text layer is not run for it"
+ },
+ "registered_sources": {
+  "PREREG_v5.json": {
+   "file": "text_items/drafts_v5/_build/PREREG_v5.json",
+   "sha256": "bec8461e1d5efa91a510534343ffb856fed0e682bf272e58178830f455b76b0d"
+  },
+  "SCORING_v5.md": {
+   "file": "text_items/drafts_v5/SCORING_v5.md",
+   "sha256": "5719d1eab62d4935280ecb96ff6039ad1e2866be34bd7d2e0ba26ceaf3392b5e"
+  },
+  "claims_core.py": {
+   "file": "tools/text_v5/claims_core.py",
+   "sha256": "67b2376d5df2f1b3a439340c359b6ab21c257e81b05ac6e501fee072a08bf317"
+  },
+  "claims_score.py": {
+   "file": "tools/text_v5/claims_score.py",
+   "sha256": "fad892fa60a29a45119c422decac5c7467fb6430b8efc90638fd92adf13ef6c1"
+  },
+  "claims": {
+   "M50_001": {
+    "file": "text_items/drafts_v5/claims/MS50_T01.json",
+    "item": "MS50_T01",
+    "sha256": "cfbd98a35dece19858ce228b2d2a0b0c2c719d73fb3a1795a2aec16d721b506d",
+    "prereg_sha256": "bec8461e1d5efa91a510534343ffb856fed0e682bf272e58178830f455b76b0d"
+   },
+   "M50_002": {
+    "file": "text_items/drafts_v5/claims/MS50_T02.json",
+    "item": "MS50_T02",
+    "sha256": "1442e00ea074d02c57ccc63f7dee8db31c60e59c196a258968fcb8f881d0ed94",
+    "prereg_sha256": "bec8461e1d5efa91a510534343ffb856fed0e682bf272e58178830f455b76b0d"
+   },
+   "M50_003": {
+    "file": "text_items/drafts_v5/claims/MS50_T03.json",
+    "item": "MS50_T03",
+    "sha256": "628024515a61d69d1a848bf88ed6fb455ffd87f48fc17cef9e69a6ff226c149e",
+    "prereg_sha256": "bec8461e1d5efa91a510534343ffb856fed0e682bf272e58178830f455b76b0d"
+   },
+   "M50_004": {
+    "file": "text_items/drafts_v5/claims/MS50_T04.json",
+    "item": "MS50_T04",
+    "sha256": "67d5971346322f1ad5a9c14a46926676c6150cc2a7b20ea0981fa1266c097f35",
+    "prereg_sha256": "bec8461e1d5efa91a510534343ffb856fed0e682bf272e58178830f455b76b0d"
+   },
+   "M50_005": {
+    "file": "text_items/drafts_v5/claims/MS50_T05.json",
+    "item": "MS50_T05",
+    "sha256": "d7bbd9aab9b11158e0ccc8fa075ef58337904cc80e57900676bba307061be824",
+    "prereg_sha256": "bec8461e1d5efa91a510534343ffb856fed0e682bf272e58178830f455b76b0d"
+   },
+   "M50_006": {
+    "file": "text_items/drafts_v5/claims/MS50_T06.json",
+    "item": "MS50_T06",
+    "sha256": "e23cbc68b8147c490ebc7adb627b8682399602f271cd52b123e616a9cbd86e97",
+    "prereg_sha256": "bec8461e1d5efa91a510534343ffb856fed0e682bf272e58178830f455b76b0d"
+   },
+   "M50_007": {
+    "file": "text_items/drafts_v5/claims/MS50_T07.json",
+    "item": "MS50_T07",
+    "sha256": "3b08391e746e8e9ff18859a4c895015cc5f487c9dc37cd6853bc9a11cf2f3d45",
+    "prereg_sha256": "bec8461e1d5efa91a510534343ffb856fed0e682bf272e58178830f455b76b0d"
+   },
+   "M50_008": {
+    "file": "text_items/drafts_v5/claims/MS50_T08.json",
+    "item": "MS50_T08",
+    "sha256": "6089841491c8527221ffc92b05ac2a976c7a20c82cc01e601557489be25f53d3",
+    "prereg_sha256": "bec8461e1d5efa91a510534343ffb856fed0e682bf272e58178830f455b76b0d"
+   },
+   "M50_009": {
+    "file": "text_items/drafts_v5/claims/MS50_T09.json",
+    "item": "MS50_T09",
+    "sha256": "b1b869fbb885c92ec47abd48e1d27bbbafc1cff4b9be4ae769e263ab1d25954e",
+    "prereg_sha256": "bec8461e1d5efa91a510534343ffb856fed0e682bf272e58178830f455b76b0d"
+   },
+   "M50_010": {
+    "file": "text_items/drafts_v5/claims/MS50_T10.json",
+    "item": "MS50_T10",
+    "sha256": "6fd30796fc844ff50372b1775a519f8b381ce16e9e7db97c6e984f97337cd746",
+    "prereg_sha256": "bec8461e1d5efa91a510534343ffb856fed0e682bf272e58178830f455b76b0d"
+   },
+   "M50_011": {
+    "file": "text_items/drafts_v5/claims/MS50_T11.json",
+    "item": "MS50_T11",
+    "sha256": "b33036d7f37d3b53296a080db40e65351d7f86b1736076ffa7f411625483b2c3",
+    "prereg_sha256": "bec8461e1d5efa91a510534343ffb856fed0e682bf272e58178830f455b76b0d"
+   },
+   "M50_012": {
+    "file": "text_items/drafts_v5/claims/MS50_T12.json",
+    "item": "MS50_T12",
+    "sha256": "5b4735c3a88658e8c92bff8350a409bc0f5df95d70ce51b395653164128ce4fc",
+    "prereg_sha256": "bec8461e1d5efa91a510534343ffb856fed0e682bf272e58178830f455b76b0d"
+   },
+   "M50_013": {
+    "file": "text_items/drafts_v5/claims/MS50_T13.json",
+    "item": "MS50_T13",
+    "sha256": "a81c3acf783859cdbdfaabbfe524621d6de4a98f37ff7c1c4d1688bfd6609503",
+    "prereg_sha256": "bec8461e1d5efa91a510534343ffb856fed0e682bf272e58178830f455b76b0d"
+   },
+   "M50_014": {
+    "file": "text_items/drafts_v5/claims/MS50_T14.json",
+    "item": "MS50_T14",
+    "sha256": "9ef8b415b6ee2ca4b95d6c7581a668c99aa61dcf28ea270dc7f1652260f986ab",
+    "prereg_sha256": "bec8461e1d5efa91a510534343ffb856fed0e682bf272e58178830f455b76b0d"
+   },
+   "M50_015": {
+    "file": "text_items/drafts_v5/claims/MS50_T15.json",
+    "item": "MS50_T15",
+    "sha256": "fa52922ec9068567b8855adb4f703f0e1c6af2f4aecc8fd47bd6b51f18b1d9fd",
+    "prereg_sha256": "bec8461e1d5efa91a510534343ffb856fed0e682bf272e58178830f455b76b0d"
+   },
+   "M50_016": {
+    "file": "text_items/drafts_v5/claims/MS50_T16.json",
+    "item": "MS50_T16",
+    "sha256": "7b2fbaf4cd92a3a02b4a9fd4e4e234b1a09da2e5556590637076aa7d8351176e",
+    "prereg_sha256": "bec8461e1d5efa91a510534343ffb856fed0e682bf272e58178830f455b76b0d"
+   }
+  },
+  "note": "shas at registration; the claims may still change after v5 blind round 1 triage: every run records the shas it used, and the package pins them in FROZEN_5_1.json (vendored text-v5)"
+ },
+ "gates": "as r2 (combine_weights_v51r2.json gates)"
+}

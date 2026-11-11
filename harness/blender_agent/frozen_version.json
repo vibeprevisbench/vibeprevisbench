@@ -1,0 +1,8 @@
+{
+  "release_id": "vibeprevisbench_harness_v5_0_docker",
+  "source_sha256": "b6bc091d4d9d8290b1c81f9fceba57fb0612fc45709e76f54c8e40b94dac4c22",
+  "blender": "5.2.2 LTS",
+  "pvtools_sha256": "739c1948743efdce6fad72fe70604bcf4656a5c5180612b068a097e978a6cb74",
+  "prompt_conventions_sha256": "74955ab4c214eca6ad06c337fdaa73154d9a4fdbf748dfd33f3d5990407efff9",
+  "note": "harness v5.0 of the paper's runs with a Docker sandbox; pvtools.py, prompt_conventions.txt, launcher.py, blender_runner.py and tools.py are unchanged; release adapter validates complete delivery and requires FFmpeg >=5.1"
+}

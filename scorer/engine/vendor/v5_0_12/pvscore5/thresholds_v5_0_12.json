@@ -1,0 +1,391 @@
+{
+  "version": "pvscore-5.0.12",
+  "note": "Each curve is [full, zero]: error <= full scores 1, error >= zero scores 0, linear between. Quality curves (q) score 1 at >= full and 0 at <= zero. L = diagonal of the GT space extent (or of the union of visited spaces). Uncertainty sigma widens a curve to [full + sigma, zero + 2 sigma].",
+  "weights": {
+    "A1": 8,
+    "A2": 15,
+    "A3": 10,
+    "P1": 15,
+    "B1": 14,
+    "B2": 14,
+    "C1": 10,
+    "C2": 9,
+    "D1": 5
+  },
+  "named_weight": 2.0,
+  "curves": {
+    "pos_frac": [
+      0.02,
+      0.1
+    ],
+    "endpoint_frac": [
+      0.05,
+      0.2
+    ],
+    "yaw_deg": [
+      15,
+      60
+    ],
+    "size_log": [
+      0.2231,
+      0.6931
+    ],
+    "support_m": [
+      0.05,
+      0.25
+    ],
+    "occ_1mf1": [
+      0.15,
+      0.6
+    ],
+    "outline_1miou": [
+      0.15,
+      0.6
+    ],
+    "space_size_log": [
+      0.2624,
+      0.9163
+    ],
+    "floor_dz_m": [
+      0.25,
+      1.0
+    ],
+    "opening_frac": [
+      0.05,
+      0.2
+    ],
+    "frechet_frac": [
+      0.07,
+      0.25
+    ],
+    "progress": [
+      0.1,
+      0.35
+    ],
+    "heading_deg": [
+      30,
+      90
+    ],
+    "pair_dist_frac": [
+      0.05,
+      0.2
+    ],
+    "event_extra_s": 3.0,
+    "event_tol_s": 1.0,
+    "cut_s": [
+      0.5,
+      2.0
+    ],
+    "cam_pos_frac": [
+      0.07,
+      0.25
+    ],
+    "cam_height_m": [
+      0.3,
+      1.2
+    ],
+    "cam_dir_deg": [
+      15,
+      45
+    ],
+    "fov_log": [
+      0.1823,
+      0.6931
+    ],
+    "cam_dist_log": [
+      0.2624,
+      0.9163
+    ],
+    "cam_azimuth_deg": [
+      30,
+      90
+    ],
+    "in_frame_q": [
+      0.9,
+      0.5
+    ],
+    "move_amount_log": [
+      0.4055,
+      1.0986
+    ],
+    "shot_dur_log": [
+      0.2231,
+      0.6931
+    ],
+    "p1_depth_q": [
+      0.85,
+      0.4
+    ],
+    "p1_normal_q": [
+      0.8,
+      0.35
+    ],
+    "p1_region_1mfwiou": [
+      0.25,
+      0.7
+    ],
+    "p1_inst_1mf1": [
+      0.2,
+      0.8
+    ],
+    "p1_edge_1mf": [
+      0.3,
+      0.85
+    ],
+    "d1_rate": [
+      0.02,
+      0.2
+    ],
+    "d1_events": [
+      0,
+      2
+    ],
+    "d1_scale_log": [
+      0.1398,
+      0.47
+    ],
+    "d1_dup_rate": [
+      0.0,
+      0.1
+    ],
+    "extras_ratio": [
+      0.1,
+      0.5
+    ],
+    "relation_frac": [
+      0.05,
+      0.2
+    ],
+    "time_rel": [
+      0.1,
+      0.35
+    ]
+  },
+  "params": {
+    "align_gate_frac": 0.25,
+    "align_sigma_frac": 0.08,
+    "align_scale_bounds": [
+      0.67,
+      1.5
+    ],
+    "min_anchors": 3,
+    "touch_gap_m": 0.03,
+    "contain_frac": 0.8,
+    "contain_margin_m": 0.05,
+    "body_cluster_gap_m": 0.3,
+    "occ_cell_m": 0.1,
+    "occ_levels_m": [
+      0.4,
+      1.2
+    ],
+    "occ_tol_cells": 1,
+    "outline_cell_m": 0.1,
+    "near_square": 1.15,
+    "stand_ratio": 0.85,
+    "lie_ratio": 0.45,
+    "carry_dist_m": 1.2,
+    "meet_dist_m": 1.5,
+    "talk_dist_m": 2.5,
+    "face_cone_deg": 50,
+    "door_open_deg": 45,
+    "door_slide_m": 0.4,
+    "jump_air_m": 0.12,
+    "jump_min_s": 0.1,
+    "jump_max_s": 1.5,
+    "jump_long_max_s": 4.0,
+    "jump_long_arc_m": 0.2,
+    "turn_deg": 60.0,
+    "turn_win_s": 1.0,
+    "cut_jump_m": 0.25,
+    "cut_rot_deg": 10.0,
+    "cut_local_win": 3,
+    "cut_local_ratio": 4.0,
+    "cut_fov_ratio": 1.15,
+    "static_trans_m": 0.1,
+    "static_rot_deg": 3.0,
+    "static_zoom": 0.05,
+    "teleport_m": 1.0,
+    "teleport_speed_ms": {
+      "person": 9.0,
+      "animal": 15.0,
+      "vehicle": 70.0,
+      "default": 15.0
+    },
+    "penetration_frac": 0.15,
+    "float_m": 0.05,
+    "sink_m": 0.05,
+    "class_similar": [
+      [
+        "table",
+        "desk",
+        "coffee_table",
+        "workbench",
+        "picnic_table"
+      ],
+      [
+        "chair",
+        "armchair",
+        "stool"
+      ],
+      [
+        "sofa",
+        "bench",
+        "armchair"
+      ],
+      [
+        "tv",
+        "monitor"
+      ],
+      [
+        "cabinet",
+        "wardrobe",
+        "shelf",
+        "counter",
+        "locker",
+        "display_case",
+        "rack"
+      ],
+      [
+        "oven",
+        "stove",
+        "microwave"
+      ],
+      [
+        "dishwasher",
+        "washer",
+        "cabinet"
+      ],
+      [
+        "bin",
+        "trash_can"
+      ],
+      [
+        "box",
+        "crate",
+        "package"
+      ],
+      [
+        "car",
+        "van",
+        "race_car"
+      ],
+      [
+        "truck",
+        "fire_truck",
+        "van"
+      ],
+      [
+        "bag",
+        "backpack",
+        "suitcase"
+      ],
+      [
+        "plant",
+        "bush"
+      ]
+    ],
+    "similar_credit": 0.75,
+    "untagged_credit": 0.5,
+    "seg_dir_away_deg": 45.0,
+    "seg_dir_static_h": 0.25,
+    "footprint_margin_m": 0.05,
+    "event_gate": "tol_plus_extra",
+    "screen_dir_single_text": "A_lat",
+    "snapshot_tol_s": 1.0,
+    "gt_yaw_window_s": 1.0,
+    "merge_z_overlap_frac": 0.5,
+    "merge_thin_m": 0.05,
+    "door_reach_m": 1.5,
+    "move_component_min": 1.0,
+    "dissolve_win_s": 1.0,
+    "gap_measurements": [
+      "clearance",
+      "short_of",
+      "short-of",
+      "gap"
+    ],
+    "footprint_fill_min": 0.7,
+    "footprint_cell_k": 1.5
+  },
+  "changes_5_0_11": {
+    "registered": "2026-10-18, before any 5.0.11 run on a model, fake or validation output",
+    "base": "thresholds_v5.json (5.0.10), byte-identical in every other key",
+    "footprint_margin_m": "F1: margin of the oriented footprint test (same 0.05 m as the 5.0.10 axis-aligned test, now in GT metres around the rotated rectangle)",
+    "event_gate": "tol_plus_extra: a B2 occurrence match needs |t_model - t_gt| <= tol_s + event_extra_s, the point where the timing item already reaches 0 (default 1.0 + 3.0 = 4.0 s); no new number",
+    "screen_dir_single_text": "A_lat: text items read single-label screen_dir as the body displacement's lateral component in the camera's horizontal frame at the window middle (10 % trimmed), static below seg_dir_static_h (0.25) body heights; video items keep the screen-x reading"
+  },
+  "fixes_5_0_12": [
+    "S6",
+    "S7",
+    "S8",
+    "S9",
+    "S10",
+    "S11",
+    "S13",
+    "S14",
+    "S15",
+    "S16",
+    "S17",
+    "S18",
+    "S19",
+    "S20",
+    "S21",
+    "S22",
+    "S24",
+    "S25",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D12",
+    "D12b",
+    "D15",
+    "D17",
+    "D18",
+    "D19",
+    "D21",
+    "D22"
+  ],
+  "fixes_5_2": [
+    "M1",
+    "M2",
+    "M3",
+    "M4",
+    "M5",
+    "M6",
+    "M7",
+    "M8",
+    "M9",
+    "M10",
+    "M11",
+    "M12",
+    "M13",
+    "M14",
+    "M15",
+    "M16",
+    "M17"
+  ],
+  "fixes_5_4": [
+    "M19"
+  ],
+  "fixes_5_3": [
+    "M18"
+  ],
+  "changes_5_0_12": {
+    "registered": "2026-10-19, before any 5.0.12 run on a model, fake, GT-as-model or validation output",
+    "base": "thresholds_v5_0_11.json (5.0.11), byte-identical in every other key; no existing value changed",
+    "fixes_5_0_12": "the fixes that are on (pvscore5/fixes.py); [] reproduces 5.0.11 (S23 is in tools/protocol/classify.py)",
+    "snapshot_tol_s": "S19: an entity's layout instance is its body at the GT box's time (shot middle for a video-lifted box, else 0) at the nearest present frame within this many seconds, else no instance",
+    "gt_yaw_window_s": "S22: the C1 subject side term reads the GT yaw only when a stated yaw lies within this many seconds of the camera time",
+    "merge_z_overlap_frac": "D4: two same-class layout pieces merge by top-down containment only when their z intervals overlap by at least this fraction of the lower height ...",
+    "merge_thin_m": "D4: ... or when one of them is thinner than this (a flat part of the same object)",
+    "door_reach_m": "S11: open_door with a non-entity door: the agent within this distance of the door's footprint inside the event window",
+    "move_component_min": "D12: the GT move's own component (truck lateral, crane / pedestal vertical, ...) counts when its magnitude reaches this many decompose() units",
+    "dissolve_win_s": "D15: half window around a GT dissolve between shots in different spaces: a model cut there is the dissolve, an in-shot jump there is not a teleport",
+    "gap_measurements": "S9: a timed distance whose params.measurement contains one of these words compares the footprint gap, not the centre distance",
+    "amended": "2026-10-19T01:42Z, before any 5.0.12 run: params footprint_fill_min, footprint_cell_k (D22 point-raster footprint)",
+    "amended_2": "2026-10-19T03:15Z, after the first regression batch (runs_gtmodel/rescore_5012/20261019T023529Z) and before any rerun; triggers: GT-as-model regression gate G1 (M50_045 V03, no model score looked at) and the trivial-answer gate G3 (fake mean 26.615 > 25; G3 kept as registered, user decision 10-19). No value changed and no new number; the amendments act inside their fix ids, so fixes_5_0_12 [] is still 5.0.11. S19: for an entity object's own A2 row a body absent at the snap time is its nearest present frame (anchors, relations and D1 still skip it). D17: the 2-pair rigid frame needs |model separation - GT separation| <= max(0.15, align_sigma_frac * L). D3: the tagged-body match needs the space's frame on >= min_anchors inliers. D21: needs two distinct model spaces (no footprint polygon shared by the two GT spaces). D12b: the GT subject wins only as the most central body in view, untied. S20 unchanged (its fake gain is a metric scene aligned without a bound-scale refit). See CHANGES_5012.md, Amendment 10-19.",
+    "amended_3": "2026-10-19T03:23Z, user decision on G3 (10-19: if the gains are corrections, judge by the 5.1 total and freeze), registered before any pvscore 5.1 number on 5.0.12 was looked at. G3 is judged on the official pvscore 5.1 total: trivial-answer dataset mean <= 25. Items rising by more than 3 points are allowed only if every gaining row is classified legitimate (listed in CHANGES_5012.md, Amendment 3). The 5.0.x-total G3 (25.445) is reported for the record only. Condition: this applies only if the row-level check finds every remaining gain legitimate; vacuous rows are guarded first (user decision 10-19: keep the gate, add the guard conditions), pre-registered and included in the same regression. No value changed and no new number.",
+    "amended_3_guard": "2026-10-19T03:42Z, part of amendment 3 (vacuous rows guarded first), registered before the rerun; user direction 10-19: freeze 5.0.12 now, later check changes go to the next version. S20 distinct-constraint guard (G3 cause: one GT point entered twice, e.g. an entity's track start and its own object box, or a carrier and the object it carries at the track start, counted as two anchors, so a frame fitted on one or two cubes passed min_anchors 3): under S20 the inlier count and the scale refit count distinct GT points (within 1e-6 m), the refit takes one pair per distinct GT point, and a track-start anchor that repeats the entity's own object box anchor (same GT point, same model point) is not added. No value changed and no new number; it acts inside S20, so fixes_5_0_12 [] is still 5.0.11. Expected (dry run, GT-as-model 50 and fake 50 only): GT-as-model mean 83.184 -> 83.207 (only M50_006 +1.138, no item down); fake mean 25.445 -> 25.02; fake items up by more than 3 against 5.0.11: 030 +5.92, 013 +4.28, 009 +4.20, 015 +3.39, 005 +3.11, 002 +3.05. Rows that are vacuous or doubtful but cannot be guarded inside this release (leave-one-out own-anchor guard: GT-as-model 042 -9.33, 044 -0.91, rejected) are listed as known issues for the next version in CHANGES_5012.md, Amendment 3."
+  }
+}

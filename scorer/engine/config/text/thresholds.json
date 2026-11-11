@@ -1,0 +1,82 @@
+{
+ "_doc": "pvscore 5.1 text / image layer (tools/v51_text). Pre-registered 10-18 before any model-side score was computed. GT-side margins and model-side curves; per-time view rules are imported from tools/v51_pilot/view_score.py (pair_ok, cell_score, cell_chance, height_score, height_chance, facing curve, FACING_CHANCE) and its view_thresholds.json, so text, image and video share one rulebook. Values from docs/SCORER_5_1_DESIGN.md where it gives them. A change after a look at model scores gets a new file thresholds_r1.json and a note in data/v51_text/README.md.",
+ "items": {"text": ["M50_004", "M50_008", "M50_012"], "image": ["M50_025", "M50_030"]},
+ "models": {"fake": "runs_selfcheck/batches/20261017T153127Z/selfcheck/{item}",
+            "astra": "runs_cmp/batches/20261017T175755Z/selfcheck/gpt-6-astra-official/{item}",
+            "sol56": "runs_cmp/batches/20261017T175755Z/selfcheck/gpt-5.6-sol-official/{item}"},
+
+ "elements": {
+  "_doc": "GT elements that carry facts. Every GT object is rendered as an occluder; facts are made only for the eligible ones.",
+  "exclude_groups": ["terrain"],
+  "exclude_classes": ["floor", "ceiling", "roof", "wall", "ground", "partition"],
+  "thin_long": {"aspect_min": 8.0, "long_frac_of_space_L_min": 0.4},
+  "max_footprint_frac_of_space_area": 0.25,
+  "named_weight": 2.0,
+  "space_rule": "3D facts only among elements of the same GT space (space None -> GT space_of_point). View facts: indoor shot space -> only elements of that space; outdoor shot space -> elements of every outdoor space (no walls between them)",
+  "person_box_m": [0.5, 0.3],
+  "person_height_m": {"stand": 1.75, "upright": 1.75, "crouch": 1.0, "sit": 1.3, "lie": 0.4, "default": 1.75},
+  "text_person_height_m": 1.75,
+  "model_untagged": "untagged model instances are not candidates (no class to pair by, design §3)"
+ },
+
+ "L1": {"gt_ratio_min": 1.6, "gt_sigma_k": 2.0, "model_zero": 1.0, "model_full": 1.25},
+ "L2": {"gt_fat_min": 0.25, "gt_sigma_k": 2.0, "model_fat_min": 0.1},
+ "R1": {"_doc": "L1 facts whose apex A is a named entity at a GT track sample time where its position is stated (Track.known), B and C static elements of the same space; model position = body centre at the 5.0.9 warped time", "same_as": "L1"},
+ "S1": {"gt_ratio_min": 1.5, "model_zero": 1.0, "model_full": 1.2, "measures": ["long", "height"]},
+ "S2": {"gt_ratio_max": 1.15, "model_full": 1.3, "model_zero": 2.0, "measures": ["long", "height"]},
+ "S3": {"min_height_m": 0.3, "full_log": 0.2624, "zero_log": 0.6931, "model_person_h": "median over model person bodies of the 95th-percentile body extent (top - base) in model units, i.e. the quantity 5.0.9 Timeline ref_h is built from before its GT-metre scaling and 1.55 floor, so it shares units with the model instance heights; none -> S3 facts missing (clarified 10-18 while writing model_side.py, before any model score)"},
+ "layout_credit": "fact score x min class credit of its elements (5.0.9 Credit: exact 1, similar 0.75)",
+
+ "matching": {
+  "_doc": "design §3: named by id; unnamed by class (credit > 0, untagged excluded), initialised by Hungarian on 1 - credit, then local search (move to a free candidate / swap with another GT object) maximising the weighted sum of the item's 3D fact scores (L1 + L2 + R1 + S); one global correspondence per (item, model), also used for the view facts",
+  "candidate_space": "a model candidate may stand for an unnamed GT element only when its model space tag equals the GT element space or is None; named GT elements map to the model body of the same id (credit 1). Clarified 10-18 while writing score.py, before any model score",
+  "restarts_doc": "restart 0 = Hungarian init; restarts 1.. = random greedy init (seeded); best objective kept",
+  "max_passes": 6,
+  "restarts": 3,
+  "seed": 0
+ },
+
+ "chance_3d": {
+  "_doc": "design §4: geometry (xy, long, short, height) of the model candidates is permuted jointly within each GT space (named bodies included), the correspondence re-chosen with the same matcher, the same facts rechecked; R = mean P over the permutations",
+  "perms": 200,
+  "seed": 0
+ },
+
+ "view": {
+  "_doc": "GT frames: GT boxes (+ persons and moving entities where the track states the position) ray-cast from the GT camera on a 96-wide grid at the output aspect; elements read like the model frames (visible pixels -> centroid, 3x3 cell, bbox height, median z-depth).",
+  "grid_w": 96,
+  "text_fps": 1.0,
+  "text_times": "1 fps grid t0 + 0.5 + k (t < t1 - 0.25) plus each camera sample time clamped into [t0 + 0.25, t1 - 0.25]; a time is kept when the GT pose there is stated: the camera is constant on the segment holding t, or t is within 0.5 s of a sample; a sample with open (null) parts makes its segment unstated",
+  "stated_near_sample_s": 0.5,
+  "image_times": "one frame per photo at the GT camera time; model frame = the prompt's frame range for that photo (frame round(t * fps)), its model shot, nearest grid frame (no pose alignment)",
+  "text_model_time": "pvscore 5.0.9 camera.model_time_for (cut warp), nearest grid frame of that model shot, |dt| <= view_thresholds frame_max_dt_s",
+  "vis_min_frac": 0.0015,
+  "cell_margin": 0.03,
+  "pair_gap_min": 0.10,
+  "depth_ratio_min": 1.3,
+  "height_min": 0.05,
+  "sigma_k": 2.0,
+  "sigma_screen": "unc_m / (depth * 2 tan(fov / 2)) per axis; the margins above are widened by sigma_k * sigma",
+  "height_max_rel_unc": 0.15,
+  "max_elem_unc_m": 1.0,
+  "facing": "persons only. GT yaw at t: a stated track yaw within 0.5 s while the person moves < 0.3 m over +-0.5 s, or the direction of motion while moving >= 0.8 m/s on a known track span",
+  "facing_static_move_m": 0.3,
+  "facing_moving_speed": 0.8,
+  "occlusion": "inventoried only: GT element whose unoccluded projection covers >= 0.005 of the frame but with < 0.2 of it visible (occluder = the element covering most of it); not scored (the model dump holds only visible surfaces)",
+  "occ_min_frac": 0.005,
+  "occ_vis_max": 0.2,
+  "chance": "presence R = 0; position: view_score.cell_chance; size: view_score.height_chance; facing: view_score.FACING_CHANCE; screen_order / depth_order: permutation of (centre, depth) among the model frame's visible non-surface elements, 200 perms, seed 0 (as view_score.make_perm)"
+ },
+
+ "blocks": {
+  "layer3d": {"L1": 0.30, "L2": 0.25, "S": 0.15},
+  "layer3d_doc": "design §6 A2 weights for the blocks this layer computes (L3-L6 stay 5.0 rules), renormalised over the blocks the item has",
+  "R1": "reported apart (design puts it in B1)",
+  "view": ["presence", "position", "size", "facing", "screen_order", "depth_order"],
+  "view_doc": "equal weights over the blocks the item has; screen_order = left/right + above/below",
+  "layer": "0.5 layer3d + 0.5 view (summary for the T5-lite Spearman only)",
+  "block_score": "clip((P - R) / (1 - R), 0, 1) x coverage; P = weighted mean over present facts, coverage = present weight / all weight"
+ },
+
+ "fact_weight": "3D facts: each element's weight (conf x named_weight if named) spread evenly over the facts of the block it is in; a fact's weight is the mean of its elements' shares. View facts: weight 1 each (as the video pilot)"
+}

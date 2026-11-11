@@ -1,0 +1,165 @@
+{
+ "item": "B250_189",
+ "modality": "video",
+ "gt_sha256": "a7a6c5142d39f9fbcd1f9548e05eb9140309300c6d43515e19c5a018c7d4c261",
+ "rule": "r3 B1: the 5.0.x members of a dimension are the 5.0.x blocks the GT has (this file); an expected block a report lacks is scored 0 with the expected n, a block the GT does not have is not a member even when a report has it (model-only content, e.g. extra cuts or invented objects), the activation clause counts the expected n of the 5.0.x members, and a slot condition 'unless_509_na' / 'when_509_na' reads the expected dims",
+ "pvscore_version": "pvscore-5.0.12",
+ "builder_sha256": "3767d175ae87c8a41d589a5a0e66022f6bb2b8bd18e6379bbce90766b9f18d65",
+ "blocks": {
+  "A1.entities": {
+   "n": 2,
+   "kind": "gt",
+   "rule": "one row per GT entity"
+  },
+  "A1.structure": {
+   "n": 1,
+   "kind": "gt",
+   "rule": "one row per space"
+  },
+  "B1.progress": {
+   "n": 1,
+   "kind": "content",
+   "rule": "tracks of > 0.5 m in one known span (needs the model timeline)"
+  },
+  "B2.occurrence": {
+   "n": 23,
+   "kind": "gt",
+   "rule": "one row per GT event and space transition"
+  },
+  "B2.order": {
+   "n": 235,
+   "kind": "gt",
+   "rule": "pairs of supported events with distinct times"
+  },
+  "B2.relations_t": {
+   "n": 10,
+   "kind": "gt",
+   "rule": "timed relations of the read types (0 when an entity is missing)"
+  },
+  "B2.timing": {
+   "n": 23,
+   "kind": "gt",
+   "rule": "one row per event of a supported type (0 when unmatched)"
+  },
+  "C1.fov": {
+   "n": 1,
+   "kind": "content",
+   "rule": "shots with a GT field of view (needs the model shot)"
+  },
+  "C1.framing": {
+   "n": 15,
+   "kind": "content",
+   "rule": "shots with a subject and a GT framing"
+  },
+  "C1.height": {
+   "n": 1,
+   "kind": "content",
+   "rule": "shots with a GT camera height (needs the model shot)"
+  },
+  "C1.in_frame": {
+   "n": 13,
+   "kind": "content",
+   "rule": "one row per keep_in_frame entity of a shot"
+  },
+  "C1.move": {
+   "n": 11,
+   "kind": "content",
+   "rule": "shots with a GT move"
+  },
+  "C1.spec": {
+   "n": 28,
+   "kind": "content",
+   "rule": "text shot specs: angle, rel_azimuth with a subject"
+  },
+  "C1.subject": {
+   "n": 1,
+   "kind": "content",
+   "rule": "shots with a placed GT camera and a known subject position"
+  },
+  "C2.count": {
+   "n": 1,
+   "kind": "gt",
+   "rule": "always"
+  },
+  "C2.cuts": {
+   "n": 14,
+   "kind": "gt",
+   "rule": "one row per GT cut (model extra cuts are not expected rows)"
+  },
+  "C2.durations": {
+   "n": 15,
+   "kind": "gt",
+   "rule": "one row per cut-separated GT shot group (>= 2 shots)"
+  },
+  "C2.screen_dir": {
+   "n": 22,
+   "kind": "gt",
+   "rule": "one row per GT screen direction label / segment"
+  },
+  "C2.shot_order": {
+   "n": 1,
+   "kind": "gt",
+   "rule": ">= 2 GT shots"
+  },
+  "C2.transitions": {
+   "n": 14,
+   "kind": "gt",
+   "rule": "one row per GT shot boundary"
+  },
+  "D1.class_size": {
+   "n": 1,
+   "kind": "content",
+   "rule": "instances or bodies of a registered class"
+  },
+  "D1.duplicates": {
+   "n": 1,
+   "kind": "content",
+   "rule": "named bodies (every GT entity)"
+  },
+  "D1.float_sink": {
+   "n": 1,
+   "kind": "content",
+   "rule": "non-mounted objects in non-sloped spaces, or agents / animals"
+  },
+  "D1.teleport": {
+   "n": 1,
+   "kind": "content",
+   "rule": "named bodies (every GT entity)"
+  },
+  "P1.depth": {
+   "n": 22,
+   "kind": "gt",
+   "rule": "one row per P1 reference (0 without a model frame)"
+  },
+  "P1.edge": {
+   "n": 22,
+   "kind": "content",
+   "rule": "references with GT depth edges"
+  },
+  "P1.instance": {
+   "n": 22,
+   "kind": "content",
+   "rule": "references with a GT instance of >= 6 cells"
+  },
+  "P1.normal": {
+   "n": 22,
+   "kind": "gt",
+   "rule": "one row per P1 reference (0 without a model frame)"
+  },
+  "P1.region": {
+   "n": 22,
+   "kind": "gt",
+   "rule": "one row per P1 reference (0 without a model frame)"
+  }
+ },
+ "dims": [
+  "A1",
+  "B1",
+  "B2",
+  "C1",
+  "C2",
+  "D1",
+  "P1"
+ ],
+ "uncertain_rows": []
+}

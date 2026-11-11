@@ -1,0 +1,170 @@
+{
+ "item": "B250_259",
+ "modality": "video",
+ "gt_sha256": "8c393c66ea6aa7a69afd021e5e68ce2bc758ed40b4fc4c59a790780827bc8496",
+ "rule": "r3 B1: the 5.0.x members of a dimension are the 5.0.x blocks the GT has (this file); an expected block a report lacks is scored 0 with the expected n, a block the GT does not have is not a member even when a report has it (model-only content, e.g. extra cuts or invented objects), the activation clause counts the expected n of the 5.0.x members, and a slot condition 'unless_509_na' / 'when_509_na' reads the expected dims",
+ "pvscore_version": "pvscore-5.0.12",
+ "builder_sha256": "3767d175ae87c8a41d589a5a0e66022f6bb2b8bd18e6379bbce90766b9f18d65",
+ "blocks": {
+  "A1.counts": {
+   "n": 1,
+   "kind": "gt",
+   "rule": "one row per (space, class) of unnamed GT objects"
+  },
+  "A1.entities": {
+   "n": 13,
+   "kind": "gt",
+   "rule": "one row per GT entity"
+  },
+  "A1.structure": {
+   "n": 3,
+   "kind": "gt",
+   "rule": "one row per space"
+  },
+  "A3.connectivity": {
+   "n": 2,
+   "kind": "gt",
+   "rule": "one row per connection"
+  },
+  "B2.occurrence": {
+   "n": 1,
+   "kind": "gt",
+   "rule": "one row per GT event and space transition"
+  },
+  "B2.relations_t": {
+   "n": 4,
+   "kind": "gt",
+   "rule": "timed relations of the read types (0 when an entity is missing)"
+  },
+  "B2.timing": {
+   "n": 1,
+   "kind": "gt",
+   "rule": "one row per event of a supported type (0 when unmatched)"
+  },
+  "C1.fov": {
+   "n": 1,
+   "kind": "content",
+   "rule": "shots with a GT field of view (needs the model shot)"
+  },
+  "C1.framing": {
+   "n": 27,
+   "kind": "content",
+   "rule": "shots with a subject and a GT framing"
+  },
+  "C1.height": {
+   "n": 1,
+   "kind": "content",
+   "rule": "shots with a GT camera height (needs the model shot)"
+  },
+  "C1.in_frame": {
+   "n": 22,
+   "kind": "content",
+   "rule": "one row per keep_in_frame entity of a shot"
+  },
+  "C1.move": {
+   "n": 32,
+   "kind": "content",
+   "rule": "shots with a GT move"
+  },
+  "C1.spec": {
+   "n": 59,
+   "kind": "content",
+   "rule": "text shot specs: angle, rel_azimuth with a subject"
+  },
+  "C2.count": {
+   "n": 1,
+   "kind": "gt",
+   "rule": "always"
+  },
+  "C2.cuts": {
+   "n": 32,
+   "kind": "gt",
+   "rule": "one row per GT cut (model extra cuts are not expected rows)"
+  },
+  "C2.durations": {
+   "n": 33,
+   "kind": "gt",
+   "rule": "one row per cut-separated GT shot group (>= 2 shots)"
+  },
+  "C2.screen_dir": {
+   "n": 16,
+   "kind": "gt",
+   "rule": "one row per GT screen direction label / segment"
+  },
+  "C2.shot_order": {
+   "n": 1,
+   "kind": "gt",
+   "rule": ">= 2 GT shots"
+  },
+  "C2.space_order": {
+   "n": 1,
+   "kind": "gt",
+   "rule": ">= 2 GT shots over >= 2 spaces"
+  },
+  "C2.transitions": {
+   "n": 32,
+   "kind": "gt",
+   "rule": "one row per GT shot boundary"
+  },
+  "D1.class_size": {
+   "n": 1,
+   "kind": "content",
+   "rule": "instances or bodies of a registered class"
+  },
+  "D1.duplicates": {
+   "n": 1,
+   "kind": "content",
+   "rule": "named bodies (every GT entity)"
+  },
+  "D1.float_sink": {
+   "n": 1,
+   "kind": "content",
+   "rule": "non-mounted objects in non-sloped spaces, or agents / animals"
+  },
+  "D1.penetration": {
+   "n": 1,
+   "kind": "content",
+   "rule": "instances: unnamed GT objects or static named entities"
+  },
+  "D1.teleport": {
+   "n": 1,
+   "kind": "content",
+   "rule": "named bodies (every GT entity)"
+  },
+  "P1.depth": {
+   "n": 19,
+   "kind": "gt",
+   "rule": "one row per P1 reference (0 without a model frame)"
+  },
+  "P1.edge": {
+   "n": 12,
+   "kind": "content",
+   "rule": "references with GT depth edges"
+  },
+  "P1.instance": {
+   "n": 19,
+   "kind": "content",
+   "rule": "references with a GT instance of >= 6 cells"
+  },
+  "P1.normal": {
+   "n": 19,
+   "kind": "gt",
+   "rule": "one row per P1 reference (0 without a model frame)"
+  },
+  "P1.region": {
+   "n": 19,
+   "kind": "gt",
+   "rule": "one row per P1 reference (0 without a model frame)"
+  }
+ },
+ "dims": [
+  "A1",
+  "A3",
+  "B2",
+  "C1",
+  "C2",
+  "D1",
+  "P1"
+ ],
+ "uncertain_rows": []
+}

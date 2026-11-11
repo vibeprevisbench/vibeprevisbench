@@ -1,0 +1,47 @@
+{
+ "_doc": "pvscore 5.1 text / image layer, revision r1 (tools/v51_text_r1, 10-18). Written before any r1 model-side score was computed. Every rule not named here is tools/v51_text_r1/thresholds.json, a byte copy of the pre-registered r0 file tools/v51_text/thresholds.json. View rules: tools/v51_r1/view_score.py and tools/v51_r1/view_thresholds.json (byte-identical to the tools/v51_pilot files r0 read). GT: tools/v51_r1/gt_root.py (data/miniset50_v1_gt_r1, byte-identical to v1 for M50_004/008/012/025/030). Self-tests: tools/v51_text_r1/expected_tests.json (r0 copy, unchanged) plus tools/v51_text_r1/expected_tests_v51r1.json (new U1-U3). Two changes: (1) class labels, (2) the correspondence objective and its solver. No margin, curve, weight, fact rule or chance rule changed.",
+ "class_rule": {
+  "file": "tools/v51_text_r1/class_map_v51r1.json",
+  "code": "tools/v51_text_r1/classes.py",
+  "replaces": "thresholds.json layout_credit 'fact score x min class credit of its elements (5.0.9 Credit: exact 1, similar 0.75)': the class credit is now classes.credit(GT element labels, model class); the 'fact score x min class credit' product is unchanged",
+  "_doc": "Reason: r0 README (M50_012 sol56: vocabulary classes written as other:<class>, prompt-named objects as other:<prompt name>; 13 of 15 unnamed GT elements without a candidate). Same function on GT and model, no per-model rule; details and reasons in the class map file."
+ },
+ "matching": {
+  "objective_blocks": [
+   "L1",
+   "R1",
+   "S1",
+   "S2",
+   "S3"
+  ],
+  "_objective_doc": "r0 chose the correspondence by maximising L1 + L2 + S + R1. L2 is the only handedness-sensitive 3D block. With L2 in the objective the matcher re-labelled same-class elements of a mirrored scene to win back L2 facts at the cost of L1 (r0 T2 mirror_layout: L1 0.97 on M50_008 and 0.73 on M50_025 against the pre-registered >= 0.99), i.e. it partly undid the mirror that design 2.2 wants to be an L2 loss. r1 chooses the correspondence on the mirror-invariant blocks only (distance ratios, size ratios, height in person heights) and then scores L2 on it, unoptimised. The view blocks reuse the same correspondence (as r0). Found on the GT-as-model test, not on a model score.",
+  "cardinality_first": "a correspondence assigns as many unnamed GT elements as the candidate rules allow (maximum cardinality: an element is left out only when every candidate it could take is needed by another element), then maximises the objective; remaining ties by the summed class credit (weight tie_eps), then by index order",
+  "solver": "multi-start local search alternated with iterated exact assignment. Assignment step: gain G[u, c] = the objective of the facts that hold GT element u, with u -> model candidate c and every other element at the current correspondence (a fact whose other member currently holds c counts 0); next correspondence = the exact maximum-weight assignment of G + tie_eps x credit (cardinality first; assign.max_weight), accepted when (cardinality, objective) increases, otherwise each alternating path / cycle of the change (current -> proposed) is tried on its own and the best improving one is accepted; repeated until nothing improves or max_iter. Polish: below. Round = assignment steps then polish ('assign_first') or polish then assignment steps ('polish_first'); rounds repeat until one improves nothing or max_iter rounds. Run from each start in each order (4 runs); keep the best (cardinality, objective), ties -> the first in the order empty/assign_first, empty/polish_first, class_only/assign_first, class_only/polish_first. Every accepted change increases (cardinality, objective), so it terminates.",
+  "starts": {
+   "empty": "no unnamed element assigned, so the first G holds only facts anchored on named bodies and entity apexes",
+   "class_only": "the maximum-weight assignment of the class credit (the r0 initial assignment)",
+   "_doc": "each start is refined by the rounds above"
+  },
+  "keep": "the run (start x order) with the largest (cardinality, objective); ties -> the first in the order given in solver",
+  "max_iter": 50,
+  "tie_eps": 1e-06,
+  "improve_tol": 1e-12,
+  "assignment": "tools/v51_text_r1/assign.py: exact rectangular linear assignment by shortest augmenting paths (Jonker-Volgenant form as in Crouse 2016 / scipy linear_sum_assignment), numpy only, the same code on every host (scipy is not needed; where it is installed U2 checks agreement with scipy.optimize.linear_sum_assignment)",
+  "replaces": "r0 matching: Hungarian init on 1 - credit (pvscore5 geom.hungarian, which silently falls back to a greedy pair sort when scipy is missing), then first-improvement move / swap sweeps (max_passes 6) and 2 random greedy restarts (seeded); objective L1 + L2 + S + R1",
+  "no_seed": "the r1 matcher is deterministic (no random restart); thresholds.json matching.seed / restarts / max_passes are not used. The 3D chance (thresholds.json chance_3d: 200 joint geometry permutations within model spaces, seed 0) is unchanged and re-runs this matcher on every permutation, as design 4 asks",
+  "polish": {
+   "max_passes": 20,
+   "rule": "elements in index order; each takes its best improving single change: move to a free candidate, or swap with the element that holds the candidate (the holder takes u's old candidate when its class credit allows, else it is left out; a change that lowers the cardinality is never taken); (cardinality, objective) compared lexicographically (improve_tol); sweeps until one changes nothing or max_passes",
+   "_doc": "Added 10-18 after the first r1 solver (iterated exact assignment alone, 2 starts) failed the pre-registered U3 test (data/v51_text_r1/unit_tests_ipfp_only.json: optimum reached on 268 / 300 small problems against 297 / 300 for the r0 move / swap search; r1 >= r0 on 269 / 300 < 95%). The exact assignment step solves the linearised problem, but the objective is cubic (L1 / R1 facts hold three elements), so a step that is optimal for the linearisation can stop where a single move still improves. A polish-then-assign round alone (data/v51_text_r1/unit_tests_polish_first.json) reached 292 / 300 and lost the problems the assignment step had solved and r0 had not (seeds 12, 232), so both orders are run. Decided on U3 (synthetic problems, a fixed objective: optimiser quality only) before any r1 model score or r1 GT-as-model test was computed. The r0 random restart is not used (the r1 matcher stays seed-free)."
+  },
+  "_max_iter_doc": "max_iter bounds both the rounds and the assignment steps inside one round",
+  "orders": [
+   "assign_first",
+   "polish_first"
+  ]
+ },
+ "outputs": {
+  "dir": "data/v51_text_r1",
+  "results": "results.json: the r0 results.json layout (scores / reports_5_0_9 / T5_lite / model_order / tests); added keys documented in data/v51_text_r1/README.md"
+ }
+}

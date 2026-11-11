@@ -1,0 +1,309 @@
+{
+ "_doc": "pvscore 5.1 r2 view / body layer (tools/v51_r2/view_score.py loads this file). Written 10-18 BEFORE any r2 score was computed, as the r2 pre-registration of the freeze plan the user approved on 10-18 (fix the scorer points 1 and 2, then freeze 5.1). Base = tools/v51_r1/view_thresholds_v51r1.json (byte copy in tools/v51_r2/view_thresholds_v51r1.json); every key not named in 'r2_changes' keeps its r1 value and meaning (the r1 _doc of each key is kept). Values come from the meaning of each rule and GT-only facts (checklists, scene_frames, the GT grid), never from a model score or ranking; data/v51_pilot/rank/ was not opened. A later change gets a new file name and a README note.",
+ "version": "r2",
+ "frame_max_dt_s": 0.3,
+ "time_match_s": 0.13,
+ "class_synonyms": [
+  [
+   "ground",
+   "road",
+   "path",
+   "sidewalk",
+   "floor",
+   "plaza",
+   "pavement",
+   "street",
+   "walkway",
+   "track",
+   "surface"
+  ],
+  [
+   "wall",
+   "fence",
+   "barrier"
+  ],
+  [
+   "building",
+   "house",
+   "facade",
+   "skyline",
+   "roof"
+  ],
+  [
+   "ramp",
+   "slope",
+   "incline",
+   "skate_bowl",
+   "hill"
+  ],
+  [
+   "stairs",
+   "steps",
+   "staircase"
+  ],
+  [
+   "railing",
+   "rail",
+   "handrail",
+   "guardrail"
+  ],
+  [
+   "tree",
+   "plant",
+   "bush",
+   "vegetation",
+   "hedge"
+  ],
+  [
+   "car",
+   "vehicle",
+   "truck",
+   "van",
+   "bus"
+  ],
+  [
+   "pole",
+   "streetlight",
+   "post",
+   "column",
+   "pillar"
+  ],
+  [
+   "bin",
+   "trash_can",
+   "dumpster",
+   "container"
+  ]
+ ],
+ "_class_doc": "unchanged from r0",
+ "screen_gap": 0.05,
+ "depth_ratio": 1.15,
+ "cell": {
+  "h_same": 1.0,
+  "h_adjacent": 0.25,
+  "h_opposite": 0.0,
+  "v_same": 1.0,
+  "v_adjacent": 0.25,
+  "v_opposite": 0.0,
+  "w_h": 0.7,
+  "w_v": 0.3
+ },
+ "height_log": [
+  0.3365,
+  0.9163
+ ],
+ "_height_doc": "unchanged: |log(model / GT height_frac)|: full at log 1.4, zero at log 2.5",
+ "facing_deg": [
+  35,
+  80
+ ],
+ "facing_dir": {
+  "toward": 0,
+  "toward-right": 45,
+  "screen-right": 90,
+  "away-right": 135,
+  "away": 180,
+  "away-left": -135,
+  "screen-left": -90,
+  "toward-left": -45
+ },
+ "posture": {
+  "upright": [
+   "stand"
+  ],
+  "crouch": [
+   "crouch"
+  ],
+  "sit": [
+   "sit"
+  ],
+  "lie": [
+   "lie"
+  ],
+  "airborne": [
+   "airborne"
+  ],
+  "seated_in_vehicle": [
+   "sit",
+   "crouch"
+  ]
+ },
+ "posture_partial": [
+  [
+   "crouch",
+   "sit",
+   0.5
+  ]
+ ],
+ "speed_h": {
+  "still_full": 0.25,
+  "still_zero": 0.5,
+  "walk_lo": 0.25,
+  "walk_hi": 1.6,
+  "walk_ramp": 0.25,
+  "run_full": 1.2,
+  "run_zero": 0.8,
+  "move_full": 0.5,
+  "move_zero": 0.25
+ },
+ "_speed_doc": "unchanged values; r1 reads only still (still_full / still_zero) and moving (move_zero / move_full) - the two ramps are complementary (still + moving = 1 for any speed). walk_* / run_* are kept for the record and no longer read",
+ "locomotion_moving": [
+  "drive",
+  "ride",
+  "skate",
+  "move"
+ ],
+ "path": {
+  "cam_ratio": 1.15,
+  "up_down_h": 0.3,
+  "across_dx": 0.2
+ },
+ "size_trend": {
+  "approach_ratio": 1.3,
+  "recede_ratio": 0.77,
+  "band_lo_ratio": 1.15,
+  "band_hi_ratio": 1.3,
+  "gt_same_max_ratio": 1.15,
+  "_doc": "r1 uncertainty band. Model ratio r = last / first height_frac over the run, x = log r. approach = ramp(x: log 1.15 -> 0, log 1.30 -> 1), recede = the same ramp on -x (1/1.15 = 0.87 -> 0, 1/1.30 = 0.77 -> 1), same = 1 - approach - recede (1 inside |x| <= log 1.15, 0 beyond log 1.30): the three answers are complementary, so a ratio between 1.15 and 1.30 is half credited instead of being forced into a class. 1.15 = the layer's other ratio margins (depth_ratio, path.cam_ratio); 1.30 = the checklist's own approach_ratio, so a GT approach / recede fact (GT ratio >= 1.30 / <= 0.77) asks for the same strength in the model. A GT 'same' fact is scored only when its GT ratio is within 1.15 (|log r_gt| <= log 1.15): a GT 'same' of 0.80 or 1.20 sits inside the band itself (GT pilot: 5 of 30 'same' facts) and is parked"
+ },
+ "screen_dir_min_dx": 0.1,
+ "_screen_dir_min_dx_doc": "r0 only (screen-x displacement); r1 reads every lateral direction fact by definition A (segment_dir) and no longer reads this",
+ "segment_dir": {
+  "away_deg": 45.0,
+  "static_h": 0.25,
+  "note": "as pvscore 5.0.10 seg_dir_away_deg / seg_dir_static_h; r1 applies it to every lateral direction fact (lateral below)"
+ },
+ "lateral": {
+  "definition": "A",
+  "trim": 0.1,
+  "min_dur_s": 0.5,
+  "static_cam_moves": [
+   "static"
+  ],
+  "park_types": [
+   "still"
+  ],
+  "_doc": "r1: every lateral direction fact (single-label screen_dir of the shot, GT r1 screen_dir segments, and locomotion_segment screen directions) is read by definition A = pvscore 5.0.10 camera._segment_dir: trim trim x duration at both ends, body-centre displacement between the first and last present body rows (x, y in model units x xy_scale = body heights), projected on the camera's horizontal right (cam_r) / forward (cam_f) axes at the row nearest the middle; |d| < segment_dir.static_h -> static, heading within away_deg of forward -> away, of backward -> toward, else left_to_right / right_to_left by the sign on cam_r. min_dur_s 0.5: after the 10% trims 0.4 s remain, at least one model grid time (0.25 s step) and up to two; shorter facts are parked; a fact whose trimmed window holds fewer than 2 present body rows scores 0 (the model cannot be read there; detail 'why'). [Doc corrected 10-18 after the first run: the earlier text said '>= 2 grid times', which is wrong for a 0.4 s window; the value is unchanged.] GT label of a locomotion_segment (V2 run): the cell-column direction (screen_dir) only when the GT shot's camera move is in static_cam_moves (a still camera: screen motion = lateral heading); otherwise the GT heading label gt_screen_dir (shot label or the overlapping GT r1 segment); otherwise parked (a cell change under a pan / follow / unknown move is not a heading). Runs of a type in park_types are parked (no heading). Not read on the video side (no camera pose).",
+  "_r2_doc": "r2: duplicates parked (r2_changes.lateral_dedup); windows with < 2 GT grid times parked (r2_changes.lateral_min_grid)"
+ },
+ "locomotion": {
+  "moving": [
+   "walk",
+   "run",
+   "move",
+   "drive",
+   "ride",
+   "skate"
+  ],
+  "still": [
+   "still"
+  ],
+  "events": [
+   "jump",
+   "land",
+   "climb",
+   "fall"
+  ],
+  "parked": [
+   "roll",
+   "slide",
+   "any other type"
+  ],
+  "climb": {
+   "pad_s": 0.5,
+   "rise_h": 0.3
+  },
+  "fall": {
+   "pad_s": 1.0,
+   "extent_hi": 0.8,
+   "extent_lo": 0.45,
+   "within_s": 1.5,
+   "drop_h": 0.5
+  },
+  "_doc": "r1: only informative locomotion facts are read. still vs moving (walk / run / move / drive / ride / skate collapse to moving, scored by the complementary speed ramps speed_h.still_* / move_*; the walk-vs-run speed bands are parked: V2's walk / run word follows the action verb, not a speed the model can be held to); jump / land (any airborne row in the window, as r0); climb (r1: the base height rises >= climb.rise_h body heights between two rows, earlier lower, inside the run +- climb.pad_s; r0 took the range, so a drop also passed; values = temporal_thresholds.json climb = path.up_down_h); fall (r1, new: inside the run +- fall.pad_s the body extent (top_h - base_h) falls from >= extent_hi to <= extent_lo within within_s, or the base drops >= drop_h; values = temporal_thresholds.json fall = the 5.0.9 fall detector, so the two layers share one definition). roll / slide and other words are parked (a roll / skid has no reliable sign in the body series). R = best constant answer over {still, moving}: a constant body that is never airborne and never changes height scores 0 on every event fact; an 'always airborne' answer is not a candidate (it would also fail posture and the no_air control; noted as an open point)",
+  "_r2_doc": "r2: jump / land by onset (r2_changes.jump_land_onset); still / moving, climb, fall unchanged"
+ },
+ "presence": {
+  "neg_margin_s": 0.75,
+  "row_match_s": 0.2,
+  "min_class_n": 5,
+  "exclude_frozen": true,
+  "continuation_neg_t_max_s": 0.05,
+  "_continuation_doc": "r1 amendment (10-18, after the first r1 run): on items with gt.image_kind == continuation (021, 024) the model is given frame 1 and the prompt only (tools/v51_r1/scope_r1.json continuation, f1_s 0.05). A derived 'must NOT be in view' fact after frame 1 is almost never stated in the prompt (021 K02 names only P01, not that P02 is out of view), so under the registered scope rule it is not_applicable: negatives (a) are kept only at V2 times <= 0.05 s (= scope_r1.json f1_s). The absent halves (b) of enter / exit / occluded entries are kept: those entries already passed the scope filter. Presence on a continuation item then has few negatives and is flagged low-information by min_class_n: a prompt that never says who is out of view cannot tell an 'everyone always visible' answer from a correct one.",
+  "_doc": "r1: presence is scored by balanced accuracy over positives (screen_track rows, in_frame, landmark_present, the visible-now half of enter_frame / exit_frame / occluded) and GT-derived negatives: (a) at every V2 row time of a shot (scene_frames samples), each cast subject (P / V id with a screen_track row anywhere in the item) that has no screen_track row in that shot within row_match_s must NOT be in view, provided its nearest row of that shot is >= neg_margin_s away (V2 rows are ~1 s apart; 0.75 s covers the time-map tolerance 0.13 + 0.3 s plus V2's own timing error) and the time is not inside a freeze frame (annot/video_freeze_20261017.json); (b) the absent-in-window half of enter_frame / exit_frame / occluded (r0 tested it jointly with the visible half). BA = (TPR + TNR) / 2, R = 0.5 for any constant or content-free answer. A block with fewer than min_class_n facts in either class is flagged low-information (BA of < 5 facts is too noisy).",
+  "_r2_doc": "r2: presence rows carry their subject label; chance by r2_changes.presence_chance; landmark_present facts moved to the 'landmarks' block (r2_changes.landmarks_block)"
+ },
+ "position_chance": {
+  "rule": "best_constant_mirror_pooled",
+  "_doc": "r1: R = the best score a single constant cell answer gets on the block's present facts, with each cell pooled with its left-right mirror (a content-free answer can know that subjects sit near the centre, not on which side): R = max_c mean_f (s(g_f, c) + s(g_f, mirror c)) / 2. GT-only on the pilot it equals the unpooled best constant (centre wins on all 5 items: 0.62-0.73) and exceeds the uniform-grid R of r0 (0.46-0.47). The uniform and pi-random (a guess drawn from the GT cell distribution) values are reported as diagnostics."
+ },
+ "low_info": {
+  "r_max": 0.75,
+  "_doc": "r1: a block whose GT-only chance R_gt (the block's R computed from the GT facts alone, all facts) is >= r_max is flagged informative = false (score kept as computed): above 0.75 a constant answer already gets 75% and (P - R) / (1 - R) amplifies every fact's noise >= 4x. Pairwise blocks (screen_order, depth_order) have a model-side permutation R and are not flagged by this rule; presence is flagged by min_class_n instead (its R is 0.5 by construction).",
+  "min_n": 5,
+  "_r2_doc": "r2: also informative = false when n < min_n (every block, pairwise included; r2_changes.low_info_min_n)"
+ },
+ "enter_exit_window_s": 1.0,
+ "mutual_facing_min_deg": 30,
+ "chance": {
+  "perms": 200,
+  "seed": 0,
+  "pairwise": "unchanged: permute (box, centre, depth) among the model's non-surface elements of each frame, recheck the same facts; R = mean over perms",
+  "cell": "r1: best constant cell, mirror-pooled (position_chance)",
+  "height": "r2: best constant height (r2_changes.size_chance); the r1 log-uniform expectation kept as diag R_loguniform_r1",
+  "facing": "r2: best constant angle, mutual_facing 0 under it (r2_changes.facing_chance); r1 values kept as diag",
+  "posture": "unchanged: best constant answer over the block's facts",
+  "locomotion": "r1: best constant over {still, moving}; event facts score 0 under it",
+  "direction": "r1: per sub-kind best constant over the block's present facts, weighted by the sub-kind's share: lateral (labels left_to_right / right_to_left pooled as a mirror pair, away, toward, static), size (approach / same / recede), cam_path (toward / away from camera), updown (up / down)",
+  "presence": "r2: balanced accuracy, R = best per-label constant (r2_changes.presence_chance)",
+  "landmarks": "r2: 0 (r2_changes.landmarks_block)"
+ },
+ "block_score": "unchanged: clip((P - R) / (1 - R), 0, 1) x coverage; P = mean over present facts (presence: balanced accuracy), coverage = present facts / all facts",
+ "r2_changes": {
+  "presence_chance": {
+   "rule": "best_label_constant",
+   "_doc": "r1 used R = 0.5 (the balanced accuracy of a single constant answer, which is exactly 0.5). A content-free answer can still know WHO is in the clip (the cast is in the prompt / video) without knowing WHEN: per subject label l (P / V id, the label of the presence fact) a constant 'always in view' or 'never in view'. Its best balanced accuracy is R = 0.5 * sum_l max(pos_l / N_pos, neg_l / N_neg) (choose per label the class with the larger share; >= 0.5, = 0.5 when each label has both classes in proportion). R is computed over the present presence facts (as every other block), R_gt over all facts. A block in which every label has one class only gets R = 1 and scores 0 (nothing to read beyond the cast); low_info then flags it via R_gt >= low_info.r_max."
+  },
+  "landmarks_block": {
+   "block": "landmarks",
+   "chance": 0.0,
+   "_doc": "r1 read landmark_present facts twice: inside the C1 presence block (as positives) and as the A1 view_landmarks subset. r2 counts each landmark once: landmark_present facts form their own block 'landmarks' (score 1 when some model frame shows the class, as r1), read only by A1 view_landmarks; the presence block (C1) holds subject presence only. R = 0: class recall over a free vocabulary - a constant answer names no class, and the facts have no GT negatives. Low-information rule n < low_info.min_n applies."
+  },
+  "size_chance": {
+   "rule": "best_constant",
+   "grid": "101 log-spaced height_frac values on [0.05, 1] (exp(log 0.05 * (1 - i / 100)), i = 0..100), as the r1 diagnostic R_best_const",
+   "_doc": "r1 used the expectation of a log-uniform random height (0.29 on the pilot by its own diagnostic, below the best constant). The strongest content-free answer is one height for every subject at every time; R = max over the grid of the mean height_score(gt, c) over the block's present facts (R_gt over all facts). A fact without a GT height (null) scores 0 under any constant."
+  },
+  "facing_chance": {
+   "rule": "best_constant",
+   "grid_deg": [
+    -180,
+    175,
+    5
+   ],
+   "_doc": "r1 used a uniform random angle ((2*35 + 45) / 360 = 0.32) and 1/9 for mutual_facing. r2: one facing angle a for every subject at every time, a in -180..175 step 5 deg; R = max_a over the block's present facts of the mean of facing_score(gt word, a) on facing_run facts and 0 on mutual_facing facts (one angle for both persons cannot put them face to face: the left one needs facing_cam >= +30, the right one <= -30)."
+  },
+  "jump_land_onset": {
+   "tol_s": 0.75,
+   "_doc": "r1 gave a jump / land fact full credit when ANY airborne model row fell inside the run window (a body that is airborne throughout, or lands at the wrong time, passed). r2 reads the event onset: on consecutive present body rows of the subject at the model's GT grid times (the time map, model-independent times), a take-off is a not-airborne -> airborne change and a landing an airborne -> not-airborne change; the transition time is the later row's time. A jump fact scores 1 when a take-off lies in [t0 - tol_s, t1 + tol_s], a land fact when a landing does; else 0. tol_s 0.75 = presence.neg_margin_s, the layer's timing allowance for V2 row times (V2 timing error + time-map tolerance 0.13 + 0.3 s + the 0.25 s grid). Rows searched: the GT grid times in that widened window plus one row before it (so a change at the first row is seen)."
+  },
+  "low_info_min_n": {
+   "min_n": 5,
+   "_doc": "a block with fewer than 5 facts (n) is flagged informative = false in every block, pairwise blocks included (r1: only R_gt >= 0.75, and presence min_class_n). With < 5 facts one fact moves P by >= 0.2 and the chance correction amplifies it further; 5 = presence.min_class_n, the layer's existing minimum. combine_weights_v51r2.json member_min_n is 5 to match."
+  },
+  "lateral_dedup": {
+   "overlap_min_frac": 0.5,
+   "_doc": "one heading error counted once. GT-only pre-pass per item: lateral facts = screen_dir entries (label params.dir) and locomotion_segment entries with a lateral label (lateral_label: the cell direction under a static camera, else gt_screen_dir). Facts of the same (shot, subject, label) whose t_ranges overlap by >= overlap_min_frac of the shorter one read the same motion twice (definition A reads the displacement between the first and last rows of the window); only the longest is kept (tie: screen_dir before locomotion_segment, then entry id); the others are parked as 'lateral: duplicate of <id>'. Facts with different labels are both kept (a GT disagreement is not a duplicate; counted in the parked summary as 'lateral: conflicting label overlap' for the record, still scored). 0.5: a quarter-overlap at a boundary is a different stretch of the walk, half the shorter window is the same stretch."
+  },
+  "lateral_min_grid": {
+   "min_grid_times": 2,
+   "grid": "per GT shot of scene_frames: {t0 + i * 0.25} plus the sample times (as model_view.py STEP), i.e. the times at which every model has a body row",
+   "_doc": "r1 parked lateral facts shorter than 0.5 s and scored 0 a fact whose trimmed window held < 2 present body rows; a 0.4 s trimmed window can hold one grid time only, so for every model it had < 2 rows and scored 0 - a fact no answer could pass. r2 parks (GT-only, model-independent) a lateral fact whose trimmed window [t0 + trim, t1 - trim] holds < 2 GT grid times ('lateral: < 2 grid times in the trimmed window'); with >= 2 grid times the r1 rule stays (< 2 present model rows -> 0)."
+  },
+  "sample_dedupe": {
+   "key": "(shot, round(t, 3))",
+   "keep": "first",
+   "_doc": "added 10-18 before any r2 run (lead request, fork P DONE.json known_issue dup_sample_times: 12 duplicate samples in 034 / 039 / 041 / 043 / 046, where two V2 sub-units of a long shot overlap by 1 s and both give a row at the boundary; r1 did not dedupe). Every r2 reader of scene_frames.json (checklist.py, view_score.py, coverage.py, controls.py, model_view.py) loads it through tools/v51_r2/sframes.py, which keeps the first sample of each (shot, t rounded to 1 ms) and drops the rest, so one video moment gives one row / one geometry fact. GT content is not changed (the duplicate is the same moment twice). No effect on the 5 pilot items (no duplicates there)."
+  }
+ }
+}

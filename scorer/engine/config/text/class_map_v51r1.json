@@ -1,0 +1,26 @@
+{
+ "_doc": "pvscore 5.1 text / image layer r1 (10-18): class-label rule used by tools/v51_text_r1/classes.py. Written before any r1 model-side score was computed. It replaces the r0 rule 'layout_credit = pvscore 5.0.9 Credit' (exact string 1, 5.0.9 similar group 0.75, anything else 0). Reason: r0 found that on M50_012 sol56 tagged vocabulary classes as other:<class> (other:bollard, other:traffic_cone, other:railing) and prompt-named objects as other:<prompt name> (other:light_mast, other:gangway, other:winch), so 13 of 15 unnamed GT elements had no candidate and the layer scored the label, not the layout. The 5.0 category table says 'Use exactly these names; anything else as other:<word>', so other:<table class> can only mean <table class>. One function, applied the same way to GT classes, model classes, the similar groups and the exclusion lists; no rule names a model, an item or a word seen in a model dump. No new synonym word was written here: the similar groups are the two lists that were pre-registered before (5.0.9 class_similar, v5.1 view class_synonyms).",
+ "vocabulary": "common/categories_v5.0.json",
+ "normalise": {
+  "N1_spelling": "lower-case; strip; every run of spaces, hyphens, dots or slashes -> '_'; runs of '_' collapsed; leading / trailing '_' removed",
+  "N2_prefix": "keep the part after the last ':' (drops 'other:' and 'surface:'; the same as tools/v51_r1/view_score.canon, without its synonym step). Two labels are the same class when their normalised words are equal",
+  "N3_plural": "only when the word is not a vocabulary class: '<w>ies' -> '<w>y', '<w>es' -> '<w>', '<w>s' -> '<w>', first rule whose result is a vocabulary class wins; otherwise the word is kept"
+ },
+ "gt_labels": {
+  "rule": "the labels of an unnamed GT element are its normalised GT class plus its prompt name: the GT object key with the owner prefix removed, when the key has the text-item form <s|v|o><2 digits>_<name> (regex below), normalised by N1-N3",
+  "key_regex": "^[svo][0-9]{2}_(.+)$",
+  "_doc": "Text-item GT keys are the script's own object names (s01_light_mast is 'light mast at (0.5,9.5)' in the S01 layout line; its GT class streetlight is the annotator's vocabulary choice). A model that tags that object other:light_mast has used the prompt's name for it. Image-item keys (obj000, u01, w01) carry no name, so image elements keep the class label only. The prompt name counts as an exact label (credit 1), like the class. Named GT elements (b:<id>) are matched by id and need no label."
+ },
+ "credit": {
+  "exact": 1.0,
+  "similar": 0.75,
+  "none": 0.0,
+  "rule": "credit(GT element, model class) = max over the element's labels: 1.0 when the normalised words are equal; 0.75 (= 5.0.9 similar_credit) when both words are in one similar group; else 0. Untagged model instances stay non-candidates (thresholds.json elements.model_untagged)",
+  "similar_groups": [
+   "scorer/v5_0/pvscore5/thresholds_v5.json params.class_similar (5.0.9, unchanged)",
+   "tools/v51_r1/view_thresholds.json class_synonyms (v5.1 view layer, pre-registered 10-18 for the video pilot; there a synonym counts as the same class, here as similar)"
+  ],
+  "_doc": "Synonyms enter at the 5.0.9 similar credit, not as exact, so a vocabulary disagreement still costs a quarter of the fact score through 'fact score x min class credit'."
+ },
+ "exclusions": "thresholds.json elements.exclude_classes is compared with the normalised class on both sides (GT eligibility, model candidates, GT-as-model adapter), so other:wall is a wall. On the 5 pilot items no GT class changes eligibility (checked: no GT other:<excluded class>)."
+}

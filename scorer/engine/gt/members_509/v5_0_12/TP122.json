@@ -1,0 +1,180 @@
+{
+ "item": "TP122",
+ "modality": "text",
+ "gt_sha256": "bbf40b2d50672e4b657677ea5d6a84d1b46e81a9bd16ad25122eae11a3ab919d",
+ "rule": "r3 B1: the 5.0.x members of a dimension are the 5.0.x blocks the GT has (this file); an expected block a report lacks is scored 0 with the expected n, a block the GT does not have is not a member even when a report has it (model-only content, e.g. extra cuts or invented objects), the activation clause counts the expected n of the 5.0.x members, and a slot condition 'unless_509_na' / 'when_509_na' reads the expected dims",
+ "pvscore_version": "pvscore-5.0.12",
+ "builder_sha256": "3767d175ae87c8a41d589a5a0e66022f6bb2b8bd18e6379bbce90766b9f18d65",
+ "blocks": {
+  "A1.counts": {
+   "n": 15,
+   "kind": "gt",
+   "rule": "one row per (space, class) of unnamed GT objects"
+  },
+  "A1.entities": {
+   "n": 8,
+   "kind": "gt",
+   "rule": "one row per GT entity"
+  },
+  "A1.structure": {
+   "n": 3,
+   "kind": "gt",
+   "rule": "one row per space"
+  },
+  "A3.connectivity": {
+   "n": 1,
+   "kind": "gt",
+   "rule": "one row per connection"
+  },
+  "A3.floor_dz": {
+   "n": 2,
+   "kind": "content",
+   "rule": "as space_size, one row per non-sloped space after the first"
+  },
+  "A3.openings": {
+   "n": 1,
+   "kind": "gt",
+   "rule": "one row per GT opening"
+  },
+  "A3.outline": {
+   "n": 3,
+   "kind": "gt",
+   "rule": "spaces with an outline"
+  },
+  "A3.space_size": {
+   "n": 3,
+   "kind": "content",
+   "rule": ">= 2 spaces, shared frames, a model footprint for every space"
+  },
+  "B1.pair_dist": {
+   "n": 28,
+   "kind": "gt",
+   "rule": "track pairs with a common known time (0 when one is missing)"
+  },
+  "B1.progress": {
+   "n": 8,
+   "kind": "content",
+   "rule": "tracks of > 0.5 m in one known span (needs the model timeline)"
+  },
+  "B1.space_order": {
+   "n": 2,
+   "kind": "content",
+   "rule": "tracks through >= 2 spaces (needs the model timeline)"
+  },
+  "B1.stops_turns": {
+   "n": 8,
+   "kind": "content",
+   "rule": "moving tracks with a GT stop (needs the model timeline)"
+  },
+  "B2.occurrence": {
+   "n": 18,
+   "kind": "gt",
+   "rule": "one row per GT event and space transition"
+  },
+  "B2.order": {
+   "n": 129,
+   "kind": "gt",
+   "rule": "pairs of supported events with distinct times"
+  },
+  "B2.posture": {
+   "n": 3,
+   "kind": "gt",
+   "rule": "tracks with a posture label other than stand (0 without a timeline)"
+  },
+  "B2.timing": {
+   "n": 17,
+   "kind": "gt",
+   "rule": "one row per event of a supported type (0 when unmatched)"
+  },
+  "C1.fov": {
+   "n": 9,
+   "kind": "content",
+   "rule": "shots with a GT field of view (needs the model shot)"
+  },
+  "C1.height": {
+   "n": 9,
+   "kind": "content",
+   "rule": "shots with a GT camera height (needs the model shot)"
+  },
+  "C1.move": {
+   "n": 9,
+   "kind": "content",
+   "rule": "shots with a GT move"
+  },
+  "C1.subject": {
+   "n": 9,
+   "kind": "content",
+   "rule": "shots with a placed GT camera and a known subject position"
+  },
+  "C2.count": {
+   "n": 1,
+   "kind": "gt",
+   "rule": "always"
+  },
+  "C2.cuts": {
+   "n": 8,
+   "kind": "gt",
+   "rule": "one row per GT cut (model extra cuts are not expected rows)"
+  },
+  "C2.durations": {
+   "n": 9,
+   "kind": "gt",
+   "rule": "one row per cut-separated GT shot group (>= 2 shots)"
+  },
+  "C2.shot_order": {
+   "n": 1,
+   "kind": "gt",
+   "rule": ">= 2 GT shots"
+  },
+  "C2.space_order": {
+   "n": 1,
+   "kind": "gt",
+   "rule": ">= 2 GT shots over >= 2 spaces"
+  },
+  "C2.transitions": {
+   "n": 8,
+   "kind": "gt",
+   "rule": "one row per GT shot boundary"
+  },
+  "D1.class_size": {
+   "n": 1,
+   "kind": "content",
+   "rule": "instances or bodies of a registered class"
+  },
+  "D1.duplicates": {
+   "n": 1,
+   "kind": "content",
+   "rule": "named bodies (every GT entity)"
+  },
+  "D1.float_sink": {
+   "n": 1,
+   "kind": "content",
+   "rule": "non-mounted objects in non-sloped spaces, or agents / animals"
+  },
+  "D1.penetration": {
+   "n": 1,
+   "kind": "content",
+   "rule": "instances: unnamed GT objects or static named entities"
+  },
+  "D1.scale": {
+   "n": 3,
+   "kind": "content",
+   "rule": "spaces whose alignment is ok (>= min_anchors inliers for a perfect answer)"
+  },
+  "D1.teleport": {
+   "n": 1,
+   "kind": "content",
+   "rule": "named bodies (every GT entity)"
+  }
+ },
+ "dims": [
+  "A1",
+  "A3",
+  "B1",
+  "B2",
+  "C1",
+  "C2",
+  "D1"
+ ],
+ "uncertain_rows": []
+}

@@ -1,0 +1,1406 @@
+{
+ "version": "v5.0",
+ "note": "Category table for pv_class tags and SAM3 prompts. Use exactly these names; anything else as other:<word>. size_m = plausible longest bounding-box dimension in metres (used only for a coarse class-size sanity check). The table grows during annotation; never rename existing classes.",
+ "classes": [
+  {
+   "class": "floor",
+   "group": "structure",
+   "size_m": [
+    1,
+    500
+   ]
+  },
+  {
+   "class": "wall",
+   "group": "structure",
+   "size_m": [
+    0.5,
+    200
+   ]
+  },
+  {
+   "class": "ceiling",
+   "group": "structure",
+   "size_m": [
+    1,
+    500
+   ]
+  },
+  {
+   "class": "door",
+   "group": "structure",
+   "size_m": [
+    0.5,
+    4
+   ]
+  },
+  {
+   "class": "doorway",
+   "group": "structure",
+   "size_m": [
+    0.5,
+    6
+   ]
+  },
+  {
+   "class": "window",
+   "group": "structure",
+   "size_m": [
+    0.3,
+    10
+   ]
+  },
+  {
+   "class": "stairs",
+   "group": "structure",
+   "size_m": [
+    0.8,
+    30
+   ]
+  },
+  {
+   "class": "ramp",
+   "group": "structure",
+   "size_m": [
+    1,
+    60
+   ]
+  },
+  {
+   "class": "railing",
+   "group": "structure",
+   "size_m": [
+    0.5,
+    100
+   ]
+  },
+  {
+   "class": "column",
+   "group": "structure",
+   "size_m": [
+    1,
+    30
+   ]
+  },
+  {
+   "class": "beam",
+   "group": "structure",
+   "size_m": [
+    1,
+    60
+   ]
+  },
+  {
+   "class": "partition",
+   "group": "structure",
+   "size_m": [
+    0.5,
+    30
+   ]
+  },
+  {
+   "class": "platform",
+   "group": "structure",
+   "size_m": [
+    0.5,
+    200
+   ]
+  },
+  {
+   "class": "roof",
+   "group": "structure",
+   "size_m": [
+    1,
+    200
+   ]
+  },
+  {
+   "class": "elevator",
+   "group": "structure",
+   "size_m": [
+    1,
+    4
+   ]
+  },
+  {
+   "class": "escalator",
+   "group": "structure",
+   "size_m": [
+    3,
+    40
+   ]
+  },
+  {
+   "class": "archway",
+   "group": "structure",
+   "size_m": [
+    1,
+    20
+   ]
+  },
+  {
+   "class": "tunnel",
+   "group": "structure",
+   "size_m": [
+    3,
+    500
+   ]
+  },
+  {
+   "class": "bridge",
+   "group": "structure",
+   "size_m": [
+    3,
+    500
+   ]
+  },
+  {
+   "class": "pier",
+   "group": "structure",
+   "size_m": [
+    2,
+    500
+   ]
+  },
+  {
+   "class": "dock",
+   "group": "structure",
+   "size_m": [
+    2,
+    500
+   ]
+  },
+  {
+   "class": "fence",
+   "group": "structure",
+   "size_m": [
+    0.5,
+    300
+   ]
+  },
+  {
+   "class": "gate",
+   "group": "structure",
+   "size_m": [
+    0.5,
+    15
+   ]
+  },
+  {
+   "class": "ground",
+   "group": "terrain",
+   "size_m": [
+    2,
+    5000
+   ]
+  },
+  {
+   "class": "road",
+   "group": "terrain",
+   "size_m": [
+    3,
+    5000
+   ]
+  },
+  {
+   "class": "sidewalk",
+   "group": "terrain",
+   "size_m": [
+    2,
+    5000
+   ]
+  },
+  {
+   "class": "crosswalk",
+   "group": "terrain",
+   "size_m": [
+    2,
+    40
+   ]
+  },
+  {
+   "class": "curb",
+   "group": "terrain",
+   "size_m": [
+    1,
+    500
+   ]
+  },
+  {
+   "class": "parking_lot",
+   "group": "terrain",
+   "size_m": [
+    5,
+    1000
+   ]
+  },
+  {
+   "class": "grass",
+   "group": "terrain",
+   "size_m": [
+    1,
+    5000
+   ]
+  },
+  {
+   "class": "sand",
+   "group": "terrain",
+   "size_m": [
+    1,
+    5000
+   ]
+  },
+  {
+   "class": "water",
+   "group": "terrain",
+   "size_m": [
+    1,
+    10000
+   ]
+  },
+  {
+   "class": "shoreline",
+   "group": "terrain",
+   "size_m": [
+    3,
+    10000
+   ]
+  },
+  {
+   "class": "hill",
+   "group": "terrain",
+   "size_m": [
+    5,
+    10000
+   ]
+  },
+  {
+   "class": "rock",
+   "group": "terrain",
+   "size_m": [
+    0.2,
+    100
+   ]
+  },
+  {
+   "class": "cliff",
+   "group": "terrain",
+   "size_m": [
+    3,
+    2000
+   ]
+  },
+  {
+   "class": "path",
+   "group": "terrain",
+   "size_m": [
+    1,
+    5000
+   ]
+  },
+  {
+   "class": "track",
+   "group": "terrain",
+   "size_m": [
+    3,
+    5000
+   ]
+  },
+  {
+   "class": "field",
+   "group": "terrain",
+   "size_m": [
+    10,
+    1000
+   ]
+  },
+  {
+   "class": "court",
+   "group": "terrain",
+   "size_m": [
+    8,
+    100
+   ]
+  },
+  {
+   "class": "pool",
+   "group": "terrain",
+   "size_m": [
+    2,
+    100
+   ]
+  },
+  {
+   "class": "building",
+   "group": "structure",
+   "size_m": [
+    3,
+    500
+   ]
+  },
+  {
+   "class": "chair",
+   "group": "furniture",
+   "size_m": [
+    0.4,
+    1.5
+   ]
+  },
+  {
+   "class": "armchair",
+   "group": "furniture",
+   "size_m": [
+    0.6,
+    1.5
+   ]
+  },
+  {
+   "class": "sofa",
+   "group": "furniture",
+   "size_m": [
+    1.0,
+    4.5
+   ]
+  },
+  {
+   "class": "bench",
+   "group": "furniture",
+   "size_m": [
+    0.8,
+    6
+   ]
+  },
+  {
+   "class": "stool",
+   "group": "furniture",
+   "size_m": [
+    0.3,
+    1.2
+   ]
+  },
+  {
+   "class": "table",
+   "group": "furniture",
+   "size_m": [
+    0.5,
+    6
+   ]
+  },
+  {
+   "class": "desk",
+   "group": "furniture",
+   "size_m": [
+    0.6,
+    3.5
+   ]
+  },
+  {
+   "class": "coffee_table",
+   "group": "furniture",
+   "size_m": [
+    0.4,
+    2
+   ]
+  },
+  {
+   "class": "bed",
+   "group": "furniture",
+   "size_m": [
+    1.5,
+    3
+   ]
+  },
+  {
+   "class": "cabinet",
+   "group": "furniture",
+   "size_m": [
+    0.3,
+    5
+   ]
+  },
+  {
+   "class": "wardrobe",
+   "group": "furniture",
+   "size_m": [
+    0.6,
+    3
+   ]
+  },
+  {
+   "class": "shelf",
+   "group": "furniture",
+   "size_m": [
+    0.3,
+    15
+   ]
+  },
+  {
+   "class": "counter",
+   "group": "furniture",
+   "size_m": [
+    0.6,
+    15
+   ]
+  },
+  {
+   "class": "sink",
+   "group": "furniture",
+   "size_m": [
+    0.3,
+    2
+   ]
+  },
+  {
+   "class": "toilet",
+   "group": "furniture",
+   "size_m": [
+    0.4,
+    1
+   ]
+  },
+  {
+   "class": "bathtub",
+   "group": "furniture",
+   "size_m": [
+    1,
+    2.5
+   ]
+  },
+  {
+   "class": "shower",
+   "group": "furniture",
+   "size_m": [
+    0.7,
+    2.5
+   ]
+  },
+  {
+   "class": "refrigerator",
+   "group": "appliance",
+   "size_m": [
+    0.5,
+    2.2
+   ]
+  },
+  {
+   "class": "stove",
+   "group": "appliance",
+   "size_m": [
+    0.4,
+    1.5
+   ]
+  },
+  {
+   "class": "oven",
+   "group": "appliance",
+   "size_m": [
+    0.4,
+    1.5
+   ]
+  },
+  {
+   "class": "microwave",
+   "group": "appliance",
+   "size_m": [
+    0.3,
+    0.8
+   ]
+  },
+  {
+   "class": "dishwasher",
+   "group": "appliance",
+   "size_m": [
+    0.4,
+    1
+   ]
+  },
+  {
+   "class": "washer",
+   "group": "appliance",
+   "size_m": [
+    0.5,
+    1.2
+   ]
+  },
+  {
+   "class": "tv",
+   "group": "appliance",
+   "size_m": [
+    0.4,
+    3
+   ]
+  },
+  {
+   "class": "monitor",
+   "group": "appliance",
+   "size_m": [
+    0.2,
+    1.5
+   ]
+  },
+  {
+   "class": "computer",
+   "group": "appliance",
+   "size_m": [
+    0.2,
+    1
+   ]
+  },
+  {
+   "class": "lamp",
+   "group": "furniture",
+   "size_m": [
+    0.2,
+    3
+   ]
+  },
+  {
+   "class": "rug",
+   "group": "furniture",
+   "size_m": [
+    0.5,
+    6
+   ]
+  },
+  {
+   "class": "curtain",
+   "group": "furniture",
+   "size_m": [
+    0.5,
+    6
+   ]
+  },
+  {
+   "class": "mirror",
+   "group": "furniture",
+   "size_m": [
+    0.2,
+    4
+   ]
+  },
+  {
+   "class": "plant",
+   "group": "furniture",
+   "size_m": [
+    0.2,
+    3
+   ]
+  },
+  {
+   "class": "picture_frame",
+   "group": "furniture",
+   "size_m": [
+    0.1,
+    3
+   ]
+  },
+  {
+   "class": "fireplace",
+   "group": "furniture",
+   "size_m": [
+    0.6,
+    3
+   ]
+  },
+  {
+   "class": "display_case",
+   "group": "furniture",
+   "size_m": [
+    0.5,
+    6
+   ]
+  },
+  {
+   "class": "checkout_counter",
+   "group": "furniture",
+   "size_m": [
+    0.8,
+    6
+   ]
+  },
+  {
+   "class": "vending_machine",
+   "group": "appliance",
+   "size_m": [
+    0.6,
+    2.2
+   ]
+  },
+  {
+   "class": "kiosk",
+   "group": "furniture",
+   "size_m": [
+    0.5,
+    4
+   ]
+  },
+  {
+   "class": "stage",
+   "group": "structure",
+   "size_m": [
+    2,
+    40
+   ]
+  },
+  {
+   "class": "podium",
+   "group": "furniture",
+   "size_m": [
+    0.4,
+    2
+   ]
+  },
+  {
+   "class": "locker",
+   "group": "furniture",
+   "size_m": [
+    0.3,
+    6
+   ]
+  },
+  {
+   "class": "workbench",
+   "group": "furniture",
+   "size_m": [
+    0.8,
+    5
+   ]
+  },
+  {
+   "class": "machine",
+   "group": "industrial",
+   "size_m": [
+    0.3,
+    20
+   ]
+  },
+  {
+   "class": "conveyor",
+   "group": "industrial",
+   "size_m": [
+    1,
+    100
+   ]
+  },
+  {
+   "class": "rack",
+   "group": "furniture",
+   "size_m": [
+    0.5,
+    15
+   ]
+  },
+  {
+   "class": "bin",
+   "group": "prop",
+   "size_m": [
+    0.2,
+    2
+   ]
+  },
+  {
+   "class": "trash_can",
+   "group": "prop",
+   "size_m": [
+    0.2,
+    1.5
+   ]
+  },
+  {
+   "class": "car",
+   "group": "vehicle",
+   "size_m": [
+    3,
+    6
+   ]
+  },
+  {
+   "class": "van",
+   "group": "vehicle",
+   "size_m": [
+    4,
+    7
+   ]
+  },
+  {
+   "class": "truck",
+   "group": "vehicle",
+   "size_m": [
+    5,
+    20
+   ]
+  },
+  {
+   "class": "bus",
+   "group": "vehicle",
+   "size_m": [
+    8,
+    20
+   ]
+  },
+  {
+   "class": "train",
+   "group": "vehicle",
+   "size_m": [
+    10,
+    400
+   ]
+  },
+  {
+   "class": "subway_car",
+   "group": "vehicle",
+   "size_m": [
+    10,
+    30
+   ]
+  },
+  {
+   "class": "tram",
+   "group": "vehicle",
+   "size_m": [
+    10,
+    40
+   ]
+  },
+  {
+   "class": "motorcycle",
+   "group": "vehicle",
+   "size_m": [
+    1.5,
+    2.8
+   ]
+  },
+  {
+   "class": "bicycle",
+   "group": "vehicle",
+   "size_m": [
+    1.3,
+    2.2
+   ]
+  },
+  {
+   "class": "scooter",
+   "group": "vehicle",
+   "size_m": [
+    0.8,
+    2
+   ]
+  },
+  {
+   "class": "skateboard",
+   "group": "vehicle",
+   "size_m": [
+    0.6,
+    1.2
+   ]
+  },
+  {
+   "class": "boat",
+   "group": "vehicle",
+   "size_m": [
+    2,
+    40
+   ]
+  },
+  {
+   "class": "ship",
+   "group": "vehicle",
+   "size_m": [
+    20,
+    400
+   ]
+  },
+  {
+   "class": "canoe",
+   "group": "vehicle",
+   "size_m": [
+    2.5,
+    12
+   ]
+  },
+  {
+   "class": "helicopter",
+   "group": "vehicle",
+   "size_m": [
+    8,
+    30
+   ]
+  },
+  {
+   "class": "airplane",
+   "group": "vehicle",
+   "size_m": [
+    8,
+    80
+   ]
+  },
+  {
+   "class": "forklift",
+   "group": "vehicle",
+   "size_m": [
+    1.8,
+    5
+   ]
+  },
+  {
+   "class": "cart",
+   "group": "vehicle",
+   "size_m": [
+    0.6,
+    3
+   ]
+  },
+  {
+   "class": "stroller",
+   "group": "vehicle",
+   "size_m": [
+    0.6,
+    1.3
+   ]
+  },
+  {
+   "class": "wheelchair",
+   "group": "vehicle",
+   "size_m": [
+    0.6,
+    1.3
+   ]
+  },
+  {
+   "class": "fire_truck",
+   "group": "vehicle",
+   "size_m": [
+    7,
+    15
+   ]
+  },
+  {
+   "class": "trailer",
+   "group": "vehicle",
+   "size_m": [
+    2,
+    16
+   ]
+  },
+  {
+   "class": "tractor",
+   "group": "vehicle",
+   "size_m": [
+    2.5,
+    8
+   ]
+  },
+  {
+   "class": "race_car",
+   "group": "vehicle",
+   "size_m": [
+    3,
+    6
+   ]
+  },
+  {
+   "class": "go_kart",
+   "group": "vehicle",
+   "size_m": [
+    1.2,
+    2.5
+   ]
+  },
+  {
+   "class": "crate",
+   "group": "prop",
+   "size_m": [
+    0.2,
+    3
+   ]
+  },
+  {
+   "class": "box",
+   "group": "prop",
+   "size_m": [
+    0.05,
+    2
+   ]
+  },
+  {
+   "class": "barrel",
+   "group": "prop",
+   "size_m": [
+    0.4,
+    1.5
+   ]
+  },
+  {
+   "class": "pallet",
+   "group": "prop",
+   "size_m": [
+    0.8,
+    1.5
+   ]
+  },
+  {
+   "class": "shipping_container",
+   "group": "industrial",
+   "size_m": [
+    2.5,
+    13
+   ]
+  },
+  {
+   "class": "crane",
+   "group": "industrial",
+   "size_m": [
+    5,
+    150
+   ]
+  },
+  {
+   "class": "ladder",
+   "group": "prop",
+   "size_m": [
+    1,
+    15
+   ]
+  },
+  {
+   "class": "hose",
+   "group": "prop",
+   "size_m": [
+    1,
+    100
+   ]
+  },
+  {
+   "class": "scaffold",
+   "group": "industrial",
+   "size_m": [
+    2,
+    50
+   ]
+  },
+  {
+   "class": "traffic_cone",
+   "group": "prop",
+   "size_m": [
+    0.2,
+    1
+   ]
+  },
+  {
+   "class": "barrier",
+   "group": "prop",
+   "size_m": [
+    0.5,
+    20
+   ]
+  },
+  {
+   "class": "tent",
+   "group": "prop",
+   "size_m": [
+    1.5,
+    20
+   ]
+  },
+  {
+   "class": "canopy",
+   "group": "prop",
+   "size_m": [
+    2,
+    15
+   ]
+  },
+  {
+   "class": "umbrella",
+   "group": "prop",
+   "size_m": [
+    0.6,
+    4
+   ]
+  },
+  {
+   "class": "tree",
+   "group": "plant",
+   "size_m": [
+    1,
+    40
+   ]
+  },
+  {
+   "class": "bush",
+   "group": "plant",
+   "size_m": [
+    0.3,
+    5
+   ]
+  },
+  {
+   "class": "streetlight",
+   "group": "prop",
+   "size_m": [
+    2,
+    15
+   ]
+  },
+  {
+   "class": "traffic_light",
+   "group": "prop",
+   "size_m": [
+    1,
+    8
+   ]
+  },
+  {
+   "class": "pole",
+   "group": "prop",
+   "size_m": [
+    1,
+    20
+   ]
+  },
+  {
+   "class": "bollard",
+   "group": "prop",
+   "size_m": [
+    0.3,
+    1.5
+   ]
+  },
+  {
+   "class": "sign",
+   "group": "prop",
+   "size_m": [
+    0.2,
+    10
+   ]
+  },
+  {
+   "class": "mailbox",
+   "group": "prop",
+   "size_m": [
+    0.3,
+    1.6
+   ]
+  },
+  {
+   "class": "bench_outdoor",
+   "group": "furniture",
+   "size_m": [
+    1,
+    4
+   ]
+  },
+  {
+   "class": "picnic_table",
+   "group": "furniture",
+   "size_m": [
+    1.2,
+    3
+   ]
+  },
+  {
+   "class": "campfire",
+   "group": "prop",
+   "size_m": [
+    0.3,
+    2
+   ]
+  },
+  {
+   "class": "goal",
+   "group": "sports",
+   "size_m": [
+    1.5,
+    8
+   ]
+  },
+  {
+   "class": "basketball_hoop",
+   "group": "sports",
+   "size_m": [
+    1,
+    5
+   ]
+  },
+  {
+   "class": "net",
+   "group": "sports",
+   "size_m": [
+    1,
+    20
+   ]
+  },
+  {
+   "class": "buoy",
+   "group": "prop",
+   "size_m": [
+    0.3,
+    3
+   ]
+  },
+  {
+   "class": "flag",
+   "group": "prop",
+   "size_m": [
+    0.3,
+    10
+   ]
+  },
+  {
+   "class": "statue",
+   "group": "prop",
+   "size_m": [
+    0.5,
+    20
+   ]
+  },
+  {
+   "class": "fountain",
+   "group": "prop",
+   "size_m": [
+    1,
+    30
+   ]
+  },
+  {
+   "class": "stall",
+   "group": "furniture",
+   "size_m": [
+    1,
+    6
+   ]
+  },
+  {
+   "class": "rope",
+   "group": "prop",
+   "size_m": [
+    0.5,
+    100
+   ]
+  },
+  {
+   "class": "gurney",
+   "group": "vehicle",
+   "size_m": [
+    1.5,
+    2.4
+   ]
+  },
+  {
+   "class": "person",
+   "group": "agent",
+   "size_m": [
+    0.4,
+    2.3
+   ]
+  },
+  {
+   "class": "dog",
+   "group": "animal",
+   "size_m": [
+    0.3,
+    1.5
+   ]
+  },
+  {
+   "class": "cat",
+   "group": "animal",
+   "size_m": [
+    0.2,
+    1
+   ]
+  },
+  {
+   "class": "horse",
+   "group": "animal",
+   "size_m": [
+    1.5,
+    3
+   ]
+  },
+  {
+   "class": "bird",
+   "group": "animal",
+   "size_m": [
+    0.05,
+    1.5
+   ]
+  },
+  {
+   "class": "ball",
+   "group": "prop",
+   "size_m": [
+    0.03,
+    0.8
+   ]
+  },
+  {
+   "class": "bag",
+   "group": "prop",
+   "size_m": [
+    0.15,
+    1.2
+   ]
+  },
+  {
+   "class": "backpack",
+   "group": "prop",
+   "size_m": [
+    0.25,
+    0.8
+   ]
+  },
+  {
+   "class": "suitcase",
+   "group": "prop",
+   "size_m": [
+    0.3,
+    1.2
+   ]
+  },
+  {
+   "class": "phone",
+   "group": "prop",
+   "size_m": [
+    0.05,
+    0.3
+   ]
+  },
+  {
+   "class": "bottle",
+   "group": "prop",
+   "size_m": [
+    0.05,
+    0.6
+   ]
+  },
+  {
+   "class": "cup",
+   "group": "prop",
+   "size_m": [
+    0.05,
+    0.3
+   ]
+  },
+  {
+   "class": "book",
+   "group": "prop",
+   "size_m": [
+    0.1,
+    0.6
+   ]
+  },
+  {
+   "class": "laptop",
+   "group": "prop",
+   "size_m": [
+    0.2,
+    0.6
+   ]
+  },
+  {
+   "class": "package",
+   "group": "prop",
+   "size_m": [
+    0.1,
+    1.5
+   ]
+  },
+  {
+   "class": "tray",
+   "group": "prop",
+   "size_m": [
+    0.2,
+    1
+   ]
+  },
+  {
+   "class": "tool",
+   "group": "prop",
+   "size_m": [
+    0.05,
+    2
+   ]
+  },
+  {
+   "class": "food",
+   "group": "prop",
+   "size_m": [
+    0.03,
+    1
+   ]
+  },
+  {
+   "class": "paper",
+   "group": "prop",
+   "size_m": [
+    0.05,
+    1
+   ]
+  },
+  {
+   "class": "key",
+   "group": "prop",
+   "size_m": [
+    0.02,
+    0.2
+   ]
+  },
+  {
+   "class": "helmet",
+   "group": "prop",
+   "size_m": [
+    0.2,
+    0.5
+   ]
+  },
+  {
+   "class": "surfboard",
+   "group": "prop",
+   "size_m": [
+    1.5,
+    3.5
+   ]
+  },
+  {
+   "class": "paddle",
+   "group": "prop",
+   "size_m": [
+    1,
+    3
+   ]
+  },
+  {
+   "class": "stick",
+   "group": "prop",
+   "size_m": [
+    0.3,
+    3
+   ]
+  },
+  {
+   "class": "camera",
+   "group": "prop",
+   "size_m": [
+    0.05,
+    2
+   ]
+  },
+  {
+   "class": "skate_bowl",
+   "group": "sports",
+   "size_m": [
+    5,
+    60
+   ]
+  },
+  {
+   "class": "smoke",
+   "group": "effect",
+   "size_m": [
+    0.5,
+    40
+   ]
+  }
+ ]
+}

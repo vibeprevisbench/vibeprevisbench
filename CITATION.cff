@@ -1,0 +1,64 @@
+cff-version: 1.2.0
+message: "Please cite VibePrevisBench when using this benchmark."
+title: "VibePrevisBench: Evaluating Agentic Coding for 4D Scene Generation in Blender"
+authors:
+  - family-names: Chen
+    given-names: Yuzhe
+  - family-names: Diao
+    given-names: Muxi
+  - family-names: Yang
+    given-names: Lele
+  - family-names: Xu
+    given-names: Wenbin
+  - family-names: Liu
+    given-names: Xuyang
+  - family-names: Su
+    given-names: Qile
+  - family-names: Liu
+    given-names: Changyi
+  - family-names: Chen
+    given-names: Jiankang
+  - family-names: Jiang
+    given-names: Kaiyu
+  - family-names: Zhang
+    given-names: Haoyu
+  - family-names: Fu
+    given-names: Hongyi
+  - family-names: Wang
+    given-names: Jianxiong
+  - family-names: Zhang
+    given-names: Tianke
+  - family-names: Fan
+    given-names: Haonan
+  - family-names: Li
+    given-names: Yingxin
+  - family-names: Li
+    given-names: Bingyi
+  - family-names: Wang
+    given-names: Xu
+  - family-names: Zheng
+    given-names: Xuanyu
+  - family-names: Wen
+    given-names: Bin
+  - family-names: Gao
+    given-names: Tingting
+  - family-names: Zhang
+    given-names: Wentao
+  - family-names: Cao
+    given-names: Jiale
+url: "https://vibeprevisbench.github.io"
+repository-code: "https://github.com/vibeprevisbench/vibeprevisbench"
+type: software
+abstract: >-
+  VibePrevisBench is a benchmark for 4D scene reconstruction with coding agents: an agent turns a brief into an
+  executable 4D scene in Blender and renders its proxy video. Its 242 tasks span scripts, photos, continuations
+  and reference videos. Rule-based Scene Check compares the exported 4D scene with hidden ground truth facts in
+  nine dimensions; VLM-based Screen Check asks a VLM judge whether the facts that pass can be recognized in the
+  proxy video.
+keywords:
+  - benchmark
+  - coding agents
+  - Blender
+  - 4D scene reconstruction
+  - previsualization
+license: Apache-2.0
