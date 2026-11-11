@@ -1,13 +1,6 @@
 # VibePrevisBench: Evaluating Agentic Coding for 4D Scene Generation in Blender
 
 <p align="center">
-  <a href="https://vibeprevisbench.github.io/"><img src="https://img.shields.io/badge/Project-Homepage-4F7CFF?style=flat-square&amp;logo=googlechrome&amp;logoColor=white" alt="Project homepage"></a>
-  <a href="#-paper-and-citation"><img src="https://img.shields.io/badge/arXiv-Coming_Soon-b31b1b?style=flat-square&amp;logo=arxiv&amp;logoColor=white" alt="arXiv: Coming soon"></a>
-  <a href="https://huggingface.co/datasets/AidanYuzhe/vibeprevisbench"><img src="https://img.shields.io/badge/Data-Hugging_Face-FFD21E?style=flat-square&amp;logo=huggingface&amp;logoColor=black" alt="Dataset on Hugging Face"></a>
-  <a href="#-evaluate-your-agent"><img src="https://img.shields.io/badge/Code-Evaluate_your_agent-24292F?style=flat-square&amp;logo=github&amp;logoColor=white" alt="Evaluate your agent"></a>
-</p>
-
-<p align="center">
   <a href="https://vibeprevisbench.github.io/">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="./assets/img/readme-brand-dark.svg">
@@ -18,10 +11,10 @@
 </p>
 
 <p align="center">
-  <a href="https://vibeprevisbench.github.io/#benchmark">Benchmark overview</a> ·
-  <a href="https://vibeprevisbench.github.io/#leaderboard">Leaderboard</a> ·
-  <a href="https://vibeprevisbench.github.io/#gallery">Case studies</a> ·
-  <a href="#-evaluate-your-agent">Evaluate your agent</a>
+  <a href="https://vibeprevisbench.github.io/"><img src="https://img.shields.io/badge/Project-Homepage-4F7CFF?style=flat-square&amp;logo=googlechrome&amp;logoColor=white" alt="Project homepage"></a>
+  <a href="#-paper-and-citation"><img src="https://img.shields.io/badge/arXiv-Coming_Soon-b31b1b?style=flat-square&amp;logo=arxiv&amp;logoColor=white" alt="arXiv: Coming soon"></a>
+  <a href="https://huggingface.co/datasets/AidanYuzhe/vibeprevisbench"><img src="https://img.shields.io/badge/Data-Hugging_Face-FFD21E?style=flat-square&amp;logo=huggingface&amp;logoColor=black" alt="Dataset on Hugging Face"></a>
+  <a href="#-evaluate-your-agent"><img src="https://img.shields.io/badge/Code-Evaluate_your_agent-24292F?style=flat-square&amp;logo=github&amp;logoColor=white" alt="Evaluate your agent"></a>
 </p>
 
 ## 💥 News
