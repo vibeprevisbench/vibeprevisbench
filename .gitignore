@@ -7,3 +7,5 @@ runs/
 *.log
 screen_cache/
 scorer/engine/_work/
+.cache/
+results/*/

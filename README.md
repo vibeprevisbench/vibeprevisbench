@@ -20,6 +20,9 @@
 
 ## 💥 News
 
+- **[2026.11.12]** ⚡ **One-command evaluation.** The
+  [`vibeprevisbench-eval`](#-evaluate-with-the-skill) skill runs the whole pipeline for
+  Claude Code, Codex CLI or any command-line agent.
 - **[2026.11.11]** 🚀 **Code and data are released.** The 242 tasks and their annotations are on
   [Hugging Face](https://huggingface.co/datasets/AidanYuzhe/vibeprevisbench), and this repository contains the
   complete evaluation pipeline. Start with [Evaluate your agent](#-evaluate-your-agent).
@@ -81,6 +84,66 @@ orbit, judge              VLM-based Screen Check: a VLM judges the proxy video
         |
 report                    Scene and Screen over all 242 tasks
 ```
+
+### ⚡ Evaluate with the skill
+
+The repository includes the project-local Claude Code skill
+[`vibeprevisbench-eval`](.claude/skills/vibeprevisbench-eval/SKILL.md). It coordinates environment checks,
+Docker images, data and media downloads, agent execution, replay, Scene Check, Screen Check and reporting.
+The same pipeline can also run directly as a Python command.
+
+**Prepare a Linux host with Docker, Python 3.12, ffmpeg and ffprobe (5.1+).** Each concurrent agent needs
+8 CPU cores and 16 GB RAM; no GPU is required. Clone the repository and create its Python environment:
+
+```bash
+git clone https://github.com/vibeprevisbench/vibeprevisbench.git
+cd vibeprevisbench
+python3.12 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+**Use the skill in Claude Code.** With Claude Code installed on your host, configure the evaluated agent's credentials in your terminal, then start
+`claude` from that same terminal in the repository root. The skill is already under `.claude/skills/`:
+
+```text
+/vibeprevisbench-eval
+```
+
+Tell it the agent, model and reasoning effort, for example:
+*"Evaluate Codex with GPT-6.1 Sol at max effort on VibePrevisBench. Start with the four-task smoke test,
+then show me the results before running all 242 tasks."*
+The skill checks the configuration and asks before starting paid model calls or a full evaluation.
+
+**Run directly without Claude Code.** For the `claude-code` agent preset, set `ANTHROPIC_API_KEY` (or another
+supported authentication variable) in your terminal. For the `codex` preset, set `CODEX_API_KEY`.
+Set `VPB_JUDGE_API_KEY` for Screen Check; without a judge key, the report contains Scene scores only,
+not a complete Overall score. See [agent configuration](.claude/skills/vibeprevisbench-eval/references/agents.md)
+for gateways, CLI versions and custom agents. Keep credentials in the terminal environment, outside chat.
+
+```bash
+# Inspect the plan and environment; makes no paid model calls.
+python .claude/skills/vibeprevisbench-eval/scripts/run_eval.py --name opus55-smoke \
+  --agent claude-code --model claude-opus-5-5 --effort high --tasks smoke --dry-run
+
+# Four tasks, one per input kind; runs the evaluation and uses the configured model APIs.
+python .claude/skills/vibeprevisbench-eval/scripts/run_eval.py --name opus55-smoke \
+  --agent claude-code --model claude-opus-5-5 --effort high --tasks smoke --parallel 1
+
+# After checking the smoke results, evaluate all 242 tasks with a separate run name.
+python .claude/skills/vibeprevisbench-eval/scripts/run_eval.py --name opus55 \
+  --agent claude-code --model claude-opus-5-5 --effort high --tasks all --parallel 4
+
+# Check progress; rerun the original evaluation command to resume an interrupted run.
+python .claude/skills/vibeprevisbench-eval/scripts/run_eval.py --name opus55 --tasks all --status
+```
+
+Choose `--parallel` to fit the host: four simultaneous agents require about 32 CPU cores and 64 GB RAM.
+Use `--agent codex --model YOUR_MODEL_ID --effort YOUR_EFFORT` for Codex CLI, or `--agent-cmd` for a custom agent.
+The smoke subset checks the setup; it is **not a leaderboard score**. Reports are written to
+`results/<name>/summary.md`, `summary.json` and `report.json`, with comparisons to the published agents on the
+same tasks. See [troubleshooting](.claude/skills/vibeprevisbench-eval/references/troubleshooting.md) for setup failures.
+The manual steps below describe the same pipeline.
 
 ### 1. Install
 
@@ -280,6 +343,7 @@ in the order of the table above. Each frame carries the agent's overall score on
 
 ```
 vpbench.py          common command entry
+.claude/skills/     one-command evaluation skill (scripts/run_eval.py)
 scorer/             scene dump adapter and frozen pvscore engine
 harness/            agent workspace, Docker sandbox, submission collection and replay
 orbit/              deterministic evaluation-side photo orbit
