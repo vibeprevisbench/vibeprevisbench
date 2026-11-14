@@ -13,7 +13,7 @@
 <p align="center">
   <a href="https://vibeprevisbench.github.io/"><img src="https://img.shields.io/badge/Project-Homepage-4F7CFF?style=flat-square&amp;logo=googlechrome&amp;logoColor=white" alt="Project homepage"></a>
   <a href="VibePrevisBench.pdf"><img src="https://img.shields.io/badge/Paper-PDF-b31b1b?style=flat-square&amp;logo=readthedocs&amp;logoColor=white" alt="Read the paper (PDF)"></a>
-  <img src="https://img.shields.io/badge/arXiv-b31b1b?style=flat-square&amp;logo=arxiv&amp;logoColor=white" alt="arXiv">
+  <a href="https://arxiv.org/abs/2611.15789"><img src="https://img.shields.io/badge/arXiv-b31b1b?style=flat-square&amp;logo=arxiv&amp;logoColor=white" alt="arXiv"></a>
   <a href="https://huggingface.co/datasets/AidanYuzhe/vibeprevisbench"><img src="https://img.shields.io/badge/Data-Hugging_Face-FFD21E?style=flat-square&amp;logo=huggingface&amp;logoColor=black" alt="Dataset on Hugging Face"></a>
   <a href="#-evaluate-your-agent"><img src="https://img.shields.io/badge/Code-Evaluate_your_agent-24292F?style=flat-square&amp;logo=github&amp;logoColor=white" alt="Evaluate your agent"></a>
 </p>
@@ -361,7 +361,19 @@ agent's workspace.
 
 *VibePrevisBench: Evaluating Agentic Coding for 4D Scene Generation in Blender*.
 
-**[Read the latest paper (PDF)](VibePrevisBench.pdf).** Submitted to arXiv; the arXiv link will be added once the submission is publicly available.
+**[arXiv:2611.15789](https://arxiv.org/abs/2611.15789)** · **[Download PDF](VibePrevisBench.pdf)**
+
+```bibtex
+@misc{vibeprevisbench2026,
+  title         = {VibePrevisBench: Evaluating Agentic Coding for 4D Scene Generation in Blender},
+  author        = {Yuzhe Chen and Muxi Diao and Lele Yang and Wenbin Xu and Xuyang Liu and Qile Su and Changyi Liu and Jiankang Chen and Kaiyu Jiang and Haoyu Zhang and Hongyi Fu and Jianxiong Wang and Tianke Zhang and Haonan Fan and Yingxin Li and Bingyi Li and Xu Wang and Xuanyu Zheng and Bin Wen and Tingting Gao and Wentao Zhang and Jiale Cao},
+  year          = {2026},
+  eprint        = {2611.15789},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CV},
+  url           = {https://arxiv.org/abs/2611.15789}
+}
+```
 
 Citation metadata is in [CITATION.cff](CITATION.cff); GitHub shows it under
 "Cite this repository". The [project homepage](https://vibeprevisbench.github.io/) is published from the

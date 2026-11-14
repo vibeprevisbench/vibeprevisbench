@@ -62,3 +62,57 @@ keywords:
   - 4D scene reconstruction
   - previsualization
 license: Apache-2.0
+preferred-citation:
+  type: article
+  title: 'VibePrevisBench: Evaluating Agentic Coding for 4D Scene Generation in Blender'
+  authors:
+  - family-names: Chen
+    given-names: Yuzhe
+  - family-names: Diao
+    given-names: Muxi
+  - family-names: Yang
+    given-names: Lele
+  - family-names: Xu
+    given-names: Wenbin
+  - family-names: Liu
+    given-names: Xuyang
+  - family-names: Su
+    given-names: Qile
+  - family-names: Liu
+    given-names: Changyi
+  - family-names: Chen
+    given-names: Jiankang
+  - family-names: Jiang
+    given-names: Kaiyu
+  - family-names: Zhang
+    given-names: Haoyu
+  - family-names: Fu
+    given-names: Hongyi
+  - family-names: Wang
+    given-names: Jianxiong
+  - family-names: Zhang
+    given-names: Tianke
+  - family-names: Fan
+    given-names: Haonan
+  - family-names: Li
+    given-names: Yingxin
+  - family-names: Li
+    given-names: Bingyi
+  - family-names: Wang
+    given-names: Xu
+  - family-names: Zheng
+    given-names: Xuanyu
+  - family-names: Wen
+    given-names: Bin
+  - family-names: Gao
+    given-names: Tingting
+  - family-names: Zhang
+    given-names: Wentao
+  - family-names: Cao
+    given-names: Jiale
+  year: 2026
+  journal: arXiv preprint arXiv:2611.15789
+  url: https://arxiv.org/abs/2611.15789
+  identifiers:
+  - type: other
+    value: arXiv:2611.15789
