@@ -40,7 +40,7 @@ def main():
     if cmd in ("download", "fetch-data", "fetch-media", "verify"):
         p = argparse.ArgumentParser()
         p.add_argument("--data", type=Path, default=ROOT / "data")
-        p.add_argument("--repo", default=os.environ.get("VPB_HF_REPO", "AidanYuzhe/vibeprevisbench"))
+        p.add_argument("--repo", default=os.environ.get("VPB_HF_REPO", "Kling-Keye/vibeprevisbench"))
         p.add_argument("--revision", default="main")
         p.add_argument("--data-only", action="store_true")
         a, extra = p.parse_known_args(rest)

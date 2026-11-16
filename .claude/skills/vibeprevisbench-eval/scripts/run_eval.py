@@ -712,7 +712,7 @@ def main():
     g = ap.add_argument_group("tasks and data")
     g.add_argument("--tasks", default="smoke", help="smoke (4 tasks, one per input kind), all, or ID,ID,...")
     g.add_argument("--data", default="data", help="dataset folder (default data/ in the repository)")
-    g.add_argument("--repo-id", default=os.environ.get("VPB_HF_REPO", "AidanYuzhe/vibeprevisbench"))
+    g.add_argument("--repo-id", default=os.environ.get("VPB_HF_REPO", "Kling-Keye/vibeprevisbench"))
     g.add_argument("--fetch-arg", action="append", default=[], help="extra argument for fetch-media, e.g. "
                                                                     "--fetch-arg=--datasets-root=/data/scannetpp")
     g.add_argument("--skip-missing-media", action="store_true", help="run the tasks whose media could be fetched")

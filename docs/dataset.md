@@ -11,7 +11,7 @@ rubrics/<ID>/{task.json,gt.json,...}
 ```
 
 The viewer configuration `tasks` exposes the complete test set. Load it with
-`load_dataset("AidanYuzhe/vibeprevisbench", "tasks", split="test")`; download the full snapshot for evaluation.
+`load_dataset("Kling-Keye/vibeprevisbench", "tasks", split="test")`; download the full snapshot for evaluation.
 `task_id` is stable. `kind` is text/image/continuation/video. `frames` is the generation frame count.
 `prompt` and `rubric` paths in the index are relative to the dataset root; media paths in task.json are relative to its task directory.
 
