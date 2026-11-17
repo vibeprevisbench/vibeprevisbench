@@ -18,6 +18,8 @@
   <a href="#-evaluate-your-agent"><img src="https://img.shields.io/badge/Code-Evaluate_your_agent-24292F?style=flat-square&amp;logo=github&amp;logoColor=white" alt="Evaluate your agent"></a>
 </p>
 
+<p align="center"><strong>KlingAI Research</strong></p>
+
 ## 💥 News
 
 - **[2026.11.12]** ⚡ **One-command evaluation.** The
