@@ -42,8 +42,6 @@ authors:
     given-names: Bin
   - family-names: Gao
     given-names: Tingting
-  - family-names: Zhang
-    given-names: Wentao
   - family-names: Cao
     given-names: Jiale
 url: "https://vibeprevisbench.github.io"
@@ -106,12 +104,11 @@ preferred-citation:
     given-names: Bin
   - family-names: Gao
     given-names: Tingting
-  - family-names: Zhang
-    given-names: Wentao
   - family-names: Cao
     given-names: Jiale
   year: 2026
   journal: arXiv preprint arXiv:2611.15789
+  version: v2
   url: https://arxiv.org/abs/2611.15789
   identifiers:
   - type: other

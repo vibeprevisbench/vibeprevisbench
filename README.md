@@ -365,10 +365,12 @@ agent's workspace.
 
 **[arXiv:2611.15789](https://arxiv.org/abs/2611.15789)** · **[Download PDF](VibePrevisBench.pdf)**
 
+The PDF mirrors the latest [arXiv version (v2)](https://arxiv.org/abs/2611.15789v2).
+
 ```bibtex
 @misc{vibeprevisbench2026,
   title         = {VibePrevisBench: Evaluating Agentic Coding for 4D Scene Generation in Blender},
-  author        = {Yuzhe Chen and Muxi Diao and Lele Yang and Wenbin Xu and Xuyang Liu and Qile Su and Changyi Liu and Jiankang Chen and Kaiyu Jiang and Haoyu Zhang and Hongyi Fu and Jianxiong Wang and Tianke Zhang and Haonan Fan and Yingxin Li and Bingyi Li and Xu Wang and Xuanyu Zheng and Bin Wen and Tingting Gao and Wentao Zhang and Jiale Cao},
+  author        = {Yuzhe Chen and Muxi Diao and Lele Yang and Wenbin Xu and Xuyang Liu and Qile Su and Changyi Liu and Jiankang Chen and Kaiyu Jiang and Haoyu Zhang and Hongyi Fu and Jianxiong Wang and Tianke Zhang and Haonan Fan and Yingxin Li and Bingyi Li and Xu Wang and Xuanyu Zheng and Bin Wen and Tingting Gao and Jiale Cao},
   year          = {2026},
   eprint        = {2611.15789},
   archivePrefix = {arXiv},
